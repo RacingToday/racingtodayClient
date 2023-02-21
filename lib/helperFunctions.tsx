@@ -26,7 +26,7 @@ interface User {
   jwt: string;
   username: string;
 }
-export async function getMyUser(jwt: string): Promise<User> {
+export async function getMyUser(jwt: string): Promise<User | any> {
   try {
     const user = await fetch("http://localhost:1337/api/users/me", {
       method: "GET",

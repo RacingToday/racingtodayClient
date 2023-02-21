@@ -31,7 +31,6 @@ function MyRaceDayComponent(props: Props) {
   const { MyRaceDays, setMyRaceDays } = props.props;
   useEffect(() => {
     const GetUser = async () => {
-      console.log(MyRaceDays);
       if (localStorage.getItem("jwt") !== null) {
         const jwt = localStorage.getItem("jwt");
         if (typeof jwt === "string" && jwt.length > 0) {
@@ -50,7 +49,7 @@ function MyRaceDayComponent(props: Props) {
       return;
     };
     GetUser();
-  }, []);
+  }, [MyRaceDays, setMyRaceDays]);
 
   return (
     <>

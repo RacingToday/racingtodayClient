@@ -99,7 +99,7 @@ function Header(props: any) {
     };
 
     checkForUser();
-  }, []);
+  }, [props]);
 
   const handleLogin = async () => {
     const login = await loginUser(loginEmail, loginPassword);
