@@ -33,12 +33,15 @@ import {
   Radio,
   Stack,
   RadioGroupProps,
+  Select,
+  Switch,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import React, { SetStateAction, useState } from "react";
 import Link from "next/link";
 
 function CreateRaceDay(props: any) {
+  console.log(props.props.props.props);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [EventDescription, setEventDescription] = useState("");
   const [Price, setPrice] = useState("");
