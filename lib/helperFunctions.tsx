@@ -83,6 +83,7 @@ export async function getMyRaceDays(jwt: string, userID: number): Promise<any> {
                 EndTime
                 OrganizerEmail
                 NoiseRestriction
+                CarClass
                 Capacity
                 EventDescription
                 race_track {

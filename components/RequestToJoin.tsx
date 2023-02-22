@@ -109,6 +109,10 @@ export default function RequestToJoin(raceday: any) {
                   ? raceday.raceDay.attributes.NoiseRestriction
                   : "None"}
               </li>
+              <li>
+                <strong>Car Class:</strong>{" "}
+                {raceday.raceDay.attributes.CarClass}
+              </li>
             </List>
             <Button onClick={handleClick} mt={4} colorScheme={"blue"}>
               {requestToJoinButton}
