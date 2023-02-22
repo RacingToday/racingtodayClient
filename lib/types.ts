@@ -8,6 +8,7 @@ export interface MyRaceDay {
     EndTime: string;
     EventDescription: string;
     OrganizerEmail: string;
+    NoiseRestriction: number;
     Capacity: number;
     race_track: {
       data: {

@@ -25,31 +25,33 @@ interface Props {
   };
 }
 
-// create state props for MyRaceDays and setMyRaceDays
-
 function MyRaceDayComponent(props: Props) {
   const { MyRaceDays, setMyRaceDays } = props.props;
   useEffect(() => {
     const GetUser = async () => {
-      if (localStorage.getItem("jwt") !== null) {
-        const jwt = localStorage.getItem("jwt");
-        if (typeof jwt === "string" && jwt.length > 0) {
-          interface user {
-            id: number;
-          }
-          const user: user = await getMyUser(jwt);
-          const myDays = await getMyRaceDays(jwt, user.id);
-          console.log(myDays);
+      try {
+        if (localStorage.getItem("jwt") !== null) {
+          const jwt = localStorage.getItem("jwt");
+          if (typeof jwt === "string" && jwt.length > 0) {
+            interface user {
+              id: number;
+            }
+            const user: user = await getMyUser(jwt);
+            const myDays = await getMyRaceDays(jwt, user.id);
 
-          setMyRaceDays(
-            myDays.data.usersPermissionsUser.data.attributes.race_days.data
-          );
+            setMyRaceDays(
+              myDays.data.usersPermissionsUser.data.attributes.race_days.data
+            );
+          }
         }
+        return;
+      } catch (error) {
+        console.log(error);
       }
-      return;
     };
     GetUser();
-  }, [MyRaceDays, setMyRaceDays]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -210,6 +212,16 @@ function MyRaceDayComponent(props: Props) {
                           </ListItem>
                           <ListItem>
                             Date: {raceDay.attributes.RaceDate}
+                          </ListItem>
+                          <ListItem>
+                            {raceDay.attributes.NoiseRestriction > 0 ? (
+                              <Text>
+                                Restrictions:{" "}
+                                {raceDay.attributes.NoiseRestriction}
+                              </Text>
+                            ) : (
+                              <Text> Restrictions: none</Text>
+                            )}
                           </ListItem>
                         </List>
                         <iframe

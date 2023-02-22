@@ -27,6 +27,12 @@ import {
   AlertIcon,
   CloseButton,
   AlertDialogBody,
+  Flex,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  Stack,
+  RadioGroupProps,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import React, { SetStateAction, useState } from "react";
@@ -40,11 +46,23 @@ function CreateRaceDay(props: any) {
   const [Date, setDate] = useState("");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
+  const [hrz, setHrz] = useState(false);
+  const [hrzLevel, setHrzLevel] = useState("");
+
   const [Capacity, setCapacity] = useState("");
   const [trackID, setTrackID] = useState(0);
   const [isError, setIsError] = useState(false);
   const [successfullyCreated, setSuccessfullyCreated] = useState(false);
   const [myUserID, setMyUserID] = useState(0);
+  const handleRadioChange = (e: any) => {
+    if (e === "1") {
+      setHrz(true);
+    }
+    if (e === "0") {
+      setHrz(false);
+    }
+    return;
+  };
 
   const { loading, error, data } = useQuery(GET_RACETRACKS);
   if (loading) return <p>Loading...</p>;
@@ -72,6 +90,9 @@ function CreateRaceDay(props: any) {
       setIsError(true);
       return;
     }
+    if (!hrz) {
+      setHrzLevel("-1");
+    }
 
     const startTimeToSend = StartTime + ":00:000";
     const EndTimeToSend = EndTime + ":00:000";
@@ -96,6 +117,7 @@ function CreateRaceDay(props: any) {
               RaceDate: "${Date}",
               race_track: ${trackID},
               StartTime: "${startTimeToSend}",
+              NoiseRestriction: ${hrzLevel},
               EndTime: "${EndTimeToSend}",
               OrganizerEmail: "${userAndJWT.username}"
               Capacity: ${Capacity}
@@ -108,6 +130,7 @@ function CreateRaceDay(props: any) {
               RaceDate
               StartTime
               EndTime
+              NoiseRestriction
               Capacity
               OrganizerEmail
               race_track {
@@ -212,22 +235,26 @@ function CreateRaceDay(props: any) {
                   type={"date"}
                   onChange={(e) => setDate(e.target.value)}
                 />
-
-                <FormLabel>Start Time</FormLabel>
-                <Input
-                  onChange={(e) => setStartTime(e.target.value)}
-                  value={StartTime}
-                  variant={"filled"}
-                  type={"time"}
-                />
-
-                <FormLabel>End Time</FormLabel>
-                <Input
-                  value={EndTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                  variant={"filled"}
-                  type={"time"}
-                />
+                <Flex>
+                  <FormLabel w={"40%"}>
+                    Start Time
+                    <Input
+                      onChange={(e) => setStartTime(e.target.value)}
+                      value={StartTime}
+                      variant={"filled"}
+                      type={"time"}
+                    />
+                  </FormLabel>
+                  <FormLabel w={"40%"}>
+                    End Time
+                    <Input
+                      value={EndTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                      variant={"filled"}
+                      type={"time"}
+                    />
+                  </FormLabel>
+                </Flex>
                 <FormLabel>Price</FormLabel>
                 <Input
                   w={"auto%"}
@@ -256,6 +283,7 @@ function CreateRaceDay(props: any) {
                   </MenuList>
                   <FormLabel m={"1em 0em"}>Raceday capacity</FormLabel>
                   <Input
+                    variant={"filled"}
                     value={Capacity}
                     onChange={(e) => setCapacity(e.target.value)}
                     w={"auto%"}
@@ -263,6 +291,31 @@ function CreateRaceDay(props: any) {
                     type={"number"}
                     mb={"1em"}
                   />
+                  <br />
+                  <FormLabel>
+                    Does the track have any noise restrictions on that day?
+                  </FormLabel>
+                  <RadioGroup
+                    defaultValue="0"
+                    onChange={(e) => handleRadioChange(e)}
+                  >
+                    <Stack direction="row">
+                      <Radio value="1">Yes</Radio>
+                      <Radio value="0">No</Radio>
+                      {hrz && (
+                        <Input
+                          variant={"filled"}
+                          style={{
+                            marginLeft: "1em",
+                          }}
+                          type={"number"}
+                          placeholder="what is the limit in db? example: 80"
+                          value={hrzLevel}
+                          onChange={(e) => setHrzLevel(e.target.value)}
+                        />
+                      )}
+                    </Stack>
+                  </RadioGroup>
                 </Menu>
                 <br />
                 <Button
