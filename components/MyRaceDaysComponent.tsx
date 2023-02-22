@@ -223,6 +223,9 @@ function MyRaceDayComponent(props: Props) {
                               <Text> Restrictions: none</Text>
                             )}
                           </ListItem>
+                          <ListItem>
+                            <Text>Classes: {raceDay.attributes.CarClass}</Text>
+                          </ListItem>
                         </List>
                         <iframe
                           style={{

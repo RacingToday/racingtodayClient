@@ -77,56 +77,75 @@ function CreateRaceDay(props: any) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      let carClasses = "";
+      if (e.currentTarget.GT.checked) {
+        carClasses += "GT, ";
+      }
+      if (e.currentTarget.touringcar.checked) {
+        carClasses += "TouringCar, ";
+      }
+      if (e.currentTarget.Formel.checked) {
+        carClasses += "Formel, ";
+      }
+      if (e.currentTarget.Motorbikes.checked) {
+        carClasses += "Motorbikes, ";
+      }
+      if (e.currentTarget.Prototype.checked) {
+        carClasses += "Prototype, ";
+      }
+      if (e.currentTarget.Others.checked) {
+        carClasses += "Others, ";
+      }
 
-    const isError =
-      Track === "Please Select a Track" ||
-      EventDescription === "" ||
-      Date === "" ||
-      StartTime === "" ||
-      EndTime === "" ||
-      Capacity === "" ||
-      trackID === 0;
-    if (isError) {
-      setIsError(true);
-      return;
-    }
-    if (!hrz) {
-      setHrzLevel("-1");
-    }
+      const isError =
+        Track === "Please Select a Track" ||
+        EventDescription === "" ||
+        Date === "" ||
+        StartTime === "" ||
+        EndTime === "" ||
+        carClasses === "" ||
+        Capacity === "" ||
+        trackID === 0;
+      if (isError) {
+        setIsError(true);
+        return;
+      }
 
-    const startTimeToSend = StartTime + ":00:000";
-    const EndTimeToSend = EndTime + ":00:000";
-    const jwt = localStorage.getItem("jwt");
-    if (!jwt) {
-      return;
-    }
-    const userAndJWT = await getMyUser(jwt);
-    setMyUserID(userAndJWT.id);
+      const startTimeToSend = StartTime + ":00:000";
+      const EndTimeToSend = EndTime + ":00:000";
+      const jwt = localStorage.getItem("jwt");
+      if (!jwt) {
+        return;
+      }
+      const userAndJWT = await getMyUser(jwt);
+      setMyUserID(userAndJWT.id);
 
-    const newRaceDay = await fetch("http://localhost:1337/graphql", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `mutation {
+      const newRaceDay = await fetch("http://localhost:1337/graphql", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `mutation {
           createRacaDay(data: {
-              EventDescription: "${EventDescription}",
+            EventDescription: "${EventDescription}",
               Price: ${Price}
               RaceDate: "${Date}",
               race_track: ${trackID},
               StartTime: "${startTimeToSend}",
-              NoiseRestriction: ${hrzLevel},
+              NoiseRestriction: ${hrzLevel || "-2"},
               EndTime: "${EndTimeToSend}",
               OrganizerEmail: "${userAndJWT.username}"
               Capacity: ${Capacity}
+              CarClass: "${carClasses}"
               users: ${userAndJWT.id}
           }) {
             data {
               id
               attributes {
-              EventDescription
+                EventDescription
               RaceDate
               StartTime
               EndTime
@@ -145,32 +164,35 @@ function CreateRaceDay(props: any) {
           }
         }
       }
-    
+      
         }`,
-      }),
-    }).then((res) => res.json());
-    setEventDescription("");
-    setPrice("");
-    setTrack("please select a track");
-    setDate("");
-    setStartTime("");
-    setEndTime("");
-    setCapacity("");
-    setTrackID(0);
-    setSuccessfullyCreated(true);
+        }),
+      }).then((res) => res.json());
+      setEventDescription("");
+      setPrice("");
+      setTrack("please select a track");
+      setDate("");
+      setStartTime("");
+      setEndTime("");
+      setCapacity("");
+      setTrackID(0);
+      setSuccessfullyCreated(true);
 
-    if (window.location.href.match("myracedays")) {
-      const jwt = localStorage.getItem("jwt");
-      if (!jwt) {
-        return;
+      if (window.location.href.match("myracedays")) {
+        const jwt = localStorage.getItem("jwt");
+        if (!jwt) {
+          return;
+        }
+
+        const myDays = await getMyRaceDays(jwt, userAndJWT.id);
+        props.props.props.props.setMyRaceDays(
+          myDays.data.usersPermissionsUser.data.attributes.race_days.data
+        );
       }
-
-      const myDays = await getMyRaceDays(jwt, userAndJWT.id);
-      props.props.props.setMyRaceDays(
-        myDays.data.usersPermissionsUser.data.attributes.race_days.data
-      );
+      return newRaceDay;
+    } catch (e) {
+      console.log(e);
     }
-    return newRaceDay;
   };
 
   return (
@@ -227,7 +249,29 @@ function CreateRaceDay(props: any) {
                   onChange={(e) => setEventDescription(e.target.value)}
                   value={EventDescription}
                 />
-
+                Please check check the boxes for the car classes that are
+                allowed on track
+                <Flex justifyContent={"space-around"}>
+                  <p>
+                    <Switch id="GT" name="GT" value="GT" /> GT
+                  </p>
+                  <p>
+                    <Switch id="touringcar" name="touringcar" /> Touring Car
+                  </p>
+                  <p>
+                    <Switch id="Formel" name="Formel" /> Formel
+                  </p>
+                  <p>
+                    <Switch id="Motorbikes" name="Motorbikes" /> Motorbikes
+                  </p>
+                  <p>
+                    <Switch id="Prototype" name="Prototype" value="Prototype" />{" "}
+                    Prototype
+                  </p>
+                  <p>
+                    <Switch id="Others" name="Others" value="Others" /> Others
+                  </p>
+                </Flex>
                 <FormLabel>Event Date</FormLabel>
                 <Input
                   value={Date}
@@ -325,7 +369,6 @@ function CreateRaceDay(props: any) {
                 >
                   Craete
                 </Button>
-
                 <Button
                   m={"0.4em 1em"}
                   colorScheme={"red"}

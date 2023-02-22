@@ -9,6 +9,7 @@ export interface MyRaceDay {
     EventDescription: string;
     OrganizerEmail: string;
     NoiseRestriction: number;
+    CarClass: string;
     Capacity: number;
     race_track: {
       data: {
