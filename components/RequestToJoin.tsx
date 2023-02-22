@@ -34,7 +34,6 @@ export default function RequestToJoin(raceday: any) {
       console.log(id);
       const raceDayId: number = raceday.raceDay.id;
 
-      console.log(jwt);
       const response = await fetch(
         `http://localhost:1337/api/raca-days/${raceDayId}`,
         {
@@ -54,7 +53,6 @@ export default function RequestToJoin(raceday: any) {
     };
     sendRequest();
   };
-
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (!jwt) {
@@ -86,15 +84,6 @@ export default function RequestToJoin(raceday: any) {
           </ModalHeader>
           <ModalCloseButton onClick={onClose} />
           <ModalBody mb={4}>
-            <Image
-              src={
-                "https://images.unsplash.com/photo-1536909526839-8f10e29ba80c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-              }
-              alt="picture of drift car"
-              borderRadius={"lg"}
-              height={"400px"}
-              width={"100%"}
-            />
             <List mt={4} gap={4}>
               <li>
                 <strong>Event Description:</strong>{" "}
@@ -113,6 +102,12 @@ export default function RequestToJoin(raceday: any) {
               </li>
               <li>
                 <strong>Price:</strong> {raceday.raceDay.attributes.Price}
+              </li>
+              <li>
+                <strong>Noise Restrictions:</strong>{" "}
+                {raceday.raceDay.attributes.NoiseRestriction > 0
+                  ? raceday.raceDay.attributes.NoiseRestriction
+                  : "None"}
               </li>
             </List>
             <Button onClick={handleClick} mt={4} colorScheme={"blue"}>
