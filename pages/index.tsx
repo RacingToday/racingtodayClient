@@ -2,14 +2,26 @@
 
 import Header from "../components/Header";
 import RaceDayList from "../components/RaceDayList";
-/** @format */
-
+import FiltersToSort from "../components/Filters";
 import Head from "next/head";
 import Image from "next/image";
-
-import styles from "../styles/Home.module.css";
+import { gql, useQuery } from "@apollo/client";
+import { useState } from "react";
 
 export default function Home() {
+  const [listOfTrackDays, setListOfTrackDays] = useState([]);
+  const { loading, error, data } = useQuery(GET_RACEDAYS);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1> Error </h1>;
+  const arrayOfRacedays = data.racaDays.data;
+
+  const props = {
+    listOfTrackDays: listOfTrackDays,
+    setListOfTrackDays: setListOfTrackDays,
+    arrayOfRacedays: arrayOfRacedays,
+  };
+
   return (
     <>
       <Head>
@@ -22,8 +34,36 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-
-      <RaceDayList />
+      <FiltersToSort props={props} />
+      <RaceDayList props={props} />
     </>
   );
 }
+
+const GET_RACEDAYS = gql`
+  {
+    racaDays(pagination: { start: 0, limit: 30 }) {
+      data {
+        id
+        attributes {
+          EventDescription
+          RaceDate
+          Price
+          StartTime
+          EndTime
+          Capacity
+          Price
+          race_track {
+            data {
+              attributes {
+                TrackDescription
+                TrackName
+                Location
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

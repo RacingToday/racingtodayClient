@@ -2,12 +2,7 @@
 
 import "../styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

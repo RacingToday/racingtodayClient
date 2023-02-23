@@ -2,16 +2,23 @@
 
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button, Flex, List, ListItem } from "@chakra-ui/react";
-import React from "react";
+import React, { SetStateAction, useEffect } from "react";
 import RequestToJoin from "./RequestToJoin";
 
-/** @format */
-function RaceDayList() {
-  const { loading, error, data } = useQuery(GET_RACEDAYS);
+interface Props {
+  listOfTrackDays: any;
+  setListOfTrackDays: any;
+  arrayOfRacedays: any;
+}
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1> Error </h1>;
-  const arrayOfRacedays = data.racaDays.data;
+/** @format */
+function RaceDayList({ props }: { props: Props }) {
+  const { loading, error, data } = useQuery(GET_RACEDAYS);
+  const { listOfTrackDays, setListOfTrackDays, arrayOfRacedays } = props;
+  useEffect(() => {
+    setListOfTrackDays(arrayOfRacedays);
+  }, [arrayOfRacedays, setListOfTrackDays]);
+
   return (
     <>
       <h1
@@ -23,7 +30,7 @@ function RaceDayList() {
         RaceDays
       </h1>
       <Flex flexDir="column" className="mapOfRaceDays">
-        {arrayOfRacedays.map((raceday: any) => (
+        {listOfTrackDays.map((raceday: any) => (
           <Flex
             borderRadius={"10px"}
             minH={"6em"}
