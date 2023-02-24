@@ -39,7 +39,6 @@ function RaceDayList({ props }: { props: Props }) {
             justifyContent={"space-between"}
             backgroundColor={"#f5f5f5"}
             m={"0.7em 2em"}
-            flex={1}
             border={"1px dotted black"}
             key={raceday.id}
           >

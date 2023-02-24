@@ -8,16 +8,21 @@ import {
   MenuOptionGroup,
   MenuItemOption,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
+import { filterByClass } from "../lib/filterFunctions";
 interface Props {
-  listOfTrackDays: any;
   setListOfTrackDays: any;
-  arrayOfRacedays: any;
+  allTrackDays: any;
+  classFilters: any[];
+  masterFilters: any[];
 }
 
-function CarClassDropdown({ props }: { props: Props }) {
-  const { listOfTrackDays, setListOfTrackDays } = props;
-  const classFilters: any[] = [];
+function CarClassDropdown({
+  setListOfTrackDays,
+  allTrackDays,
+  classFilters,
+  masterFilters,
+}: Props) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (e.currentTarget.ariaChecked === "false") {
       classFilters.push(e.currentTarget.value);
@@ -26,6 +31,29 @@ function CarClassDropdown({ props }: { props: Props }) {
       const index = classFilters.indexOf(e.currentTarget.value);
       classFilters.splice(index, 1);
     }
+    const TrackDaysByClass = filterByClass(classFilters, allTrackDays);
+    const classFilterHistory = {
+      name: "classFilters",
+      value: TrackDaysByClass,
+    };
+
+    if (masterFilters.length === 0) {
+      setListOfTrackDays(TrackDaysByClass);
+      masterFilters.push(classFilterHistory);
+    }
+    if (masterFilters.length > 0) {
+      const index = masterFilters.findIndex(
+        (filter) => filter.name === "classFilters"
+      );
+      if (index === -1) {
+        masterFilters.push(classFilterHistory);
+      }
+      if (index > -1) {
+        masterFilters.splice(index, 1, classFilterHistory);
+      }
+      setListOfTrackDays(TrackDaysByClass);
+    }
+    console.log(masterFilters);
   };
   return (
     <Menu closeOnSelect={false}>

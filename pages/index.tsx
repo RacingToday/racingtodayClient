@@ -6,7 +6,7 @@ import FiltersToSort from "../components/Filters";
 import Head from "next/head";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const [listOfTrackDays, setListOfTrackDays] = useState([]);
@@ -42,7 +42,7 @@ export default function Home() {
 
 const GET_RACEDAYS = gql`
   {
-    racaDays(pagination: { start: 0, limit: 30 }) {
+    racaDays(pagination: { start: 0, limit: 200 }) {
       data {
         id
         attributes {
@@ -53,6 +53,8 @@ const GET_RACEDAYS = gql`
           EndTime
           Capacity
           Price
+          CarClass
+          NoiseRestriction
           race_track {
             data {
               attributes {
