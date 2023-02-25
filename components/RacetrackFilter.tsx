@@ -11,7 +11,7 @@ import {
 import React, { useRef } from "react";
 import { GET_RACETRACKS } from "../lib/helperFunctions";
 import { useQuery } from "@apollo/client";
-import { filterByTrack } from "../lib/filterFunctions";
+import { filterByTrack, manageCombinedFilters } from "../lib/filterFunctions";
 interface Props {
   setListOfTrackDays: any;
   arrayOfRacedays: any;
@@ -45,6 +45,7 @@ function RacetrackFilter({
     if (masterFilters.length === 0) {
       setListOfTrackDays(TrackDaysByTrack);
       masterFilters.push(trackFilterHistory);
+      return;
     }
     if (masterFilters.length > 0) {
       const index = masterFilters.findIndex(
@@ -56,9 +57,12 @@ function RacetrackFilter({
       if (index > -1) {
         masterFilters.splice(index, 1, trackFilterHistory);
       }
-      setListOfTrackDays(TrackDaysByTrack);
+      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
+      console.log(multipleFiltersApplied);
+      setListOfTrackDays(multipleFiltersApplied);
+      return;
     }
-    console.log(masterFilters);
+    return;
   };
 
   return (

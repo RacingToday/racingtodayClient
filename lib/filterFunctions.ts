@@ -1,11 +1,10 @@
 /** @format */
-
 // empty export function to make it a module
+import { RaceDay } from "./types";
 export function filterByClass(
   arrayOfClassesToFilter: string[],
   arrayOfAllTrackDays: any[]
 ) {
-  console.log("arrayOfClassesToFilter", arrayOfAllTrackDays);
   // if no classes are selected, return all track days
   if (arrayOfClassesToFilter.length === 0) {
     return arrayOfAllTrackDays;
@@ -29,13 +28,13 @@ export function filterByClass(
 
 export function filterByTrack(
   arrayOfTracksToFilter: string[],
-  arrayOfAllTrackDays: any[]
+  arrayOfAllTrackDays: RaceDay[]
 ) {
   // if no tracks are selected, return all track days
-  if (arrayOfTracksToFilter.length === 0) {
+  if (arrayOfTracksToFilter.length < 1) {
     return arrayOfAllTrackDays;
   }
-  let resultsArray = [];
+  let resultsArray: RaceDay[] = [];
   for (let i = 0; i < arrayOfTracksToFilter.length; i++) {
     for (let k = 0; k < arrayOfAllTrackDays.length; k++) {
       if (
@@ -51,7 +50,6 @@ export function filterByTrack(
       }
     }
   }
-
   return resultsArray;
 }
 
@@ -64,9 +62,11 @@ export function filterByDate(
   FromAndToDate: FromAndToDate[],
   arrayOfAllTrackDays: any[]
 ): any[] {
-  let resultsArray: any[] = [];
+  let resultsArray: RaceDay[] = [];
+
   if (
     FromAndToDate.length === 0 ||
+    (FromAndToDate.length === 1 && FromAndToDate[0].value === "") ||
     (FromAndToDate[0].value === "" && FromAndToDate[1].value === "")
   ) {
     return arrayOfAllTrackDays;
@@ -261,9 +261,9 @@ export function filterByDate(
 }
 
 export function filterByNoiseLevel(
-  arrayOfAllTrackDays: Array<any>,
+  arrayOfAllTrackDays: Array<RaceDay>,
   noiseLevel: string
-) {
+): Array<RaceDay> {
   let resultsArray = [];
   if (noiseLevel === "" || noiseLevel === "0") {
     return arrayOfAllTrackDays;
@@ -279,5 +279,28 @@ export function filterByNoiseLevel(
       }
     }
   }
+  if (resultsArray.length === 0) {
+    return arrayOfAllTrackDays;
+  }
+  return resultsArray;
+}
+
+interface masterfilterObject {
+  name: string;
+  value: any[];
+}
+
+export function manageCombinedFilters(
+  masterFilters: Array<masterfilterObject>
+): Array<RaceDay> {
+  let resultsArray: any[] = [];
+  for (let i = 0; i < masterFilters.length; i++) {
+    resultsArray.push(masterFilters[i].value);
+  }
+
+  resultsArray = resultsArray.filter(
+    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+  );
+
   return resultsArray;
 }

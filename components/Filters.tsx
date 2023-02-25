@@ -25,13 +25,17 @@ interface Props {
   setListOfTrackDays: SetStateAction<any>;
   arrayOfRacedays: any[];
 }
-import { filterByDate, filterByNoiseLevel } from "../lib/filterFunctions";
+import {
+  filterByDate,
+  filterByNoiseLevel,
+  manageCombinedFilters,
+} from "../lib/filterFunctions";
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
   const { setListOfTrackDays, listOfTrackDays, arrayOfRacedays } = props;
   const masterFilters = useRef<any[]>([]).current;
-  const [allowedNoise, setAllowedNoise] = useState<string>("");
+  const [allowedNoise, setAllowedNoise] = useState("");
   const fromAnTo = useRef<any[]>([]).current;
   const classFilters = useRef<any[]>([]).current;
 
@@ -49,7 +53,7 @@ function FiltersToSort({ props }: { props: Props }) {
       fromAnTo.splice(index, 1);
     }
     fromAnTo.push(dateObject);
-    const trackDaysByDate = filterByDate(fromAnTo, listOfTrackDays);
+    const trackDaysByDate = filterByDate(fromAnTo, arrayOfRacedays);
 
     const dateFilterHistory = {
       name: "dateFilters",
@@ -69,35 +73,41 @@ function FiltersToSort({ props }: { props: Props }) {
       if (index > -1) {
         masterFilters.splice(index, 1, dateFilterHistory);
       }
-
-      setListOfTrackDays(trackDaysByDate);
+      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
+      setListOfTrackDays(multipleFiltersApplied);
     }
-    console.log(masterFilters);
   };
   const [filters, setFilters] = React.useState(false);
-  const [ButtonText, setButtonText] = useState("Filters");
+  const [ButtonText, setButtonText] = useState("Show Filters");
   const handleClick = () => {
     setFilters(!filters);
-    if (ButtonText === "Filters") {
+    if (ButtonText === "Show Filters") {
       setButtonText("Hide Filters");
     } else {
-      setButtonText("Filters");
+      setButtonText("Show Filters");
     }
   };
   const handleNoiseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     const { value } = e.target;
-    setAllowedNoise(value);
+    setAllowedNoise(e.target.value);
     const trackDaysByNoise = filterByNoiseLevel(arrayOfRacedays, value);
     const noiseFilterHistory = {
       name: "noiseFilters",
       value: trackDaysByNoise,
     };
-
     if (masterFilters.length === 0) {
       setListOfTrackDays(trackDaysByNoise);
       masterFilters.push(noiseFilterHistory);
+      return;
+    }
+
+    if (masterFilters.length > -1) {
+      setListOfTrackDays(trackDaysByNoise);
+
+      masterFilters.push(noiseFilterHistory);
+      return;
     }
     if (masterFilters.length > 0) {
       const index = masterFilters.findIndex(
@@ -109,9 +119,10 @@ function FiltersToSort({ props }: { props: Props }) {
       if (index > -1) {
         masterFilters.splice(index, 1, noiseFilterHistory);
       }
-      setListOfTrackDays(trackDaysByNoise);
+      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
+      setListOfTrackDays(multipleFiltersApplied);
     }
-    console.log(masterFilters);
+    return;
   };
 
   return (

@@ -26,11 +26,13 @@ export interface MyRaceDay {
 export interface RaceDay {
   id: number;
   attributes: {
+    RaceDayCapacity: string;
     EventDescription: string;
     RaceDate: string;
     StartTime: string;
     EndTime: string;
     Capacity: number;
+    NoiseRestriction: number | string;
     Price: number;
     race_track: {
       data: {
