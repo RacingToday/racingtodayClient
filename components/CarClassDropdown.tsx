@@ -9,7 +9,7 @@ import {
   MenuItemOption,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
-import { filterByClass } from "../lib/filterFunctions";
+import { filterByClass, manageCombinedFilters } from "../lib/filterFunctions";
 interface Props {
   setListOfTrackDays: any;
   allTrackDays: any;
@@ -33,27 +33,20 @@ function CarClassDropdown({
     }
     const TrackDaysByClass = filterByClass(classFilters, allTrackDays);
     const classFilterHistory = {
-      name: "classFilters",
+      filterType: "classFilters",
       value: TrackDaysByClass,
     };
-
-    if (masterFilters.length === 0) {
-      setListOfTrackDays(TrackDaysByClass);
-      masterFilters.push(classFilterHistory);
-    }
-    if (masterFilters.length > 0) {
+    if (masterFilters.some((filter) => filter.filterType === "classFilters")) {
       const index = masterFilters.findIndex(
-        (filter) => filter.name === "classFilters"
+        (filter) => filter.filterType === "classFilters"
       );
-      if (index === -1) {
-        masterFilters.push(classFilterHistory);
-      }
-      if (index > -1) {
-        masterFilters.splice(index, 1, classFilterHistory);
-      }
-      setListOfTrackDays(TrackDaysByClass);
+      masterFilters.splice(index, 1);
     }
-    console.log(masterFilters);
+    masterFilters.push(classFilterHistory);
+    const combinedFilters = manageCombinedFilters(masterFilters);
+    combinedFilters.length > 1
+      ? setListOfTrackDays(combinedFilters)
+      : setListOfTrackDays(TrackDaysByClass);
   };
   return (
     <Menu closeOnSelect={false}>

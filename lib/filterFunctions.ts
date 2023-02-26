@@ -279,28 +279,36 @@ export function filterByNoiseLevel(
       }
     }
   }
-  if (resultsArray.length === 0) {
-    return arrayOfAllTrackDays;
-  }
+  console.log(resultsArray);
   return resultsArray;
 }
 
 interface masterfilterObject {
-  name: string;
-  value: any[];
+  filterType: string;
+  value: RaceDay[];
 }
 
 export function manageCombinedFilters(
   masterFilters: Array<masterfilterObject>
 ): Array<RaceDay> {
-  let resultsArray: any[] = [];
-  for (let i = 0; i < masterFilters.length; i++) {
-    resultsArray.push(masterFilters[i].value);
+  // if there is only one filter, return the results of that filter
+  if (masterFilters.length === 1) {
+    return masterFilters[0].value;
   }
 
-  resultsArray = resultsArray.filter(
-    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
-  );
+  // if there are multiple filters, return the intersection of all the filters
+  let resultsArray: any[] = [];
+  for (let i = 0; i < masterFilters.length; i++) {
+    if (i === 0) {
+      resultsArray = masterFilters[i].value;
+    } else {
+      resultsArray = resultsArray.filter((item) =>
+        masterFilters[i].value.includes(item)
+      );
+    }
+  }
+
+  console.log(resultsArray);
 
   return resultsArray;
 }

@@ -56,26 +56,21 @@ function FiltersToSort({ props }: { props: Props }) {
     const trackDaysByDate = filterByDate(fromAnTo, arrayOfRacedays);
 
     const dateFilterHistory = {
-      name: "dateFilters",
+      filterType: "dateFilters",
       value: trackDaysByDate,
     };
-    if (masterFilters.length === 0) {
-      setListOfTrackDays(trackDaysByDate);
-      masterFilters.push(dateFilterHistory);
-    }
-    if (masterFilters.length > 0) {
+
+    if (masterFilters.some((filter) => filter.filterType === "dateFilters")) {
       const index = masterFilters.findIndex(
-        (filter) => filter.name === "dateFilters"
+        (filter) => filter.filterType === "dateFilters"
       );
-      if (index === -1) {
-        masterFilters.push(dateFilterHistory);
-      }
-      if (index > -1) {
-        masterFilters.splice(index, 1, dateFilterHistory);
-      }
-      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
-      setListOfTrackDays(multipleFiltersApplied);
+      masterFilters.splice(index, 1);
     }
+    masterFilters.push(dateFilterHistory);
+    const combinedFilters = manageCombinedFilters(masterFilters);
+    masterFilters.length > 1
+      ? setListOfTrackDays(combinedFilters)
+      : setListOfTrackDays(trackDaysByDate);
   };
   const [filters, setFilters] = React.useState(false);
   const [ButtonText, setButtonText] = useState("Show Filters");
@@ -94,35 +89,21 @@ function FiltersToSort({ props }: { props: Props }) {
     setAllowedNoise(e.target.value);
     const trackDaysByNoise = filterByNoiseLevel(arrayOfRacedays, value);
     const noiseFilterHistory = {
-      name: "noiseFilters",
+      filterType: "noiseFilters",
       value: trackDaysByNoise,
     };
-    if (masterFilters.length === 0) {
-      setListOfTrackDays(trackDaysByNoise);
-      masterFilters.push(noiseFilterHistory);
-      return;
-    }
 
-    if (masterFilters.length > -1) {
-      setListOfTrackDays(trackDaysByNoise);
-
-      masterFilters.push(noiseFilterHistory);
-      return;
-    }
-    if (masterFilters.length > 0) {
+    if (masterFilters.some((filter) => filter.filterType === "noiseFilters")) {
       const index = masterFilters.findIndex(
-        (filter) => filter.name === "noiseFilters"
+        (filter) => filter.filterType === "noiseFilters"
       );
-      if (index === -1) {
-        masterFilters.push(noiseFilterHistory);
-      }
-      if (index > -1) {
-        masterFilters.splice(index, 1, noiseFilterHistory);
-      }
-      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
-      setListOfTrackDays(multipleFiltersApplied);
+      masterFilters.splice(index, 1);
     }
-    return;
+    masterFilters.push(noiseFilterHistory);
+    const combinedFilters = manageCombinedFilters(masterFilters);
+    masterFilters.length > 1
+      ? setListOfTrackDays(combinedFilters)
+      : setListOfTrackDays(trackDaysByNoise);
   };
 
   return (
@@ -130,8 +111,43 @@ function FiltersToSort({ props }: { props: Props }) {
       <Button onClick={handleClick} colorScheme="blue" size="sm" m={2}>
         {ButtonText}
       </Button>
+
+      {masterFilters.length > 0 && filters && (
+        <Button
+          onClick={() => {
+            setListOfTrackDays(arrayOfRacedays);
+            setAllowedNoise("");
+            masterFilters.splice(0, masterFilters.length);
+          }}
+          colorScheme="red"
+          size="sm"
+          m={2}
+        >
+          Clear Filters
+        </Button>
+      )}
+      {masterFilters.length > 0 && filters && (
+        <Button
+          onClick={() => {
+            // write masterFilters to local storage
+            localStorage.setItem("filters", JSON.stringify(masterFilters));
+          }}
+          colorScheme="green"
+          size="sm"
+          m={2}
+        >
+          Save Filters
+        </Button>
+      )}
       {filters && (
-        <Flex mt={"1em"} justifyContent={"space-around"} flexWrap={"wrap"}>
+        <Flex
+          mt={"1em"}
+          justifyContent={"space-around"}
+          flexWrap={"wrap"}
+          p={2}
+          m={2}
+          borderRadius={"md"}
+        >
           <CarClassDropdown
             setListOfTrackDays={setListOfTrackDays}
             allTrackDays={arrayOfRacedays}

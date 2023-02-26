@@ -39,30 +39,23 @@ function RacetrackFilter({
     }
     const TrackDaysByTrack = filterByTrack(trackFilters, arrayOfRacedays);
     const trackFilterHistory = {
-      name: "trackFilters",
+      filterType: "track",
       value: TrackDaysByTrack,
     };
-    if (masterFilters.length === 0) {
-      setListOfTrackDays(TrackDaysByTrack);
-      masterFilters.push(trackFilterHistory);
-      return;
-    }
-    if (masterFilters.length > 0) {
+
+    // if there masterfilters contain trackHistory, remove it and add the new one
+    if (masterFilters.some((filter) => filter.filterType === "track")) {
       const index = masterFilters.findIndex(
-        (filter) => filter.name === "trackFilters"
+        (filter) => filter.filterType === "track"
       );
-      if (index === -1) {
-        masterFilters.push(trackFilterHistory);
-      }
-      if (index > -1) {
-        masterFilters.splice(index, 1, trackFilterHistory);
-      }
-      const multipleFiltersApplied = manageCombinedFilters(masterFilters);
-      console.log(multipleFiltersApplied);
-      setListOfTrackDays(multipleFiltersApplied);
-      return;
+      masterFilters.splice(index, 1);
     }
-    return;
+
+    masterFilters.push(trackFilterHistory);
+    const combinedFilters = manageCombinedFilters(masterFilters);
+    combinedFilters.length > 1
+      ? setListOfTrackDays(combinedFilters)
+      : setListOfTrackDays(TrackDaysByTrack);
   };
 
   return (
