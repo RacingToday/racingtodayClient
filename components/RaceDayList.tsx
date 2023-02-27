@@ -10,6 +10,7 @@ import {
   filterByDate,
   filterByNoiseLevel,
   filterByTrack,
+  manageCombinedFilters,
 } from "../lib/filterFunctions";
 
 interface Props {
@@ -36,6 +37,7 @@ function RaceDayList({ props }: { props: Props }) {
   } = props;
   useEffect(() => {
     if (localStorage.getItem("filters") !== null) {
+      let masterFilterObject: any = [];
       const filters = JSON.parse(localStorage.getItem("filters")!);
       // check if filters are empty
       if (filters.allowedNoise !== "") {
@@ -43,20 +45,24 @@ function RaceDayList({ props }: { props: Props }) {
           arrayOfRacedays,
           filters.allowedNoise
         );
-        setListOfTrackDays(noiseValue);
+        masterFilterObject.push({ value: noiseValue });
+        setAllowedNoise(filters.allowedNoise);
       }
       if (filters.fromAnTo.length > 0) {
         const dateValue = filterByDate(filters.fromAnTo, arrayOfRacedays);
-        setListOfTrackDays(dateValue);
+        masterFilterObject.push({ value: dateValue });
       }
       if (filters.classFilters.length > 0) {
         const classValue = filterByClass(filters.classFilters, arrayOfRacedays);
-        setListOfTrackDays(classValue);
+        masterFilterObject.push({ value: classValue });
       }
       if (filters.trackFilters.length > 0) {
         const trackValue = filterByTrack(filters.trackFilters, arrayOfRacedays);
-        setListOfTrackDays(trackValue);
+        masterFilterObject.push({ value: trackValue });
       }
+      const combinedFilters = manageCombinedFilters(masterFilterObject);
+
+      setListOfTrackDays(combinedFilters);
     }
     if (!localStorage.getItem("filters")) {
       setListOfTrackDays(arrayOfRacedays);
