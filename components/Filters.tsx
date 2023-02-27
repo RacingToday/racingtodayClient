@@ -1,6 +1,9 @@
 /** @format */
 
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Button,
   Flex,
   FormLabel,
@@ -48,10 +51,7 @@ function FiltersToSort({ props }: { props: Props }) {
     setAllowedNoise,
   } = props;
   const masterFilters = useRef<any[]>([]).current;
-  // const [allowedNoise, setAllowedNoise] = useState("");
-  // const fromAnTo = useRef<any[]>([]).current;
-  // const classFilters = useRef<any[]>([]).current;
-  // const trackFilters = useRef<string[]>([]).current;
+  const [filterNotification, setFilterNotification] = useState(false);
 
   function handleSaveFilters(): void {
     const filterToSave = {
@@ -63,7 +63,22 @@ function FiltersToSort({ props }: { props: Props }) {
     if (localStorage.getItem("filters")) {
       localStorage.removeItem("filters");
     }
+
     localStorage.setItem("filters", JSON.stringify(filterToSave));
+    // if filtersToSave is empty, remove the filters from local storage
+    if (
+      filterToSave.allowedNoise === "" &&
+      filterToSave.fromAnTo.length === 0 &&
+      filterToSave.classFilters.length === 0 &&
+      filterToSave.trackFilters.length === 0
+    ) {
+      localStorage.removeItem("filters");
+    }
+
+    setFilterNotification(true);
+    setTimeout(() => {
+      setFilterNotification(false);
+    }, 8000);
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,24 +162,35 @@ function FiltersToSort({ props }: { props: Props }) {
         {ButtonText}
       </Button>
 
-      {masterFilters.length > 0 && filters && (
-        <Button
-          onClick={() => {
-            setListOfTrackDays(arrayOfRacedays);
-            setAllowedNoise("");
-            masterFilters.splice(0, masterFilters.length);
-          }}
-          colorScheme="red"
-          size="sm"
-          m={2}
-        >
-          Clear Filters
-        </Button>
-      )}
+      {masterFilters.length > 0 &&
+        filters &&
+        !localStorage.getItem("filters") && (
+          <Button
+            onClick={() => {
+              setListOfTrackDays(arrayOfRacedays);
+              setAllowedNoise("");
+              masterFilters.splice(0, masterFilters.length);
+            }}
+            colorScheme="red"
+            size="sm"
+            m={2}
+          >
+            Clear Filters
+          </Button>
+        )}
       {masterFilters.length > 0 && filters && (
         <Button onClick={handleSaveFilters} colorScheme="green" size="sm" m={2}>
           Save Filters
         </Button>
+      )}
+      {filterNotification && (
+        <Alert status="success" color={"green.500"}>
+          <AlertIcon />
+          <AlertTitle>
+            The filter has been saved and will automatically be applied when you
+            load the page
+          </AlertTitle>
+        </Alert>
       )}
       {filters && (
         <Flex

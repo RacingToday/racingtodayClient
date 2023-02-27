@@ -253,9 +253,11 @@ export function filterByDate(
     }
   }
   // filter out duplicates
-  resultsArray = resultsArray.filter(
-    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
-  );
+  if (resultsArray.length > 0) {
+    resultsArray = resultsArray.filter(
+      (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+    );
+  }
 
   return resultsArray;
 }
@@ -279,6 +281,13 @@ export function filterByNoiseLevel(
       }
     }
   }
+  // remove duplicates
+  if (resultsArray.length > 0) {
+    resultsArray = resultsArray.filter(
+      (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+    );
+  }
+
   return resultsArray;
 }
 
@@ -307,7 +316,10 @@ export function manageCombinedFilters(
     }
   }
 
-  console.log(resultsArray);
+  // check if there the results are unique
+  resultsArray = resultsArray.filter(
+    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+  );
 
   return resultsArray;
 }
