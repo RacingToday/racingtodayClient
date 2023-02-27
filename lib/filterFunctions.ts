@@ -267,16 +267,19 @@ export function filterByNoiseLevel(
   noiseLevel: string
 ): Array<RaceDay> {
   let resultsArray = [];
-  if (noiseLevel === "" || noiseLevel === "0") {
+  if (noiseLevel === "" || noiseLevel === "None") {
     return arrayOfAllTrackDays;
   }
   for (let i = 0; i < arrayOfAllTrackDays.length; i++) {
     if (
       arrayOfAllTrackDays[i].attributes.NoiseRestriction !== null &&
-      noiseLevel.length > 0 &&
-      arrayOfAllTrackDays[i].attributes.NoiseRestriction > 0
+      noiseLevel.length > 0
     ) {
-      if (arrayOfAllTrackDays[i].attributes.NoiseRestriction < noiseLevel) {
+      if (
+        arrayOfAllTrackDays[i].attributes.NoiseRestriction < noiseLevel ||
+        arrayOfAllTrackDays[i].attributes.NoiseRestriction < 0 ||
+        arrayOfAllTrackDays[i].attributes.NoiseRestriction === "None"
+      ) {
         resultsArray.push(arrayOfAllTrackDays[i]);
       }
     }
