@@ -23,7 +23,12 @@ interface Props {
   classFilters: any[];
   trackFilters: string[];
 }
-
+// change yyyy-mm-dd to dd-mm-yyyy
+function formatDate(date: string) {
+  const dateArray = date.split("-");
+  const newDate = `${dateArray[1]}-${dateArray[2]}-${dateArray[0]}`;
+  return newDate;
+}
 /** @format */
 function RaceDayList({ props }: { props: Props }) {
   const {
@@ -101,7 +106,7 @@ function RaceDayList({ props }: { props: Props }) {
               key={raceday.id}
             >
               <Box textAlign={"center"} alignSelf="center">
-                {raceday.attributes.RaceDate}
+                {formatDate(raceday.attributes.RaceDate)}
               </Box>
               <Box alignSelf={"center"}>
                 {raceday.attributes.EventDescription}{" "}

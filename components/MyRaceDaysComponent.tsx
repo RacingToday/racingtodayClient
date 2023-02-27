@@ -216,7 +216,7 @@ function MyRaceDayComponent(props: Props) {
                           <ListItem>
                             {raceDay.attributes.NoiseRestriction > 0 ? (
                               <Text>
-                                Restrictions:{" "}
+                                Noise Restrictions:{" "}
                                 {raceDay.attributes.NoiseRestriction}
                               </Text>
                             ) : (
