@@ -41,7 +41,6 @@ import React, { SetStateAction, useState } from "react";
 import Link from "next/link";
 
 function CreateRaceDay(props: any) {
-  console.log(props.props.props.props);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [EventDescription, setEventDescription] = useState("");
   const [Price, setPrice] = useState("");
@@ -86,7 +85,7 @@ function CreateRaceDay(props: any) {
         carClasses += "GT, ";
       }
       if (e.currentTarget.touringcar.checked) {
-        carClasses += "TouringCar, ";
+        carClasses += "Touring, ";
       }
       if (e.currentTarget.Formel.checked) {
         carClasses += "Formel, ";

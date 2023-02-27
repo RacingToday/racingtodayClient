@@ -2,16 +2,74 @@
 
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button, Flex, List, ListItem } from "@chakra-ui/react";
-import React from "react";
+import React, { SetStateAction, useEffect } from "react";
+import { RaceDay } from "../lib/types";
 import RequestToJoin from "./RequestToJoin";
+import {
+  filterByClass,
+  filterByDate,
+  filterByNoiseLevel,
+  filterByTrack,
+} from "../lib/filterFunctions";
+
+interface Props {
+  listOfTrackDays: any;
+  setListOfTrackDays: any;
+  arrayOfRacedays: any;
+  allowedNoise: string;
+  setAllowedNoise: SetStateAction<any>;
+  fromAnTo: any[];
+  classFilters: any[];
+  trackFilters: string[];
+}
 
 /** @format */
-function RaceDayList() {
-  const { loading, error, data } = useQuery(GET_RACEDAYS);
+function RaceDayList({ props }: { props: Props }) {
+  const {
+    listOfTrackDays,
+    setListOfTrackDays,
+    arrayOfRacedays,
+    setAllowedNoise,
+    fromAnTo,
+    classFilters,
+    trackFilters,
+  } = props;
+  useEffect(() => {
+    if (localStorage.getItem("filters") !== null) {
+      const filters = JSON.parse(localStorage.getItem("filters")!);
+      // check if filters are empty
+      if (filters.allowedNoise !== "") {
+        const noiseValue = filterByNoiseLevel(
+          arrayOfRacedays,
+          filters.allowedNoise
+        );
+        setListOfTrackDays(noiseValue);
+      }
+      if (filters.fromAnTo.length > 0) {
+        const dateValue = filterByDate(filters.fromAnTo, arrayOfRacedays);
+        setListOfTrackDays(dateValue);
+      }
+      if (filters.classFilters.length > 0) {
+        const classValue = filterByClass(filters.classFilters, arrayOfRacedays);
+        setListOfTrackDays(classValue);
+      }
+      if (filters.trackFilters.length > 0) {
+        const trackValue = filterByTrack(filters.trackFilters, arrayOfRacedays);
+        setListOfTrackDays(trackValue);
+      }
+    }
+    if (!localStorage.getItem("filters")) {
+      setListOfTrackDays(arrayOfRacedays);
+    }
+  }, [
+    arrayOfRacedays,
+    classFilters,
+    fromAnTo,
+    setAllowedNoise,
+    setListOfTrackDays,
+    trackFilters,
+  ]);
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1> Error </h1>;
-  const arrayOfRacedays = data.racaDays.data;
   return (
     <>
       <h1
@@ -23,34 +81,52 @@ function RaceDayList() {
         RaceDays
       </h1>
       <Flex flexDir="column" className="mapOfRaceDays">
-        {arrayOfRacedays.map((raceday: any) => (
-          <Flex
-            borderRadius={"10px"}
-            minH={"6em"}
-            flexDir={"row"}
-            p={"0em 2.2em"}
-            justifyContent={"space-between"}
-            backgroundColor={"#f5f5f5"}
+        {listOfTrackDays.length > 0 &&
+          listOfTrackDays.map((raceday: RaceDay) => (
+            <Flex
+              borderRadius={"10px"}
+              minH={"6em"}
+              flexDir={"row"}
+              p={"0em 2.2em"}
+              justifyContent={"space-between"}
+              backgroundColor={"#f5f5f5"}
+              m={"0.7em 2em"}
+              border={"1px dotted black"}
+              key={raceday.id}
+            >
+              <Box textAlign={"center"} alignSelf="center">
+                {raceday.attributes.RaceDate}
+              </Box>
+              <Box alignSelf={"center"}>
+                {raceday.attributes.EventDescription}{" "}
+              </Box>
+              <Box alignSelf={"center"}>
+                {raceday.attributes.RaceDayCapacity}
+              </Box>
+              <Box alignSelf={"center"} textAlign="center">
+                Prices From €{raceday.attributes.Price}
+              </Box>
+              <Box alignSelf={"center"}>
+                <RequestToJoin raceDay={raceday} />
+              </Box>
+            </Flex>
+          ))}
+        {listOfTrackDays.length === 0 && (
+          <Box
+            textAlign={"center"}
+            alignSelf={"center"}
             m={"0.7em 2em"}
-            flex={1}
+            p={"1em 2.2em"}
             border={"1px dotted black"}
-            key={raceday.id}
+            borderRadius={"10px"}
+            fontStyle={"italic"}
+            fontSize={"1.2em"}
+            fontWeight={"bold"}
+            backgroundColor={"#f5f5f5"}
           >
-            <Box textAlign={"center"} alignSelf="center">
-              {raceday.attributes.RaceDate}
-            </Box>
-            <Box alignSelf={"center"}>
-              {raceday.attributes.EventDescription}{" "}
-            </Box>
-            <Box alignSelf={"center"}>{raceday.attributes.RaceDayCapacity}</Box>
-            <Box alignSelf={"center"} textAlign="center">
-              Prices From €{raceday.attributes.Price}
-            </Box>
-            <Box alignSelf={"center"}>
-              <RequestToJoin raceDay={raceday} />
-            </Box>
-          </Flex>
-        ))}
+            No Trackdays matched your search, please try again
+          </Box>
+        )}
       </Flex>
     </>
   );

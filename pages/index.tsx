@@ -2,14 +2,35 @@
 
 import Header from "../components/Header";
 import RaceDayList from "../components/RaceDayList";
-/** @format */
-
+import FiltersToSort from "../components/Filters";
 import Head from "next/head";
 import Image from "next/image";
-
-import styles from "../styles/Home.module.css";
+import { gql, useQuery } from "@apollo/client";
+import { useRef, useState } from "react";
 
 export default function Home() {
+  const [listOfTrackDays, setListOfTrackDays] = useState([]);
+  const { loading, error, data } = useQuery(GET_RACEDAYS);
+  const [allowedNoise, setAllowedNoise] = useState("");
+  const fromAnTo = useRef<any[]>([]).current;
+  const classFilters = useRef<any[]>([]).current;
+  const trackFilters = useRef<string[]>([]).current;
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1> Error </h1>;
+  const arrayOfRacedays = data.racaDays.data;
+
+  const props = {
+    listOfTrackDays: listOfTrackDays,
+    setListOfTrackDays: setListOfTrackDays,
+    arrayOfRacedays: arrayOfRacedays,
+    allowedNoise: allowedNoise,
+    setAllowedNoise: setAllowedNoise,
+    fromAnTo: fromAnTo,
+    classFilters: classFilters,
+    trackFilters: trackFilters,
+  };
+
   return (
     <>
       <Head>
@@ -22,8 +43,38 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-
-      <RaceDayList />
+      <FiltersToSort props={props} />
+      <RaceDayList props={props} />
     </>
   );
 }
+
+const GET_RACEDAYS = gql`
+  {
+    racaDays(pagination: { start: 0, limit: 200 }) {
+      data {
+        id
+        attributes {
+          EventDescription
+          RaceDate
+          Price
+          StartTime
+          EndTime
+          Capacity
+          Price
+          CarClass
+          NoiseRestriction
+          race_track {
+            data {
+              attributes {
+                TrackDescription
+                TrackName
+                Location
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

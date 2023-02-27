@@ -91,11 +91,15 @@ export default function RequestToJoin(raceday: any) {
               </li>
               <li>
                 <strong>Start Time:</strong>{" "}
-                {raceday.raceDay.attributes.StartTime.slice(0, 5)}
+                {raceday.raceDay.attributes.StartTime !== null
+                  ? raceday.raceDay.attributes.StartTime.slice(0, 5)
+                  : raceday.raceDay.attributes.StartTime}
               </li>
               <li>
                 <strong>End Time:</strong>{" "}
-                {raceday.raceDay.attributes.EndTime.slice(0, 5)}
+                {raceday.raceDay.attributes.EndTime !== null
+                  ? raceday.raceDay.attributes.EndTime.slice(0, 5)
+                  : raceday.raceDay.attributes.EndTime}
               </li>
               <li>
                 <strong>Capacity:</strong> {raceday.raceDay.attributes.Capacity}
