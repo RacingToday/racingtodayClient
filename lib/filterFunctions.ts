@@ -279,7 +279,6 @@ export function filterByNoiseLevel(
       }
     }
   }
-  console.log(resultsArray);
   return resultsArray;
 }
 

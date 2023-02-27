@@ -11,6 +11,10 @@ import { useRef, useState } from "react";
 export default function Home() {
   const [listOfTrackDays, setListOfTrackDays] = useState([]);
   const { loading, error, data } = useQuery(GET_RACEDAYS);
+  const [allowedNoise, setAllowedNoise] = useState("");
+  const fromAnTo = useRef<any[]>([]).current;
+  const classFilters = useRef<any[]>([]).current;
+  const trackFilters = useRef<string[]>([]).current;
 
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1> Error </h1>;
@@ -20,6 +24,11 @@ export default function Home() {
     listOfTrackDays: listOfTrackDays,
     setListOfTrackDays: setListOfTrackDays,
     arrayOfRacedays: arrayOfRacedays,
+    allowedNoise: allowedNoise,
+    setAllowedNoise: setAllowedNoise,
+    fromAnTo: fromAnTo,
+    classFilters: classFilters,
+    trackFilters: trackFilters,
   };
 
   return (

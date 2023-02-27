@@ -17,13 +17,17 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
-import React, { SetStateAction, useRef } from "react";
-import { useState } from "react";
+import React, { SetStateAction, useRef, useState } from "react";
 import RacetrackFilter from "./RacetrackFilter";
 interface Props {
   listOfTrackDays: any;
   setListOfTrackDays: SetStateAction<any>;
   arrayOfRacedays: any[];
+  allowedNoise: string;
+  setAllowedNoise: SetStateAction<any>;
+  fromAnTo: any[];
+  classFilters: any[];
+  trackFilters: string[];
 }
 import {
   filterByDate,
@@ -33,11 +37,34 @@ import {
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
-  const { setListOfTrackDays, listOfTrackDays, arrayOfRacedays } = props;
+  const {
+    setListOfTrackDays,
+    listOfTrackDays,
+    arrayOfRacedays,
+    fromAnTo,
+    allowedNoise,
+    classFilters,
+    trackFilters,
+    setAllowedNoise,
+  } = props;
   const masterFilters = useRef<any[]>([]).current;
-  const [allowedNoise, setAllowedNoise] = useState("");
-  const fromAnTo = useRef<any[]>([]).current;
-  const classFilters = useRef<any[]>([]).current;
+  // const [allowedNoise, setAllowedNoise] = useState("");
+  // const fromAnTo = useRef<any[]>([]).current;
+  // const classFilters = useRef<any[]>([]).current;
+  // const trackFilters = useRef<string[]>([]).current;
+
+  function handleSaveFilters(): void {
+    const filterToSave = {
+      allowedNoise: allowedNoise,
+      fromAnTo: fromAnTo,
+      classFilters: classFilters,
+      trackFilters: trackFilters,
+    };
+    if (localStorage.getItem("filters")) {
+      localStorage.removeItem("filters");
+    }
+    localStorage.setItem("filters", JSON.stringify(filterToSave));
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -46,6 +73,7 @@ function FiltersToSort({ props }: { props: Props }) {
       name,
       value,
     };
+
     // check if the name is already in the array
     const index = fromAnTo.findIndex((item) => item.name === name);
     // if it is, remove it
@@ -108,7 +136,14 @@ function FiltersToSort({ props }: { props: Props }) {
 
   return (
     <>
-      <Button onClick={handleClick} colorScheme="blue" size="sm" m={2}>
+      <Button
+        onClick={handleClick}
+        colorScheme="blue"
+        border={"none"}
+        p={3}
+        size="sm"
+        m={5}
+      >
         {ButtonText}
       </Button>
 
@@ -127,15 +162,7 @@ function FiltersToSort({ props }: { props: Props }) {
         </Button>
       )}
       {masterFilters.length > 0 && filters && (
-        <Button
-          onClick={() => {
-            // write masterFilters to local storage
-            localStorage.setItem("filters", JSON.stringify(masterFilters));
-          }}
-          colorScheme="green"
-          size="sm"
-          m={2}
-        >
+        <Button onClick={handleSaveFilters} colorScheme="green" size="sm" m={2}>
           Save Filters
         </Button>
       )}
@@ -145,7 +172,9 @@ function FiltersToSort({ props }: { props: Props }) {
           justifyContent={"space-around"}
           flexWrap={"wrap"}
           p={2}
-          m={2}
+          bgColor={"red."}
+          border={"1px solid #e2e8f0"}
+          m={5}
           borderRadius={"md"}
         >
           <CarClassDropdown
@@ -158,6 +187,7 @@ function FiltersToSort({ props }: { props: Props }) {
             setListOfTrackDays={setListOfTrackDays}
             arrayOfRacedays={arrayOfRacedays}
             masterFilters={masterFilters}
+            trackFilters={trackFilters}
           />
           <label>
             From

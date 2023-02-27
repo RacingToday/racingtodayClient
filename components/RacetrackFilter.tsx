@@ -16,20 +16,22 @@ interface Props {
   setListOfTrackDays: any;
   arrayOfRacedays: any;
   masterFilters: any[];
+  trackFilters: any[];
 }
 
 function RacetrackFilter({
   setListOfTrackDays,
   arrayOfRacedays,
   masterFilters,
+  trackFilters,
 }: Props) {
-  const trackFilters = useRef<string[]>([]).current;
   const { data, loading, error } = useQuery(GET_RACETRACKS);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   const uniqueRacetracks = data.raceTracks.data;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     if (e.currentTarget.ariaChecked === "false") {
       trackFilters.push(e.currentTarget.value);
     }
