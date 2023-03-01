@@ -16,6 +16,7 @@ import {
 import { getMyUser } from "../lib/helperFunctions";
 
 export default function RequestToJoin(raceday: any) {
+  const sizeConfig = ["xs", "sm", "md", "lg"];
   const [myUser, setMyUser] = useState<any>(null);
   const handleClick = () => {
     const jwt = localStorage.getItem("jwt");
@@ -71,7 +72,7 @@ export default function RequestToJoin(raceday: any) {
     useState("Confirm Request");
   return (
     <>
-      <Button onClick={onOpen} colorScheme={"blue"}>
+      <Button onClick={onOpen} colorScheme={"blue"} size={sizeConfig}>
         Request to Join
       </Button>
       <Modal size="5xl" isOpen={isOpen} onClose={onClose}>

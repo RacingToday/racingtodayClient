@@ -232,7 +232,7 @@ function MyRaceDayComponent(props: Props) {
                             marginLeft: "5em",
                             borderRadius: "10px",
                           }}
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11966.87110823999!2d2.1310633420944307!3d41.42364469188054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a497f0b2911c6f%3A0x2c79835d843d7146!2sCamp%20de%20Futbol%20Sant%20Gen%C3%ADs!5e0!3m2!1sen!2ses!4v1674063222656!5m2!1sen!2ses"
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d69165.66109543998!2d6.846746647099172!3d50.309764250049184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bfad76fa472afd%3A0xffceaa08b3219545!2sBreidscheider%20Br%C3%BCcke%2C%20N%C3%BCrburgring%20Nordschleife!5e0!3m2!1sen!2ses!4v1677606925377!5m2!1sen!2ses"
                           width="350em"
                           height="350em"
                           loading="lazy"

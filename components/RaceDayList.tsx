@@ -23,6 +23,7 @@ interface Props {
   classFilters: any[];
   trackFilters: string[];
 }
+
 // change yyyy-mm-dd to dd-mm-yyyy
 function formatDate(date: string) {
   const dateArray = date.split("-");
@@ -31,6 +32,7 @@ function formatDate(date: string) {
 }
 /** @format */
 function RaceDayList({ props }: { props: Props }) {
+  const sizeConfig = ["xs", "sm", "md", "lg", "xl"];
   const {
     listOfTrackDays,
     setListOfTrackDays,
@@ -91,30 +93,39 @@ function RaceDayList({ props }: { props: Props }) {
       >
         RaceDays
       </h1>
-      <Flex flexDir="column" className="mapOfRaceDays">
+      <Flex flexDir="column" className="mapOfRaceDays" wrap={"wrap"}>
         {listOfTrackDays.length > 0 &&
           listOfTrackDays.map((raceday: RaceDay) => (
             <Flex
               borderRadius={"10px"}
-              minH={"6em"}
               flexDir={"row"}
-              p={"0em 2.2em"}
+              p={"2em 2.2em"}
               justifyContent={"space-between"}
               backgroundColor={"#f5f5f5"}
               m={"0.7em 2em"}
+              flexWrap={"wrap"}
+              gap={"1em"}
               border={"1px dotted black"}
               key={raceday.id}
             >
-              <Box textAlign={"center"} alignSelf="center">
+              <Box
+                textAlign={"center"}
+                alignSelf="center"
+                fontSize={sizeConfig}
+              >
                 {formatDate(raceday.attributes.RaceDate)}
               </Box>
-              <Box alignSelf={"center"}>
+              <Box fontSize={sizeConfig} alignSelf={"center"}>
                 {raceday.attributes.EventDescription}{" "}
               </Box>
-              <Box alignSelf={"center"}>
+              <Box fontSize={sizeConfig} alignSelf={"center"}>
                 {raceday.attributes.RaceDayCapacity}
               </Box>
-              <Box alignSelf={"center"} textAlign="center">
+              <Box
+                fontSize={sizeConfig}
+                alignSelf={"center"}
+                textAlign="center"
+              >
                 Prices From €{raceday.attributes.Price}
               </Box>
               <Box alignSelf={"center"}>
