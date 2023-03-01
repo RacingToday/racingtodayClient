@@ -40,6 +40,7 @@ import {
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
+  const sizeConfig = ["xs", "sm", "md", "lg", "xl"];
   const {
     setListOfTrackDays,
     listOfTrackDays,
@@ -89,9 +90,7 @@ function FiltersToSort({ props }: { props: Props }) {
       value,
     };
 
-    // check if the name is already in the array
     const index = fromAnTo.findIndex((item) => item.name === name);
-    // if it is, remove it
     if (index > -1) {
       fromAnTo.splice(index, 1);
     }
@@ -161,7 +160,7 @@ function FiltersToSort({ props }: { props: Props }) {
       >
         {ButtonText}
       </Button>
-
+      you are currently looking at {listOfTrackDays.length} track days <br />
       {masterFilters.length > 0 &&
         filters &&
         !localStorage.getItem("filters") && (
@@ -195,12 +194,12 @@ function FiltersToSort({ props }: { props: Props }) {
       {filters && (
         <Flex
           mt={"1em"}
-          justifyContent={"space-around"}
           flexWrap={"wrap"}
-          p={2}
-          bgColor={"red."}
+          gap={6}
+          p={4}
+          justifyContent={"space-around"}
           border={"1px solid #e2e8f0"}
-          m={5}
+          m={"0 auto"}
           borderRadius={"md"}
         >
           <CarClassDropdown
@@ -215,7 +214,11 @@ function FiltersToSort({ props }: { props: Props }) {
             masterFilters={masterFilters}
             trackFilters={trackFilters}
           />
-          <label>
+          <label
+            style={{
+              fontSize: "0.8rem",
+            }}
+          >
             From
             <Input
               w={"10rem"}
@@ -223,28 +226,42 @@ function FiltersToSort({ props }: { props: Props }) {
               name="fromDate"
               ml={"1em"}
               type="date"
+              size={sizeConfig}
               className="fromDate"
               onChange={(e) => handleChange(e)}
             />
           </label>
-          <label>
+          <label
+            style={{
+              fontSize: "0.8rem",
+            }}
+          >
             To
             <Input
               w={"10rem"}
               onChange={(e) => handleChange(e)}
               type="date"
               name="toDate"
+              size={sizeConfig}
               className="toDate"
               variant={"filled"}
+              style={{
+                fontSize: "0.8rem",
+              }}
               ml={"1em"}
             />
           </label>
 
-          <label>
+          <label
+            style={{
+              fontSize: "0.8rem",
+            }}
+          >
             DB Limit
             <Input
               variant={"filled"}
               w={"10rem"}
+              size={sizeConfig}
               style={{
                 marginLeft: "1em",
               }}

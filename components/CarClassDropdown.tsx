@@ -50,7 +50,13 @@ function CarClassDropdown({
   };
   return (
     <Menu closeOnSelect={false}>
-      <MenuButton as={Button} colorScheme="blue">
+      <MenuButton
+        as={Button}
+        colorScheme="blue"
+        w={["6rem", "6rem", "8rem", "10rem"]}
+        fontSize={["xs", "xs", "sm", "md"]}
+        p={["0.5rem", "0.5rem", "0.5rem", "0.5rem"]}
+      >
         Filter By Class
       </MenuButton>
       <MenuList w={"fit-content"}>

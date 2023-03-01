@@ -37,6 +37,7 @@ import Link from "next/link";
 import AuthHeader from "./AuthHeader";
 
 function Header(props: any) {
+  const displayConfig = ["none", "none", "flex", "flex", "flex"];
   const { isOpen: isOpen, onOpen, onClose } = useDisclosure();
 
   const [loginEmail, setLoginEmail] = React.useState("");
@@ -50,22 +51,27 @@ function Header(props: any) {
   const [userId, setUserId] = React.useState(0);
 
   const [loginOrShowUserData, setLoginOrShowUserData] = React.useState(
-    <Flex gap="5">
+    <Flex gap="5" alignItems={"center"} mr={"1rem"}>
       <Link href="/">
-        <Button colorScheme="blue" size="sm">
+        <Button colorScheme="blue" size="sm" display={displayConfig}>
           Home
         </Button>
       </Link>
-      <Button colorScheme="blue" size={"sm"} onClick={onOpen}>
+      <Button
+        colorScheme="blue"
+        size={"sm"}
+        onClick={onOpen}
+        display={displayConfig}
+      >
         Login or Register
       </Button>
       <Link href="about">
-        <Button colorScheme="blue" size="sm">
+        <Button display={displayConfig} size="sm" colorScheme="blue">
           About Us
         </Button>
       </Link>
       <Link href="terms">
-        <Button colorScheme="blue" size="sm">
+        <Button colorScheme="blue" size="sm" display={displayConfig}>
           Terms And Conditions
         </Button>
       </Link>
@@ -139,8 +145,6 @@ function Header(props: any) {
 
   return (
     <Flex
-      pt={"1em"}
-      pr={"1em"}
       flex={1}
       h={"5rem"}
       justifyContent={"space-between"}
@@ -173,10 +177,18 @@ function Header(props: any) {
         </Alert>
       )}
       {loginOrShowUserData}
-      <Link href="/">
-        <Box className="SiteName" m={"0em 2em"}>
-          <Text fontSize={"2xl"}>RacingToday</Text>
-        </Box>
+      <Link
+        href="/"
+        style={{
+          textDecoration: "none",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginLeft: "1rem",
+        }}
+      >
+        <Text fontSize={"2xl"}>RacingToday</Text>
       </Link>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
