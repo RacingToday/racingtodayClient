@@ -57,18 +57,21 @@ function RaceDayList({ props }: { props: Props }) {
       }
       if (filters.fromAnTo.length > 0) {
         const dateValue = filterByDate(filters.fromAnTo, arrayOfRacedays);
+        console.log("dateValue", dateValue);
         masterFilterObject.push({ value: dateValue });
       }
       if (filters.classFilters.length > 0) {
         const classValue = filterByClass(filters.classFilters, arrayOfRacedays);
+        console.log("classFilters", classValue);
         masterFilterObject.push({ value: classValue });
       }
       if (filters.trackFilters.length > 0) {
         const trackValue = filterByTrack(filters.trackFilters, arrayOfRacedays);
+        console.log("trackValue", trackValue);
         masterFilterObject.push({ value: trackValue });
       }
       const combinedFilters = manageCombinedFilters(masterFilterObject);
-
+      console.log("combinedFilters", combinedFilters);
       setListOfTrackDays(combinedFilters);
     }
     if (!localStorage.getItem("filters")) {

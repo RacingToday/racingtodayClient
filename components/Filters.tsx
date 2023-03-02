@@ -20,7 +20,12 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
-import React, { SetStateAction, useRef, useState } from "react";
+import React, {
+  HTMLInputTypeAttribute,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import RacetrackFilter from "./RacetrackFilter";
 interface Props {
   listOfTrackDays: any;
@@ -148,6 +153,82 @@ function FiltersToSort({ props }: { props: Props }) {
       : setListOfTrackDays(trackDaysByNoise);
   };
 
+  let filterText;
+  const checkForActiveFilters =
+    JSON.parse(localStorage.getItem("filters")!) || masterFilters.length > 0
+      ? true
+      : false;
+
+  if (localStorage.getItem("filters") && masterFilters.length === 0) {
+    const parsedFilters = JSON.parse(localStorage.getItem("filters")!);
+    if (
+      parsedFilters.allowedNoise.length !== "" ||
+      parsedFilters.fromAnTo.length > 0 ||
+      parsedFilters.classFilters.length > 0 ||
+      parsedFilters.trackFilters.length > 0
+    ) {
+      filterText = `filtered by : 
+      ${parsedFilters.trackFilters.length > 0 ? "Track, " : ""}
+      ${parsedFilters.fromAnTo.length > 0 ? "Date, " : ""}
+      ${parsedFilters.classFilters.length > 0 ? "Class, " : ""}
+      ${parsedFilters.allowedNoise.length > 0 ? "Level of noise, " : ""} `;
+    }
+  } else {
+    filterText = "with no filters applied";
+  }
+
+  if (masterFilters.length > 0) {
+    filterText = `filtered by : 
+    ${
+      masterFilters.some(
+        (filter) =>
+          filter.filterType === "track" &&
+          filter.value.length > 0 &&
+          filter.value.length !== arrayOfRacedays.length
+      )
+        ? "Track, "
+        : ""
+    }
+    ${
+      masterFilters.some(
+        (filter) =>
+          filter.filterType === "dateFilters" &&
+          filter.value.length > 0 &&
+          filter.value.length !== arrayOfRacedays.length
+      )
+        ? "Date, "
+        : ""
+    }
+    ${
+      masterFilters.some(
+        (filter) =>
+          filter.filterType === "classFilters" &&
+          filter.value.length > 0 &&
+          filter.value.length !== arrayOfRacedays.length
+      )
+        ? "Class, "
+        : ""
+    }
+    ${
+      masterFilters.some(
+        (filter) =>
+          filter.filterType === "noiseFilters" &&
+          filter.value.length > 0 &&
+          filter.value.length !== arrayOfRacedays.length
+      )
+        ? "Level of noise, "
+        : ""
+    } `;
+    // if the value of all filters is equal to the length of the array of racedays, then no filters are applied
+
+    if (
+      masterFilters.some(
+        (filter) => filter.value.length === arrayOfRacedays.length
+      )
+    ) {
+      filterText = "with no filters applied";
+    }
+  }
   return (
     <>
       <Button
@@ -160,28 +241,8 @@ function FiltersToSort({ props }: { props: Props }) {
       >
         {ButtonText}
       </Button>
-      you are currently looking at {listOfTrackDays.length} track days <br />
-      {masterFilters.length > 0 &&
-        filters &&
-        !localStorage.getItem("filters") && (
-          <Button
-            onClick={() => {
-              setListOfTrackDays(arrayOfRacedays);
-              setAllowedNoise("");
-              masterFilters.splice(0, masterFilters.length);
-            }}
-            colorScheme="red"
-            size="sm"
-            m={2}
-          >
-            Clear Filters
-          </Button>
-        )}
-      {masterFilters.length > 0 && filters && (
-        <Button onClick={handleSaveFilters} colorScheme="green" size="sm" m={2}>
-          Save Filters
-        </Button>
-      )}
+      You are currently looking at {listOfTrackDays.length} track days{" "}
+      {filterText}
       {filterNotification && (
         <Alert status="success" color={"green.500"}>
           <AlertIcon />
@@ -228,6 +289,10 @@ function FiltersToSort({ props }: { props: Props }) {
               type="date"
               size={sizeConfig}
               className="fromDate"
+              fontSize={"1rem"}
+              style={{
+                fontSize: "1rem",
+              }}
               onChange={(e) => handleChange(e)}
             />
           </label>
@@ -246,7 +311,7 @@ function FiltersToSort({ props }: { props: Props }) {
               className="toDate"
               variant={"filled"}
               style={{
-                fontSize: "0.8rem",
+                fontSize: "1rem",
               }}
               ml={"1em"}
             />
@@ -271,6 +336,46 @@ function FiltersToSort({ props }: { props: Props }) {
               onChange={(e) => handleNoiseChange(e)}
             />
           </label>
+          <Flex w="80%" justifyContent="left">
+            {checkForActiveFilters && filters && (
+              <Button
+                onClick={() => {
+                  setAllowedNoise("");
+
+                  masterFilters.splice(0, masterFilters.length);
+                  fromAnTo.splice(0, fromAnTo.length);
+                  classFilters.splice(0, classFilters.length);
+                  trackFilters.splice(0, trackFilters.length);
+                  localStorage.removeItem("filters");
+                  // update the date values to default
+
+                  const fromDate: any = document.querySelector(".fromDate");
+                  const toDate: any = document.querySelector(".toDate");
+                  if (fromDate && toDate) {
+                    fromDate.value = "";
+                    toDate.value = "";
+                  }
+
+                  setListOfTrackDays(arrayOfRacedays);
+                }}
+                colorScheme="red"
+                size="sm"
+                m={2}
+              >
+                Clear Filters
+              </Button>
+            )}
+            {checkForActiveFilters && filters && (
+              <Button
+                onClick={handleSaveFilters}
+                colorScheme="green"
+                size="sm"
+                m={2}
+              >
+                Save Filters
+              </Button>
+            )}
+          </Flex>
         </Flex>
       )}
     </>
