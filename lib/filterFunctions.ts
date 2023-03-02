@@ -23,6 +23,10 @@ export function filterByClass(
     }
   }
 
+  resultsArray = resultsArray.filter(
+    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+  );
+
   return resultsArray;
 }
 
@@ -50,6 +54,11 @@ export function filterByTrack(
       }
     }
   }
+
+  resultsArray = resultsArray.filter(
+    (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+  );
+
   return resultsArray;
 }
 

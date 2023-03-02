@@ -55,9 +55,7 @@ function RacetrackFilter({
 
     masterFilters.push(trackFilterHistory);
     const combinedFilters = manageCombinedFilters(masterFilters);
-    combinedFilters.length > 1
-      ? setListOfTrackDays(combinedFilters)
-      : setListOfTrackDays(TrackDaysByTrack);
+    setListOfTrackDays(combinedFilters);
   };
 
   return (
