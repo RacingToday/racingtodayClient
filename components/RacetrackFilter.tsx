@@ -70,7 +70,7 @@ function RacetrackFilter({
         Filter By Track
       </MenuButton>
       <MenuList w={"fit-content"}>
-        <MenuOptionGroup title="Track" type="checkbox">
+        <MenuOptionGroup title="Track" type="checkbox" className="Track">
           {uniqueRacetracks.map((track: any, index: number) => {
             return (
               <MenuItemOption

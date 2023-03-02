@@ -76,7 +76,7 @@ function CarClassDropdown({
           >
             Touring
           </MenuItemOption>
-          <MenuItemOption onClick={(e) => handleClick(e)} value="Formula">
+          <MenuItemOption onClick={(e) => handleClick(e)} value="Formel">
             Formula
           </MenuItemOption>
           <MenuItemOption onClick={(e) => handleClick(e)} value="Motorbikes">
@@ -85,7 +85,7 @@ function CarClassDropdown({
           <MenuItemOption onClick={(e) => handleClick(e)} value="Prototypes">
             Prototypes
           </MenuItemOption>
-          <MenuItemOption onClick={(e) => handleClick(e)} value="Other">
+          <MenuItemOption onClick={(e) => handleClick(e)} value="Others">
             Other
           </MenuItemOption>
         </MenuOptionGroup>

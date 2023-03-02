@@ -1,6 +1,6 @@
 /** @format */
 
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import * as react from "@chakra-ui/react";
 import React from "react";
 import { getMyUser, fetchMyMessages } from "../lib/helperFunctions";
 import { useState } from "react";
@@ -93,7 +93,7 @@ function Messages() {
   }, []);
 
   return (
-    <Flex
+    <react.Flex
       overflow={"hidden"}
       flexDir="row"
       wordBreak={"break-word"}
@@ -104,7 +104,7 @@ function Messages() {
       minH={"85vh"}
       maxH={"85vh"}
     >
-      <Flex
+      <react.Flex
         className="chatSelection"
         flex={1}
         flexDir={"column"}
@@ -128,7 +128,7 @@ function Messages() {
         {ListOfRaceDays.length > 0 ? (
           ListOfRaceDays.map((message: any) => {
             return (
-              <Button
+              <react.Button
                 mt={1}
                 flex={1}
                 padding={-3}
@@ -152,14 +152,14 @@ function Messages() {
                 Date: {message.attributes.RaceDate}
                 <br />
                 Track: {message.attributes.race_track.data.attributes.TrackName}
-              </Button>
+              </react.Button>
             );
           })
         ) : (
           <p>No messages</p>
         )}
-      </Flex>
-      <Flex
+      </react.Flex>
+      <react.Flex
         padding={3}
         minH={"70vh"}
         minW={"70vw"}
@@ -173,7 +173,7 @@ function Messages() {
         alignItems="flex-start"
         justifyContent={"space-between"}
       >
-        <Flex
+        <react.Flex
           className="chatMessages"
           overflow={"auto"}
           flex={1}
@@ -185,7 +185,7 @@ function Messages() {
           {arrayOfMessages.length > 0 ? (
             arrayOfMessages.map((message: any, index) => {
               return (
-                <Box
+                <react.Box
                   key={index}
                   m={3}
                   bgColor={"blue.400"}
@@ -223,14 +223,14 @@ function Messages() {
                   >
                     {message.attributes.Text}
                   </p>
-                </Box>
+                </react.Box>
               );
             })
           ) : (
             <h1>No messages</h1>
           )}
-        </Flex>
-        <Input
+        </react.Flex>
+        <react.Input
           mt={5}
           placeholder="Type your message here"
           type={"text"}
@@ -246,8 +246,8 @@ function Messages() {
             }
           }}
         />
-      </Flex>
-    </Flex>
+      </react.Flex>
+    </react.Flex>
   );
 }
 

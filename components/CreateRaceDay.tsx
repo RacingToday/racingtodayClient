@@ -251,14 +251,14 @@ function CreateRaceDay(props: any) {
                   onChange={(e) => setEventDescription(e.target.value)}
                   value={EventDescription}
                 />
-                Please check check the boxes for the car classes that are
-                allowed on track
+                Please check the boxes for all the classes you will allow on
+                track allowed on track
                 <Flex justifyContent={"space-around"}>
                   <p>
                     <Switch id="GT" name="GT" value="GT" /> GT
                   </p>
                   <p>
-                    <Switch id="touringcar" name="touringcar" /> Touring Car
+                    <Switch id="Touring" name="Touring" /> Touring
                   </p>
                   <p>
                     <Switch id="Formel" name="Formel" /> Formel
@@ -267,7 +267,11 @@ function CreateRaceDay(props: any) {
                     <Switch id="Motorbikes" name="Motorbikes" /> Motorbikes
                   </p>
                   <p>
-                    <Switch id="Prototype" name="Prototype" value="Prototype" />{" "}
+                    <Switch
+                      id="Prototype"
+                      name="Prototypes"
+                      value="Prototypes"
+                    />{" "}
                     Prototype
                   </p>
                   <p>

@@ -178,6 +178,7 @@ function FiltersToSort({ props }: { props: Props }) {
   }
 
   if (masterFilters.length > 0) {
+    console.log(masterFilters);
     filterText = `filtered by : 
     ${
       masterFilters.some(
@@ -222,7 +223,7 @@ function FiltersToSort({ props }: { props: Props }) {
     // if the value of all filters is equal to the length of the array of racedays, then no filters are applied
 
     if (
-      masterFilters.some(
+      masterFilters.every(
         (filter) => filter.value.length === arrayOfRacedays.length
       )
     ) {
