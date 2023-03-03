@@ -29,15 +29,16 @@ import {
   CloseButton,
   Box,
 } from "@chakra-ui/react";
-import { MyRaceDay } from "../lib/types";
-import { createNewUser, getMyUser, loginUser } from "../lib/helperFunctions";
+import MobileHeader from "./MobileMenu";
+import { MyRaceDay } from "../../lib/types";
+import { createNewUser, getMyUser, loginUser } from "../../lib/helperFunctions";
 import React, { useState } from "react";
-import CreateRaceDay from "./CreateRaceDay";
+import CreateRaceDay from "../CreateRaceDay";
 import Link from "next/link";
 import AuthHeader from "./AuthHeader";
 
 function Header(props: any) {
-  const displayConfig = ["none", "none", "flex", "flex", "flex"];
+  const displayConfig = ["none", "flex", "flex"];
   const { isOpen: isOpen, onOpen, onClose } = useDisclosure();
 
   const [loginEmail, setLoginEmail] = React.useState("");
@@ -51,30 +52,49 @@ function Header(props: any) {
   const [userId, setUserId] = React.useState(0);
 
   const [loginOrShowUserData, setLoginOrShowUserData] = React.useState(
-    <Flex gap="5" alignItems={"center"} mr={"1rem"}>
-      <Link href="/">
-        <Button colorScheme="blue" size="sm" display={displayConfig}>
-          Home
-        </Button>
-      </Link>
-      <Button
-        colorScheme="blue"
-        size={"sm"}
-        onClick={onOpen}
+    <Flex>
+      <Flex
+        gap="5"
+        alignItems={"center"}
+        mr={"1rem"}
+        flex={1}
+        justifyContent={"flex-end"}
         display={displayConfig}
       >
-        Login or Register
-      </Button>
-      <Link href="about">
-        <Button display={displayConfig} size="sm" colorScheme="blue">
-          About Us
+        <Link href="/">
+          <Button
+            colorScheme="blue"
+            size="sm"
+            display={["none", "none", "flex"]}
+          >
+            Home
+          </Button>
+        </Link>
+        <Button colorScheme="blue" size={"sm"} onClick={onOpen}>
+          Login or Register
         </Button>
-      </Link>
-      <Link href="terms">
-        <Button colorScheme="blue" size="sm" display={displayConfig}>
-          Terms And Conditions
+        <Link href="about">
+          <Button size="sm" colorScheme="blue">
+            About Us
+          </Button>
+        </Link>
+        <Link href="terms">
+          <Button colorScheme="blue" size="sm">
+            Terms And Conditions
+          </Button>
+        </Link>
+      </Flex>
+      <Flex
+        justifyContent="center"
+        align="center"
+        mr={3}
+        display={["flex", "none"]}
+      >
+        <Button colorScheme="blue" size={"sm"} onClick={onOpen}>
+          Login
         </Button>
-      </Link>
+        <MobileHeader />
+      </Flex>
     </Flex>
   );
 
@@ -188,7 +208,9 @@ function Header(props: any) {
           marginLeft: "1rem",
         }}
       >
-        <Text fontSize={"2xl"}>RacingToday</Text>
+        <Text left="30px" position={"absolute"} fontSize={["lg", "2xl", "3xl"]}>
+          RacingToday
+        </Text>
       </Link>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

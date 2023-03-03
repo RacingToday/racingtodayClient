@@ -2,6 +2,7 @@
   "recommendations": [
     "dzhavat.css-flexbox-cheatsheet",
     "statelyai.stately-vscode",
-    "dksedgwick.xstviz"
+    "dksedgwick.xstviz",
+    "wallabyjs.quokka-vscode"
   ]
 }

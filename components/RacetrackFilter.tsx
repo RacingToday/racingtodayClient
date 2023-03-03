@@ -63,9 +63,10 @@ function RacetrackFilter({
       <MenuButton
         as={Button}
         colorScheme="blue"
-        w={["6rem", "6rem", "8rem", "10rem"]}
         fontSize={["xs", "xs", "sm", "md"]}
         p={["0.5rem", "0.5rem", "0.75rem", "1rem"]}
+        w="fit-content"
+        h={["2rem", "2rem", "2.5rem"]}
       >
         Filter By Track
       </MenuButton>

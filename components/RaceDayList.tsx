@@ -12,6 +12,7 @@ import {
   filterByTrack,
   manageCombinedFilters,
 } from "../lib/filterFunctions";
+import { Text } from "@chakra-ui/react";
 
 interface Props {
   listOfTrackDays: any;
@@ -32,7 +33,7 @@ function formatDate(date: string) {
 }
 /** @format */
 function RaceDayList({ props }: { props: Props }) {
-  const sizeConfig = ["xs", "sm", "md", "lg", "xl"];
+  const sizeConfig = ["sm", "md", "lg"];
   const {
     listOfTrackDays,
     setListOfTrackDays,
@@ -101,37 +102,58 @@ function RaceDayList({ props }: { props: Props }) {
           listOfTrackDays.map((raceday: RaceDay) => (
             <Flex
               borderRadius={"10px"}
-              flexDir={"row"}
-              p={"2em 2.2em"}
-              justifyContent={"space-between"}
+              justifyContent={"flex-start"}
               backgroundColor={"#f5f5f5"}
-              m={"0.7em 2em"}
-              flexWrap={"wrap"}
-              gap={"1em"}
+              p={"2em 1em"}
+              flexDir={["column", "row"]}
+              gap={"0.4em"}
               border={"1px dotted black"}
+              flex={1}
+              pb={["1em", "2em"]}
               key={raceday.id}
+              m={["0.6em 1em", "0.6 auto"]}
             >
               <Box
-                textAlign={"center"}
+                ml={["0", "1em"]}
+                w={["100%", "30%", "15%"]}
+                fontSize={sizeConfig}
+                alignSelf={"center"}
+              >
+                Track: {raceday.attributes.race_track.data.attributes.TrackName}{" "}
+              </Box>
+              <Box
+                w={["100%", "30%", "15%"]}
                 alignSelf="center"
                 fontSize={sizeConfig}
               >
-                {formatDate(raceday.attributes.RaceDate)}
-              </Box>
-              <Box fontSize={sizeConfig} alignSelf={"center"}>
-                {raceday.attributes.EventDescription}{" "}
-              </Box>
-              <Box fontSize={sizeConfig} alignSelf={"center"}>
-                {raceday.attributes.RaceDayCapacity}
+                Date: {formatDate(raceday.attributes.RaceDate)}
               </Box>
               <Box
+                w={["100%", "30%", "15%"]}
                 fontSize={sizeConfig}
                 alignSelf={"center"}
-                textAlign="center"
               >
-                Prices From €{raceday.attributes.Price}
+                Lane Style : Single
               </Box>
-              <Box alignSelf={"center"}>
+              <Box
+                w={["100%", "30%", "15%"]}
+                fontSize={sizeConfig}
+                alignSelf={"center"}
+              >
+                Classes: {raceday.attributes.CarClass}
+              </Box>
+              <Box
+                w={["100%", "30%", "15%"]}
+                fontSize={sizeConfig}
+                alignSelf={"center"}
+              >
+                From €{raceday.attributes.Price}
+              </Box>
+              <Box
+                mt={["1em", "0"]}
+                justifyContent={"flex-end"}
+                alignSelf={"center"}
+              >
                 <RequestToJoin raceDay={raceday} />
               </Box>
             </Flex>

@@ -12,11 +12,12 @@ import {
   Image,
   useDisclosure,
   List,
+  Flex,
 } from "@chakra-ui/react";
 import { getMyUser } from "../lib/helperFunctions";
 
 export default function RequestToJoin(raceday: any) {
-  const sizeConfig = ["xs", "sm", "md", "lg"];
+  const sizeConfig = ["sm", "sm", "md", "md"];
   const [myUser, setMyUser] = useState<any>(null);
   const handleClick = () => {
     const jwt = localStorage.getItem("jwt");
@@ -69,23 +70,34 @@ export default function RequestToJoin(raceday: any) {
 
   const { isOpen: isOpen, onOpen, onClose } = useDisclosure();
   const [requestToJoinButton, setRequestToJoinButton] =
-    useState("Confirm Request");
+    useState("Request to Join");
   return (
     <>
       <Button onClick={onOpen} colorScheme={"blue"} size={sizeConfig}>
         Request to Join
       </Button>
-      <Modal size="5xl" isOpen={isOpen} onClose={onClose}>
+      <Modal
+        size={"6xl"}
+        isOpen={isOpen}
+        onClose={onClose}
+        scrollBehavior={"inside"}
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {raceday.raceDay.attributes.RaceDate}
-            {" - "}
+          <ModalHeader
+            display={"flex"}
+            flexDirection={"column"}
+            color={"whiteAlpha.900"}
+            fontSize={["md", "lg", "xl"]}
+            bg={"black"}
+          >
+            Date: {raceday.raceDay.attributes.RaceDate}
+            {" - "} Track:{" "}
             {raceday.raceDay.attributes.race_track.data.attributes.TrackName}
           </ModalHeader>
           <ModalCloseButton onClick={onClose} />
-          <ModalBody mb={4}>
-            <List mt={4} gap={4}>
+          <ModalBody mb={4} overflow="auto">
+            <List mt={3} display="flex" flexDirection="column" gap="0.5rem">
               <li>
                 <strong>Event Description:</strong>{" "}
                 {raceday.raceDay.attributes.EventDescription}
@@ -115,16 +127,18 @@ export default function RequestToJoin(raceday: any) {
                   : "None"}
               </li>
               <li>
-                <strong>Car Class:</strong>{" "}
+                <strong>Accepted classes for the track day:</strong>{" "}
                 {raceday.raceDay.attributes.CarClass}
               </li>
             </List>
-            <Button onClick={handleClick} mt={4} colorScheme={"blue"}>
-              {requestToJoinButton}
-            </Button>
-            <Button mt={4} ml={4} onClick={onClose} colorScheme={"red"}>
-              Cancel
-            </Button>
+            <Flex>
+              <Button onClick={handleClick} mt={4} colorScheme={"blue"}>
+                {requestToJoinButton}
+              </Button>
+              <Button mt={4} ml={4} onClick={onClose} colorScheme={"red"}>
+                Cancel
+              </Button>
+            </Flex>
           </ModalBody>
         </ModalContent>
       </Modal>

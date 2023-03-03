@@ -9,7 +9,7 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/Headers/Header";
 import { getMyUser } from "../lib/helperFunctions";
 import MyRaceDayComponent from "../components/MyRaceDaysComponent";
 import Messages from "../components/Messages";

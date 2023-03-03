@@ -23,6 +23,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   Alert,
   AlertIcon,
   CloseButton,
@@ -199,9 +200,27 @@ function CreateRaceDay(props: any) {
 
   return (
     <>
-      <Button size={"sm"} colorScheme="blue" onClick={onOpen}>
+      <Button
+        size={"sm"}
+        colorScheme="blue"
+        display={["none", "block", "block"]}
+        onClick={onOpen}
+        h={["2rem", "2rem", "2.5rem"]}
+        fontSize={["sm", "sm", "md"]}
+        w="fit-content"
+      >
         Create Raceday
       </Button>
+      <Button
+        colorScheme="blue"
+        w={"100%"}
+        display={["block", "none", "none"]}
+        onClick={onOpen}
+        fontSize={"1.5rem"}
+      >
+        Create Raceday
+      </Button>
+
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -241,7 +260,7 @@ function CreateRaceDay(props: any) {
               </AlertDialogBody>
             </Alert>
           )}
-          <ModalBody>
+          <ModalBody flexWrap={"wrap"}>
             <form onSubmit={handleSubmit}>
               <FormControl>
                 <FormLabel>Event Description</FormLabel>
@@ -253,7 +272,11 @@ function CreateRaceDay(props: any) {
                 />
                 Please check the boxes for all the classes you will allow on
                 track allowed on track
-                <Flex justifyContent={"space-around"}>
+                <Flex
+                  justifyContent={"space-around"}
+                  flexWrap={"wrap"}
+                  gap={"1em"}
+                >
                   <p>
                     <Switch id="GT" name="GT" value="GT" /> GT
                   </p>

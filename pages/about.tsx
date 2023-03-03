@@ -1,5 +1,5 @@
 /** @format */
-import Header from "../components/Header";
+import Header from "../components/Headers/Header";
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
 

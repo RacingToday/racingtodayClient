@@ -26,6 +26,7 @@ export interface MyRaceDay {
 export interface RaceDay {
   id: number;
   attributes: {
+    CarClass: string;
     RaceDayCapacity: string;
     EventDescription: string;
     RaceDate: string;
