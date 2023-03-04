@@ -1,8 +1,9 @@
 /** @format */
 
-import "../styles/globals.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendBaseTheme } from "@chakra-ui/react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import "../styles/globals.css";
+
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -13,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       query: {
         fetchPolicy: "network-only",
         variables: {
-          limit: 50,
+          limit: 200,
         },
       },
     },

@@ -205,7 +205,7 @@ function CreateRaceDay(props: any) {
         colorScheme="blue"
         display={["none", "block", "block"]}
         onClick={onOpen}
-        h={["2rem", "2rem", "2.5rem"]}
+        h={["2rem", "2rem", "2.2rem"]}
         fontSize={["sm", "sm", "md"]}
         w="fit-content"
       >

@@ -38,7 +38,7 @@ export default function AuthHeader(props: any) {
               size={"sm"}
               colorScheme={"blue"}
               display={["none", "none", "flex"]}
-              h={["2rem", "2rem", "2.4rem"]}
+              h={["2rem", "2rem", "2.2rem"]}
               fontSize={["sm", "sm", "md", "md"]}
               w="fit-content"
             >
@@ -51,7 +51,7 @@ export default function AuthHeader(props: any) {
             <Button
               size={"sm"}
               colorScheme={"blue"}
-              h={["2rem", "2rem", "2.5rem"]}
+              h={["2rem", "2rem", "2.2rem"]}
               fontSize={["sm", "sm", "md"]}
               w="fit-content"
             >
@@ -61,7 +61,7 @@ export default function AuthHeader(props: any) {
           <Link href="about">
             <Button
               colorScheme="blue"
-              h={["2rem", "2rem", "2.5rem"]}
+              h={["2rem", "2rem", "2.2rem"]}
               fontSize={["sm", "sm", "md"]}
               w="fit-content"
             >
@@ -72,7 +72,7 @@ export default function AuthHeader(props: any) {
             <Button
               colorScheme="blue"
               size="sm"
-              h={["2rem", "2rem", "2.5rem"]}
+              h={["2rem", "2rem", "2.2rem"]}
               fontSize={["sm", "sm", "md"]}
               w="fit-content"
             >
@@ -83,7 +83,7 @@ export default function AuthHeader(props: any) {
             onClick={handleClick}
             colorScheme={"blue"}
             display={["none", "none", "flex"]}
-            h={["2rem", "2rem", "2.5rem"]}
+            h={["2rem", "2rem", "2.2rem"]}
             fontSize={["sm", "sm", "md"]}
             w="fit-content"
           >

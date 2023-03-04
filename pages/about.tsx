@@ -7,7 +7,7 @@ function aboutus() {
   return (
     <>
       <Header />
-      <Flex flex={1} p={"2em 5em"} minW="100vw" wrap={"wrap"} maxH={"75vh"}>
+      <Flex flex={1} p={9} minW="100vw" wrap={"wrap"} maxH={"80vh"}>
         <h1
           style={{
             fontSize: "2em",

@@ -7,7 +7,7 @@ function Terms() {
   return (
     <>
       <Header />
-      <Flex flex={1} p={"2em 5em"} minW="100vw" wrap={"wrap"} maxH={"75vh"}>
+      <Flex flex={1} p={"2em 2em"} minW="100vw" wrap={"wrap"} maxH={"75vh"}>
         <h1
           style={{
             fontSize: "2em",
