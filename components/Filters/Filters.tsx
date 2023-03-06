@@ -26,7 +26,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import RacetrackFilter from "./RacetrackFilter";
+import RacetrackFilter from "../RacetrackFilter";
 interface Props {
   listOfTrackDays: any;
   setListOfTrackDays: SetStateAction<any>;
@@ -41,11 +41,11 @@ import {
   filterByDate,
   filterByNoiseLevel,
   manageCombinedFilters,
-} from "../lib/filterFunctions";
+} from "../../lib/filterFunctions";
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
-  const sizeConfig = ["xs", "sm", "md", "lg", "xl"];
+  const sizeConfig = ["xs", "sm", "md", "lg"];
   const {
     setListOfTrackDays,
     listOfTrackDays,
@@ -219,10 +219,9 @@ function FiltersToSort({ props }: { props: Props }) {
         ? "Level of noise, "
         : ""
     } `;
-    // if the value of all filters is equal to the length of the array of racedays, then no filters are applied
 
     if (
-      masterFilters.some(
+      masterFilters.every(
         (filter) => filter.value.length === arrayOfRacedays.length
       )
     ) {
@@ -235,14 +234,23 @@ function FiltersToSort({ props }: { props: Props }) {
         onClick={handleClick}
         colorScheme="blue"
         border={"none"}
-        p={3}
-        size="sm"
+        h={["2rem", "2rem", "2.4rem"]}
+        fontSize={["sm", "sm", "md", "md"]}
+        w="fit-content"
         m={5}
       >
         {ButtonText}
       </Button>
-      You are currently looking at {listOfTrackDays.length} track days{" "}
-      {filterText}
+      <Text
+        flex={1}
+        m={"0.2rem 2rem"}
+        fontWeight={"bold"}
+        fontSize={[14, 16, 18, 20]}
+        position={"relative"}
+      >
+        You are currently looking at {listOfTrackDays.length} track days{" "}
+        {filterText}
+      </Text>
       {filterNotification && (
         <Alert status="success" color={"green.500"}>
           <AlertIcon />
@@ -254,13 +262,13 @@ function FiltersToSort({ props }: { props: Props }) {
       )}
       {filters && (
         <Flex
-          mt={"1em"}
           flexWrap={"wrap"}
           gap={6}
           p={4}
           justifyContent={"space-around"}
+          alignItems={"center"}
+          alignContent={"center"}
           border={"1px solid #e2e8f0"}
-          m={"0 auto"}
           borderRadius={"md"}
         >
           <CarClassDropdown
@@ -277,7 +285,7 @@ function FiltersToSort({ props }: { props: Props }) {
           />
           <label
             style={{
-              fontSize: "0.8rem",
+              fontSize: "1rem",
             }}
           >
             From
@@ -285,10 +293,12 @@ function FiltersToSort({ props }: { props: Props }) {
               w={"10rem"}
               variant={"filled"}
               name="fromDate"
+              borderRadius={"md"}
               ml={"1em"}
               type="date"
               size={sizeConfig}
               className="fromDate"
+              border={"black" + " 1px solid"}
               fontSize={"1rem"}
               style={{
                 fontSize: "1rem",
@@ -298,7 +308,7 @@ function FiltersToSort({ props }: { props: Props }) {
           </label>
           <label
             style={{
-              fontSize: "0.8rem",
+              fontSize: "1rem",
             }}
           >
             To
@@ -319,7 +329,7 @@ function FiltersToSort({ props }: { props: Props }) {
 
           <label
             style={{
-              fontSize: "0.8rem",
+              fontSize: "1rem",
             }}
           >
             DB Limit
@@ -327,11 +337,13 @@ function FiltersToSort({ props }: { props: Props }) {
               variant={"filled"}
               w={"10rem"}
               size={sizeConfig}
+              h={"2.5rem"}
               style={{
                 marginLeft: "1em",
+                fontSize: "1rem",
               }}
               type={"number"}
-              placeholder="input to filter"
+              placeholder="enter a number"
               value={allowedNoise}
               onChange={(e) => handleNoiseChange(e)}
             />

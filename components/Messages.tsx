@@ -1,9 +1,10 @@
 /** @format */
 
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import * as react from "@chakra-ui/react";
 import React from "react";
 import { getMyUser, fetchMyMessages } from "../lib/helperFunctions";
 import { useState } from "react";
+import { Flex } from "@chakra-ui/react";
 
 function Messages() {
   const [ListOfRaceDays, setListOfRaceDays] = useState<any[]>([]);
@@ -98,20 +99,19 @@ function Messages() {
       flexDir="row"
       wordBreak={"break-word"}
       flex={1}
-      bgColor={"gray.100"}
-      flexWrap={"wrap"}
-      wrap={"wrap"}
       minH={"85vh"}
       maxH={"85vh"}
     >
       <Flex
         className="chatSelection"
         flex={1}
-        flexDir={"column"}
-        alignSelf={"flex-start"}
-        maxH={"85vh"}
-        overflow={"auto"}
-        maxW={"20em"}
+        flexDirection={["row", "column"]}
+        flexWrap={"wrap"}
+        maxH={["60vh", "85vh"]}
+        fontSize={[12, 14, 16, 18]}
+        overflow={"scroll"}
+        w={"100%"}
+        mr={1}
       >
         <h1
           style={{
@@ -128,31 +128,27 @@ function Messages() {
         {ListOfRaceDays.length > 0 ? (
           ListOfRaceDays.map((message: any) => {
             return (
-              <Button
+              <react.Button
                 mt={1}
                 flex={1}
-                padding={-3}
-                minH={"fit-content"}
+                w={"90%"}
                 border={"none"}
                 onClick={() => {
                   setArrayOfMessages(message.attributes.messages.data);
                   setMessageIndex(message.id);
                 }}
                 colorScheme={"blue"}
-                display={"flex"}
-                justifyContent={"space-between"}
-                flexWrap={"wrap"}
-                fontSize={"1em"}
+                mr={1}
+                fontSize={[10, 14, 16]}
                 flexDir={"column"}
-                maxH={"4em"}
-                maxW={"80%"}
+                maxH={"7vh"}
                 m={"0.5em"}
                 key={message.id}
               >
                 Date: {message.attributes.RaceDate}
                 <br />
                 Track: {message.attributes.race_track.data.attributes.TrackName}
-              </Button>
+              </react.Button>
             );
           })
         ) : (
@@ -160,15 +156,17 @@ function Messages() {
         )}
       </Flex>
       <Flex
-        padding={3}
+        padding={2}
         minH={"70vh"}
-        minW={"70vw"}
+        minW={["60vw", "70vw"]}
         maxH={"70vh"}
+        flex={1}
         maxW={"75vw"}
         className="chat"
         border="none"
         borderRadius={"15px"}
         bgColor={"white"}
+        wrap={"wrap"}
         flexDir={"column"}
         alignItems="flex-start"
         justifyContent={"space-between"}
@@ -180,17 +178,17 @@ function Messages() {
           w={"100%"}
           flexDir={"column"}
           borderBottom="1px dotted black"
-          p={2}
         >
           {arrayOfMessages.length > 0 ? (
             arrayOfMessages.map((message: any, index) => {
               return (
-                <Box
+                <react.Box
                   key={index}
-                  m={3}
+                  m={2}
                   bgColor={"blue.400"}
                   borderRadius={"15px"}
-                  p={3}
+                  p={2}
+                  fontSize={[12, 14, 16, 18]}
                   wordBreak={"break-word"}
                   backgroundColor={
                     message.attributes.Sender === myEmail
@@ -206,7 +204,6 @@ function Messages() {
                 >
                   <p
                     style={{
-                      fontSize: "0.7em",
                       fontWeight: "bold",
                       color: "white",
                     }}
@@ -216,25 +213,25 @@ function Messages() {
 
                   <p
                     style={{
-                      fontSize: "1.3em",
                       fontWeight: "bold",
                       color: "white",
                     }}
                   >
                     {message.attributes.Text}
                   </p>
-                </Box>
+                </react.Box>
               );
             })
           ) : (
             <h1>No messages</h1>
           )}
         </Flex>
-        <Input
+        <react.Input
           mt={5}
           placeholder="Type your message here"
           type={"text"}
           id={"message"}
+          fontSize={[12, 14, 16, 18]}
           size={"lg"}
           position={"relative"}
           w={"90%"}

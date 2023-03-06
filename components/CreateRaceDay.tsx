@@ -23,6 +23,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   Alert,
   AlertIcon,
   CloseButton,
@@ -47,6 +48,7 @@ function CreateRaceDay(props: any) {
   const [Track, setTrack] = useState("Please Select a Track");
   const [Date, setDate] = useState("");
   const [StartTime, setStartTime] = useState("");
+  const [LaneType, setLaneType] = useState("Please Select a Lane Type");
   const [EndTime, setEndTime] = useState("");
   const [hrz, setHrz] = useState(false);
   const [hrzLevel, setHrzLevel] = useState("");
@@ -79,12 +81,21 @@ function CreateRaceDay(props: any) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let laneTypeValue = parseInt(e.currentTarget.laneType.value) === 1;
+    // clean up the data
+
+    if (laneTypeValue !== false && laneTypeValue !== true) {
+      setIsError(true);
+      return;
+    }
+
     try {
       let carClasses = "";
       if (e.currentTarget.GT.checked) {
         carClasses += "GT, ";
       }
-      if (e.currentTarget.touringcar.checked) {
+      if (e.currentTarget.Touring.checked) {
         carClasses += "Touring, ";
       }
       if (e.currentTarget.Formel.checked) {
@@ -142,6 +153,7 @@ function CreateRaceDay(props: any) {
               OrganizerEmail: "${userAndJWT.username}"
               Capacity: ${Capacity}
               CarClass: "${carClasses}"
+              OpenPitLane: ${laneTypeValue}
               users: ${userAndJWT.id}
           }) {
             data {
@@ -151,6 +163,7 @@ function CreateRaceDay(props: any) {
               RaceDate
               StartTime
               EndTime
+              OpenPitLane
               NoiseRestriction
               Capacity
               OrganizerEmail
@@ -170,6 +183,7 @@ function CreateRaceDay(props: any) {
         }`,
         }),
       }).then((res) => res.json());
+      console.log(newRaceDay);
       setEventDescription("");
       setPrice("");
       setTrack("please select a track");
@@ -179,6 +193,7 @@ function CreateRaceDay(props: any) {
       setCapacity("");
       setTrackID(0);
       setSuccessfullyCreated(true);
+      setLaneType("Please Select a Lane Type");
 
       if (window.location.href.match("myracedays")) {
         const jwt = localStorage.getItem("jwt");
@@ -199,9 +214,27 @@ function CreateRaceDay(props: any) {
 
   return (
     <>
-      <Button size={"sm"} colorScheme="blue" onClick={onOpen}>
+      <Button
+        size={"sm"}
+        colorScheme="blue"
+        display={["none", "block", "block"]}
+        onClick={onOpen}
+        h={["2rem", "2rem", "2.2rem"]}
+        fontSize={["sm", "sm", "md"]}
+        w="fit-content"
+      >
         Create Raceday
       </Button>
+      <Button
+        colorScheme="blue"
+        w={"100%"}
+        display={["block", "none", "none"]}
+        onClick={onOpen}
+        fontSize={"1.5rem"}
+      >
+        Create Raceday
+      </Button>
+
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -241,7 +274,7 @@ function CreateRaceDay(props: any) {
               </AlertDialogBody>
             </Alert>
           )}
-          <ModalBody>
+          <ModalBody flexWrap={"wrap"}>
             <form onSubmit={handleSubmit}>
               <FormControl>
                 <FormLabel>Event Description</FormLabel>
@@ -250,15 +283,55 @@ function CreateRaceDay(props: any) {
                   placeholder="Please add a description of the event"
                   onChange={(e) => setEventDescription(e.target.value)}
                   value={EventDescription}
+                  h={"3rem"}
+                  mb={"1rem"}
                 />
-                Please check check the boxes for the car classes that are
-                allowed on track
-                <Flex justifyContent={"space-around"}>
+                <Flex w="100%" mb={"1rem"}>
+                  <FormLabel w={"auto%"}>
+                    Price
+                    <Input
+                      variant={"filled"}
+                      onChange={(e) => setPrice(e.target.value)}
+                      type={"number"}
+                      value={Price}
+                    />
+                  </FormLabel>
+                  <FormLabel w={"auto%"}>
+                    Track
+                    <br />
+                    <Menu>
+                      <MenuButton as={Button}>{Track}</MenuButton>
+                      <MenuList>
+                        {arrayOfRaceTracks.map(
+                          (raceTrack: RaceTrack, index: number) => (
+                            <MenuItem
+                              key={index}
+                              onClick={() => {
+                                setTrack(raceTrack.attributes.TrackName);
+                                setTrackID(raceTrack.id);
+                              }}
+                            >
+                              {raceTrack.attributes.TrackName}
+                            </MenuItem>
+                          )
+                        )}
+                      </MenuList>
+                    </Menu>
+                  </FormLabel>
+                </Flex>
+                Please check the boxes for all the classes you will allow on
+                track allowed on track
+                <Flex
+                  justifyContent={"space-around"}
+                  flexWrap={"wrap"}
+                  mb={"1rem"}
+                  gap={"1em"}
+                >
                   <p>
                     <Switch id="GT" name="GT" value="GT" /> GT
                   </p>
                   <p>
-                    <Switch id="touringcar" name="touringcar" /> Touring Car
+                    <Switch id="Touring" name="Touring" /> Touring
                   </p>
                   <p>
                     <Switch id="Formel" name="Formel" /> Formel
@@ -267,22 +340,28 @@ function CreateRaceDay(props: any) {
                     <Switch id="Motorbikes" name="Motorbikes" /> Motorbikes
                   </p>
                   <p>
-                    <Switch id="Prototype" name="Prototype" value="Prototype" />{" "}
+                    <Switch
+                      id="Prototype"
+                      name="Prototypes"
+                      value="Prototypes"
+                    />{" "}
                     Prototype
                   </p>
                   <p>
                     <Switch id="Others" name="Others" value="Others" /> Others
                   </p>
                 </Flex>
-                <FormLabel>Event Date</FormLabel>
-                <Input
-                  value={Date}
-                  variant={"filled"}
-                  type={"date"}
-                  onChange={(e) => setDate(e.target.value)}
-                />
-                <Flex>
-                  <FormLabel w={"40%"}>
+                <Flex gap={4} mt={"1rem"}>
+                  <FormLabel w={"auto%"}>
+                    Event Date
+                    <Input
+                      value={Date}
+                      variant={"filled"}
+                      type={"date"}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                  </FormLabel>
+                  <FormLabel w="auto%">
                     Start Time
                     <Input
                       onChange={(e) => setStartTime(e.target.value)}
@@ -291,7 +370,7 @@ function CreateRaceDay(props: any) {
                       type={"time"}
                     />
                   </FormLabel>
-                  <FormLabel w={"40%"}>
+                  <FormLabel w={"auto%"}>
                     End Time
                     <Input
                       value={EndTime}
@@ -301,68 +380,56 @@ function CreateRaceDay(props: any) {
                     />
                   </FormLabel>
                 </Flex>
-                <FormLabel>Price</FormLabel>
-                <Input
-                  w={"auto%"}
-                  variant={"filled"}
-                  onChange={(e) => setPrice(e.target.value)}
-                  type={"number"}
-                  value={Price}
-                />
-                <FormLabel>Track</FormLabel>
-                <Menu>
-                  <MenuButton as={Button}>{Track}</MenuButton>
-                  <MenuList>
-                    {arrayOfRaceTracks.map(
-                      (raceTrack: RaceTrack, index: number) => (
-                        <MenuItem
-                          key={index}
-                          onClick={() => {
-                            setTrack(raceTrack.attributes.TrackName);
-                            setTrackID(raceTrack.id);
-                          }}
-                        >
-                          {raceTrack.attributes.TrackName}
-                        </MenuItem>
-                      )
-                    )}
-                  </MenuList>
-                  <FormLabel m={"1em 0em"}>Raceday capacity</FormLabel>
-                  <Input
-                    variant={"filled"}
-                    value={Capacity}
-                    onChange={(e) => setCapacity(e.target.value)}
-                    w={"auto%"}
-                    placeholder="example: 20"
-                    type={"number"}
-                    mb={"1em"}
-                  />
-                  <br />
-                  <FormLabel>
-                    Does the track have any noise restrictions on that day?
+                <Flex mt={"1rem"}>
+                  <FormLabel w={"20%"}>
+                    Raceday capacity
+                    <Input
+                      variant={"filled"}
+                      value={Capacity}
+                      onChange={(e) => setCapacity(e.target.value)}
+                      placeholder="example: 20"
+                      type={"number"}
+                    />
                   </FormLabel>
-                  <RadioGroup
-                    defaultValue="0"
-                    onChange={(e) => handleRadioChange(e)}
-                  >
-                    <Stack direction="row">
-                      <Radio value="1">Yes</Radio>
-                      <Radio value="0">No</Radio>
-                      {hrz && (
-                        <Input
-                          variant={"filled"}
-                          style={{
-                            marginLeft: "1em",
-                          }}
-                          type={"number"}
-                          placeholder="what is the limit in db? example: 80"
-                          value={hrzLevel}
-                          onChange={(e) => setHrzLevel(e.target.value)}
-                        />
-                      )}
-                    </Stack>
-                  </RadioGroup>
-                </Menu>
+                  <FormLabel w={"30%"}>
+                    Split or Open Lane
+                    <Select
+                      className="laneType"
+                      id="laneType"
+                      variant={"filled"}
+                      onChange={(e) => setLaneType(e.target.value)}
+                      value={LaneType}
+                      placeholder="Select option"
+                    >
+                      <option value="1">Open Pitlane</option>
+                      <option value="0">Split Pitlane</option>
+                    </Select>
+                  </FormLabel>
+                </Flex>
+                <FormLabel>
+                  Does the track have any noise restrictions on that day?
+                </FormLabel>
+                <RadioGroup
+                  defaultValue="0"
+                  onChange={(e) => handleRadioChange(e)}
+                >
+                  <Stack direction="row">
+                    <Radio value="1">Yes</Radio>
+                    <Radio value="0">No</Radio>
+                    {hrz && (
+                      <Input
+                        variant={"filled"}
+                        style={{
+                          marginLeft: "1em",
+                        }}
+                        type={"number"}
+                        placeholder="what is the limit in db? example: 80"
+                        value={hrzLevel}
+                        onChange={(e) => setHrzLevel(e.target.value)}
+                      />
+                    )}
+                  </Stack>
+                </RadioGroup>
                 <br />
                 <Button
                   type="submit"

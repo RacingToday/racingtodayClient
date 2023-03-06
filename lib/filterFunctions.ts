@@ -249,12 +249,22 @@ export function filterByDate(
           resultsArray.push(arrayOfAllTrackDays[i]);
         }
         if (
-          parseInt(raceYear) === parseInt(fromDateYear) &&
-          parseInt(raceYear) === parseInt(toDateYear) &&
-          parseInt(raceMonth) === parseInt(fromDateMonth) &&
-          parseInt(raceMonth) === parseInt(toDateMonth) &&
-          parseInt(raceDay) >= parseInt(fromDateDay) &&
-          parseInt(raceDay) <= parseInt(toDateDay)
+          (parseInt(raceYear) === parseInt(fromDateYear) &&
+            parseInt(raceMonth) >= parseInt(fromDateMonth) &&
+            parseInt(raceDay) >= parseInt(fromDateDay) &&
+            parseInt(raceDay) <= parseInt(toDateDay) &&
+            parseInt(raceYear) === parseInt(toDateYear) &&
+            parseInt(raceMonth) <= parseInt(toDateMonth)) ||
+          (parseInt(raceYear) === parseInt(fromDateYear) &&
+            parseInt(raceMonth) === parseInt(fromDateMonth) &&
+            parseInt(raceDay) >= parseInt(fromDateDay) &&
+            parseInt(raceYear) === parseInt(toDateYear) &&
+            parseInt(raceMonth) < parseInt(toDateMonth)) ||
+          (parseInt(raceYear) === parseInt(toDateYear) &&
+            parseInt(raceMonth) === parseInt(toDateMonth) &&
+            parseInt(raceDay) <= parseInt(toDateDay) &&
+            parseInt(raceYear) === parseInt(fromDateYear) &&
+            parseInt(raceMonth) > parseInt(fromDateMonth))
         ) {
           resultsArray.push(arrayOfAllTrackDays[i]);
         }

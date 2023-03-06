@@ -9,7 +9,10 @@ import {
   MenuItemOption,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
-import { filterByClass, manageCombinedFilters } from "../lib/filterFunctions";
+import {
+  filterByClass,
+  manageCombinedFilters,
+} from "../../lib/filterFunctions";
 interface Props {
   setListOfTrackDays: any;
   allTrackDays: any;
@@ -53,9 +56,9 @@ function CarClassDropdown({
       <MenuButton
         as={Button}
         colorScheme="blue"
-        w={["6rem", "6rem", "8rem", "10rem"]}
         fontSize={["xs", "xs", "sm", "md"]}
-        p={["0.5rem", "0.5rem", "0.5rem", "0.5rem"]}
+        w="fit-content"
+        h={["2rem", "2rem", "2.5rem"]}
       >
         Filter By Class
       </MenuButton>
@@ -76,7 +79,7 @@ function CarClassDropdown({
           >
             Touring
           </MenuItemOption>
-          <MenuItemOption onClick={(e) => handleClick(e)} value="Formula">
+          <MenuItemOption onClick={(e) => handleClick(e)} value="Formel">
             Formula
           </MenuItemOption>
           <MenuItemOption onClick={(e) => handleClick(e)} value="Motorbikes">
@@ -85,7 +88,7 @@ function CarClassDropdown({
           <MenuItemOption onClick={(e) => handleClick(e)} value="Prototypes">
             Prototypes
           </MenuItemOption>
-          <MenuItemOption onClick={(e) => handleClick(e)} value="Other">
+          <MenuItemOption onClick={(e) => handleClick(e)} value="Others">
             Other
           </MenuItemOption>
         </MenuOptionGroup>

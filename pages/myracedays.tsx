@@ -9,7 +9,7 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/Headers/Header";
 import { getMyUser } from "../lib/helperFunctions";
 import MyRaceDayComponent from "../components/MyRaceDaysComponent";
 import Messages from "../components/Messages";
@@ -44,7 +44,7 @@ function MyRaceDays() {
           <Tab>Messages</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel overflow={"hidden"}>
             <MyRaceDayComponent props={props} />
           </TabPanel>
           <TabPanel flexWrap="wrap" bgColor={"gray.100"}>

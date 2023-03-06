@@ -3,6 +3,7 @@
 export interface MyRaceDay {
   id: number;
   attributes: {
+    OpenPitLane: any;
     RaceDate: string;
     StartTime: string;
     EndTime: string;
@@ -26,6 +27,8 @@ export interface MyRaceDay {
 export interface RaceDay {
   id: number;
   attributes: {
+    OpenPitLane: any;
+    CarClass: string;
     RaceDayCapacity: string;
     EventDescription: string;
     RaceDate: string;
