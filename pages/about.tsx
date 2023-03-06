@@ -7,11 +7,14 @@ function aboutus() {
   return (
     <>
       <Header />
-      <Flex flex={1} p={9} minW="100vw" wrap={"wrap"} maxH={"80vh"}>
+      <Flex p={9} minW="100vw" wrap={"wrap"} maxH={"80vh"}>
         <h1
           style={{
             fontSize: "2em",
             marginBottom: "1em",
+            fontWeight: "bold",
+            color: "#000",
+            width: "100%",
           }}
         >
           About Us
@@ -21,7 +24,6 @@ function aboutus() {
           solutions. Our mission is to help racers, teams, and organizations
           optimize their performance and reach new levels of success.
         </p>
-        <br />
         <br />
         <p>
           We are a team of experts who are passionate about racing and dedicated

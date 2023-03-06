@@ -4,7 +4,6 @@ import Header from "../components/Headers/Header";
 import RaceDayList from "../components/RaceDayList";
 import FiltersToSort from "../components/Filters/Filters";
 import Head from "next/head";
-import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import { useRef, useState } from "react";
 
@@ -62,6 +61,7 @@ const GET_RACEDAYS = gql`
           EndTime
           Capacity
           Price
+          OpenPitLane
           CarClass
           NoiseRestriction
           race_track {

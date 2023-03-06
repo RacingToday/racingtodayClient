@@ -127,6 +127,12 @@ export default function RequestToJoin(raceday: any) {
                   : "None"}
               </li>
               <li>
+                <strong>LaneType:</strong>{" "}
+                {raceday.raceDay.attributes.LaneType
+                  ? "Open PitLane"
+                  : "Split Pitlane"}
+              </li>
+              <li>
                 <strong>Accepted classes for the track day:</strong>{" "}
                 {raceday.raceDay.attributes.CarClass}
               </li>

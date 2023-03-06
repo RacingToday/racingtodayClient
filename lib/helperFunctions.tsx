@@ -85,6 +85,7 @@ export async function getMyRaceDays(jwt: string, userID: number): Promise<any> {
                 NoiseRestriction
                 CarClass
                 Capacity
+                OpenPitLane
                 EventDescription
                 race_track {
                   data {

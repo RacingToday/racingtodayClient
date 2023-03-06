@@ -45,7 +45,7 @@ import {
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
-  const sizeConfig = ["xs", "sm", "md", "lg", "xl"];
+  const sizeConfig = ["xs", "sm", "md", "lg"];
   const {
     setListOfTrackDays,
     listOfTrackDays,
@@ -178,7 +178,6 @@ function FiltersToSort({ props }: { props: Props }) {
   }
 
   if (masterFilters.length > 0) {
-    console.log(masterFilters);
     filterText = `filtered by : 
     ${
       masterFilters.some(
@@ -220,7 +219,6 @@ function FiltersToSort({ props }: { props: Props }) {
         ? "Level of noise, "
         : ""
     } `;
-    // if the value of all filters is equal to the length of the array of racedays, then no filters are applied
 
     if (
       masterFilters.every(
@@ -264,13 +262,13 @@ function FiltersToSort({ props }: { props: Props }) {
       )}
       {filters && (
         <Flex
-          mt={"1em"}
           flexWrap={"wrap"}
           gap={6}
           p={4}
           justifyContent={"space-around"}
+          alignItems={"center"}
+          alignContent={"center"}
           border={"1px solid #e2e8f0"}
-          m={"0 auto"}
           borderRadius={"md"}
         >
           <CarClassDropdown

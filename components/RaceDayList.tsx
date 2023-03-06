@@ -133,7 +133,7 @@ function RaceDayList({ props }: { props: Props }) {
                 fontSize={sizeConfig}
                 alignSelf={"center"}
               >
-                Lane Style : Single
+                Lane Style : {raceday.attributes.OpenPitLane ? "Open" : "Split"}
               </Box>
               <Box
                 w={["100%", "30%", "15%"]}

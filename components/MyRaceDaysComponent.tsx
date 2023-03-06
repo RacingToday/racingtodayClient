@@ -184,7 +184,13 @@ function MyRaceDayComponent(props: Props) {
                 <Flex flex={1} wrap="wrap">
                   <Flex p={"1em 1em"} flexDir={"column"} wrap="wrap" w={"100%"}>
                     <Text pb={"1em"}>
-                      <h2>Event Description:</h2>
+                      <h2
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Event Description:
+                      </h2>
 
                       {raceDay.attributes.EventDescription}
                     </Text>
@@ -195,25 +201,74 @@ function MyRaceDayComponent(props: Props) {
                     >
                       <List display={"flex"} flexDir={"column"} gap={2}>
                         <ListItem>
-                          Capacity: {raceDay.attributes.Capacity}
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Capacity:{" "}
+                          </text>
+                          {raceDay.attributes.Capacity}
                         </ListItem>
                         <ListItem>
-                          Organizer: {raceDay.attributes.OrganizerEmail}
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Organizer:{" "}
+                          </text>
+                          {raceDay.attributes.OrganizerEmail}
                         </ListItem>
                         <ListItem>
-                          Location:{" "}
+                          <strong>LaneStyle </strong>
+                          {raceDay.attributes.OpenPitLane ? "Open" : "Closed"}
+                        </ListItem>
+                        <ListItem>
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Location:{" "}
+                          </text>
                           {
                             raceDay.attributes.race_track.data.attributes
                               .Location
                           }
                         </ListItem>
                         <ListItem>
-                          Start Time: {raceDay.attributes.StartTime.slice(0, 5)}
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Start Time:{" "}
+                          </text>
+                          {raceDay.attributes.StartTime.slice(0, 5)}
                         </ListItem>
                         <ListItem>
-                          End Time: {raceDay.attributes.EndTime.slice(0, 5)}
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            End Time:{" "}
+                          </text>
+
+                          {raceDay.attributes.EndTime.slice(0, 5)}
                         </ListItem>
-                        <ListItem>Date: {raceDay.attributes.RaceDate}</ListItem>
+                        <ListItem>
+                          <text
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Date:{" "}
+                          </text>
+
+                          {raceDay.attributes.RaceDate}
+                        </ListItem>
                         <ListItem>
                           {raceDay.attributes.NoiseRestriction > 0 ? (
                             <Text>
@@ -221,22 +276,32 @@ function MyRaceDayComponent(props: Props) {
                               {raceDay.attributes.NoiseRestriction}
                             </Text>
                           ) : (
-                            <Text> Restrictions: none</Text>
+                            <text
+                              style={{
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Noise Restrictions: None
+                            </text>
                           )}
                         </ListItem>
                         <ListItem>
-                          <Text>Classes: {raceDay.attributes.CarClass}</Text>
+                          <Text>
+                            <strong>Classes: </strong>
+                            {raceDay.attributes.CarClass}
+                          </Text>
                         </ListItem>
                       </List>
                       <iframe
                         style={{
-                          marginLeft: "5em",
+                          marginLeft: "4em",
                           borderRadius: "10px",
+                          width: "50%",
+                          height: "100%",
                           border: "1px solid black",
                         }}
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d69165.66109543998!2d6.846746647099172!3d50.309764250049184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bfad76fa472afd%3A0xffceaa08b3219545!2sBreidscheider%20Br%C3%BCcke%2C%20N%C3%BCrburgring%20Nordschleife!5e0!3m2!1sen!2ses!4v1677606925377!5m2!1sen!2ses"
                         width="max-content"
-                        height="350em"
                         loading="lazy"
                       ></iframe>
                     </Flex>
