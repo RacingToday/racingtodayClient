@@ -345,3 +345,27 @@ export function manageCombinedFilters(
 
   return resultsArray;
 }
+
+export function filterByLaneType(
+  laneType: string | boolean,
+  arrayOfAllTrackDays: Array<RaceDay>
+): Array<RaceDay> {
+  if (laneType !== "Open" && laneType !== "Split") {
+    return arrayOfAllTrackDays;
+  }
+  let resultsArray = [];
+  laneType = laneType === "Open" ? true : false;
+  for (let i = 0; i < arrayOfAllTrackDays.length; i++) {
+    if (arrayOfAllTrackDays[i].attributes.OpenPitLane === laneType) {
+      resultsArray.push(arrayOfAllTrackDays[i]);
+    }
+  }
+  // remove duplicates
+  if (resultsArray.length > 0) {
+    resultsArray = resultsArray.filter(
+      (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+    );
+  }
+
+  return resultsArray;
+}

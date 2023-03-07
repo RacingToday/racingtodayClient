@@ -16,6 +16,7 @@ import {
   MenuOptionGroup,
   Radio,
   RadioGroup,
+  Select,
   Stack,
   Switch,
   Text,
@@ -36,9 +37,12 @@ interface Props {
   fromAnTo: any[];
   classFilters: any[];
   trackFilters: string[];
+  laneType: string;
+  setLaneType: SetStateAction<any>;
 }
 import {
   filterByDate,
+  filterByLaneType,
   filterByNoiseLevel,
   manageCombinedFilters,
 } from "../../lib/filterFunctions";
@@ -55,9 +59,32 @@ function FiltersToSort({ props }: { props: Props }) {
     classFilters,
     trackFilters,
     setAllowedNoise,
+    laneType,
+    setLaneType,
   } = props;
   const masterFilters = useRef<any[]>([]).current;
   const [filterNotification, setFilterNotification] = useState(false);
+
+  function handleLaneTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const trackDaysByLaneType = filterByLaneType(
+      e.target.value,
+      arrayOfRacedays
+    );
+    const laneTypeFilterHistory = {
+      filterType: "laneType",
+      value: trackDaysByLaneType,
+    };
+    if (masterFilters.some((filter) => filter.filterType === "laneType")) {
+      masterFilters.splice(
+        masterFilters.findIndex((filter) => filter.filterType === "laneType"),
+        1
+      );
+    }
+    masterFilters.push(laneTypeFilterHistory);
+    const combinedFilters = manageCombinedFilters(masterFilters);
+
+    setListOfTrackDays(combinedFilters);
+  }
 
   function handleSaveFilters(): void {
     const filterToSave = {
@@ -65,6 +92,7 @@ function FiltersToSort({ props }: { props: Props }) {
       fromAnTo: fromAnTo,
       classFilters: classFilters,
       trackFilters: trackFilters,
+      laneType: laneType,
     };
     if (localStorage.getItem("filters")) {
       localStorage.removeItem("filters");
@@ -76,7 +104,8 @@ function FiltersToSort({ props }: { props: Props }) {
       filterToSave.allowedNoise === "" &&
       filterToSave.fromAnTo.length === 0 &&
       filterToSave.classFilters.length === 0 &&
-      filterToSave.trackFilters.length === 0
+      filterToSave.trackFilters.length === 0 &&
+      filterToSave.laneType === ""
     ) {
       localStorage.removeItem("filters");
     }
@@ -158,20 +187,23 @@ function FiltersToSort({ props }: { props: Props }) {
     JSON.parse(localStorage.getItem("filters")!) || masterFilters.length > 0
       ? true
       : false;
-
   if (localStorage.getItem("filters") && masterFilters.length === 0) {
     const parsedFilters = JSON.parse(localStorage.getItem("filters")!);
     if (
       parsedFilters.allowedNoise.length !== "" ||
       parsedFilters.fromAnTo.length > 0 ||
       parsedFilters.classFilters.length > 0 ||
-      parsedFilters.trackFilters.length > 0
+      parsedFilters.trackFilters.length > 0 ||
+      parsedFilters.laneType.length > 0 ||
+      parsedFilters.laneType.length > 0
     ) {
       filterText = `filtered by : 
       ${parsedFilters.trackFilters.length > 0 ? "Track, " : ""}
       ${parsedFilters.fromAnTo.length > 0 ? "Date, " : ""}
       ${parsedFilters.classFilters.length > 0 ? "Class, " : ""}
-      ${parsedFilters.allowedNoise.length > 0 ? "Level of noise, " : ""} `;
+      ${parsedFilters.allowedNoise.length > 0 ? "Level of noise, " : ""}
+      ${parsedFilters.laneType.length > 0 ? "Lane Type, " : ""}
+      `;
     }
   } else {
     filterText = "with no filters applied";
@@ -187,6 +219,16 @@ function FiltersToSort({ props }: { props: Props }) {
           filter.value.length !== arrayOfRacedays.length
       )
         ? "Track, "
+        : ""
+    }
+    ${
+      masterFilters.some(
+        (filter) =>
+          filter.filterType === "laneType" &&
+          filter.value.length > 0 &&
+          filter.value.length !== arrayOfRacedays.length
+      )
+        ? "Lane Type, "
         : ""
     }
     ${
@@ -348,6 +390,19 @@ function FiltersToSort({ props }: { props: Props }) {
               onChange={(e) => handleNoiseChange(e)}
             />
           </label>
+          <Select
+            variant={"filled"}
+            w={"auto"}
+            value={laneType}
+            onChange={(e) => {
+              setLaneType(e.target.value);
+              handleLaneTypeChange(e);
+            }}
+          >
+            <option value="all">All</option>
+            <option value="Open">Open Pit Lane</option>
+            <option value="Split">Split Pit Lane</option>
+          </Select>
           <Flex w="80%" justifyContent="left">
             {checkForActiveFilters && filters && (
               <Button

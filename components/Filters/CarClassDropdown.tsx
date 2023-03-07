@@ -47,9 +47,7 @@ function CarClassDropdown({
     }
     masterFilters.push(classFilterHistory);
     const combinedFilters = manageCombinedFilters(masterFilters);
-    combinedFilters.length > 1
-      ? setListOfTrackDays(combinedFilters)
-      : setListOfTrackDays(TrackDaysByClass);
+    setListOfTrackDays(combinedFilters);
   };
   return (
     <Menu closeOnSelect={false}>
