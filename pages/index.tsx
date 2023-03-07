@@ -8,6 +8,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useRef, useState } from "react";
 
 export default function Home() {
+  const [laneType, setLaneType] = useState("");
   const [listOfTrackDays, setListOfTrackDays] = useState([]);
   const { loading, error, data } = useQuery(GET_RACEDAYS);
   const [allowedNoise, setAllowedNoise] = useState("");
@@ -28,6 +29,8 @@ export default function Home() {
     fromAnTo: fromAnTo,
     classFilters: classFilters,
     trackFilters: trackFilters,
+    laneType: laneType,
+    setLaneType: setLaneType,
   };
 
   return (

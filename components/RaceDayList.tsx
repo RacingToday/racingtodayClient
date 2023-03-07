@@ -11,6 +11,7 @@ import {
   filterByNoiseLevel,
   filterByTrack,
   manageCombinedFilters,
+  filterByLaneType,
 } from "../lib/filterFunctions";
 import { Text } from "@chakra-ui/react";
 
@@ -23,6 +24,8 @@ interface Props {
   fromAnTo: any[];
   classFilters: any[];
   trackFilters: string[];
+  laneType: string;
+  setLaneType: SetStateAction<any>;
 }
 
 // change yyyy-mm-dd to dd-mm-yyyy
@@ -42,6 +45,8 @@ function RaceDayList({ props }: { props: Props }) {
     fromAnTo,
     classFilters,
     trackFilters,
+    laneType,
+    setLaneType,
   } = props;
   useEffect(() => {
     if (localStorage.getItem("filters") !== null) {
@@ -70,6 +75,11 @@ function RaceDayList({ props }: { props: Props }) {
         const trackValue = filterByTrack(filters.trackFilters, arrayOfRacedays);
         console.log("trackValue", trackValue);
         masterFilterObject.push({ value: trackValue });
+      }
+      if (filters.laneType !== "") {
+        const laneValue = filterByLaneType(filters.laneType, arrayOfRacedays);
+        console.log("laneValue", laneValue);
+        masterFilterObject.push({ value: laneValue });
       }
       const combinedFilters = manageCombinedFilters(masterFilterObject);
       console.log("combinedFilters", combinedFilters);
