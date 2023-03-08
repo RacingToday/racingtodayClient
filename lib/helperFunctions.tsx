@@ -1,8 +1,10 @@
 /** @format */
 
 import { gql } from "@apollo/client";
-
-export const host = process.env.NEXT_PUBLIC_HOST || "http://localhost:1337/";
+export let host =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:1337/"
+    : "https://lobster-app-ubheb.ondigitalocean.app/";
 
 export async function createNewUser(
   email: string,
@@ -48,42 +50,47 @@ export async function getMyUser(jwt: string): Promise<User | any> {
 export async function loginUser(
   email: string,
   password: string
-): Promise<object> {
-  const user = await fetch(`${host}api/auth/local`, {
-    method: "POST",
-    body: JSON.stringify({
-      identifier: email,
-      password: password,
-    }),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json())
-    .then((data) => data);
-  return user;
+): Promise<object | void> {
+  try {
+    const user = await fetch(`${host}api/auth/local`, {
+      method: "POST",
+      body: JSON.stringify({
+        identifier: email,
+        password: password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => data);
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function getMyRaceDays(jwt: string, userID: number): Promise<any> {
-  const myRaceDays = await fetch(`${host}graphql`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${jwt}`,
-    },
-    body: JSON.stringify({
-      query: `{
-    usersPermissionsUser(id: ${userID}) {
-      data {
-        id
-        attributes {
-          email
-          race_days {
+  try {
+    const myRaceDays = await fetch(`${host}graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        query: `{
+          usersPermissionsUser(id: ${userID}) {
             data {
               id
               attributes {
-                RaceDate
-                StartTime
-                EndTime
-                OrganizerEmail
+                email
+                race_days {
+                  data {
+                    id
+                    attributes {
+                      RaceDate
+                      StartTime
+                      EndTime
+                      OrganizerEmail
                 NoiseRestriction
                 CarClass
                 Capacity
@@ -105,11 +112,14 @@ export async function getMyRaceDays(jwt: string, userID: number): Promise<any> {
       }
     }
   }
-            `,
-    }),
-  }).then((res) => res.json());
+  `,
+      }),
+    }).then((res) => res.json());
 
-  return myRaceDays;
+    return myRaceDays;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const GET_RACETRACKS = gql`

@@ -103,8 +103,8 @@ function Header(props: any) {
       if (localStorage.getItem("jwt") !== null) {
         const jwt = localStorage.getItem("jwt");
         if (typeof jwt === "string" && jwt.length > 0) {
-          const user = await getMyUser(jwt);
           try {
+            const user = await getMyUser(jwt);
             if (user.error) {
               localStorage.removeItem("jwt");
               if (window.location.pathname === "/myracedays") {
@@ -112,7 +112,6 @@ function Header(props: any) {
               }
               return;
             }
-
             setUserId(user.id);
 
             setLoginOrShowUserData(<AuthHeader props={props} />);
