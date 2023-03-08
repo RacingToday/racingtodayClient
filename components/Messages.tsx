@@ -2,7 +2,7 @@
 
 import * as react from "@chakra-ui/react";
 import React from "react";
-import { getMyUser, fetchMyMessages } from "../lib/helperFunctions";
+import { getMyUser, fetchMyMessages, host } from "../lib/helperFunctions";
 import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 
@@ -31,16 +31,14 @@ function Messages() {
         };
       };
     }
-    const newMessage: newMessage = await fetch(
-      "http://localhost:1337/graphql",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-        body: JSON.stringify({
-          query: `mutation {
+    const newMessage: newMessage = await fetch(`${host}graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify({
+        query: `mutation {
           createMessage(data: {
             Text: "${currentMessage}",
             Sender: "${myEmail}",
@@ -55,9 +53,8 @@ function Messages() {
             }
           }
         }`,
-        }),
-      }
-    ).then((res) => res.json());
+      }),
+    }).then((res) => res.json());
 
     setArrayOfMessages([
       ...arrayOfMessages,

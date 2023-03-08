@@ -1591,6 +1591,11 @@ character-entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/character-entities/-/character-entities-2.0.2.tgz#2d09c2e72cd9523076ccb21157dff66ad43fcc22"
   integrity sha512-shx7oQ0Awen/BRIdkjkvz54PnEEI/EjwXDSIZp86/KKdbafHh1Df/RYGBhn4hbe2+uKC9FnT5UCEdyPz3ai9hQ==
 
+clear-react-app@^0.0.4-beta:
+  version "0.0.4-beta"
+  resolved "https://registry.yarnpkg.com/clear-react-app/-/clear-react-app-0.0.4-beta.tgz#43c8e41c78a60f495672e2acd8b2f93036520a4c"
+  integrity sha512-TaxJOD+ecmNYk27GCrIlL/S3Ve6iN+okWBDoVPG1iUvEAzF+iuATYecp9mYBrIlsXPpJsq0qolAxIJ88qt+qyA==
+
 client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"

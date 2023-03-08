@@ -14,7 +14,7 @@ function Terms() {
             marginBottom: "1em",
           }}
         >
-          Terms and Conditions
+          <b>Terms and Conditions</b>
         </h1>
         <p>
           RacingToday is a community by drivers, created for drivers. We are

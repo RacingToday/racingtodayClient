@@ -2,11 +2,13 @@
 
 import { gql } from "@apollo/client";
 
+export const host = process.env.NEXT_PUBLIC_HOST || "http://localhost:1337/";
+
 export async function createNewUser(
   email: string,
   password: string
 ): Promise<object> {
-  const newUser = await fetch("http://localhost:1337/api/auth/local/register", {
+  const newUser = await fetch(`${host}api/auth/local/register`, {
     method: "POST",
     body: JSON.stringify({
       username: email,
@@ -28,7 +30,7 @@ interface User {
 }
 export async function getMyUser(jwt: string): Promise<User | any> {
   try {
-    const user = await fetch("http://localhost:1337/api/users/me", {
+    const user = await fetch(`${host}api/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${jwt}`,
@@ -47,7 +49,7 @@ export async function loginUser(
   email: string,
   password: string
 ): Promise<object> {
-  const user = await fetch("http://localhost:1337/api/auth/local", {
+  const user = await fetch(`${host}api/auth/local`, {
     method: "POST",
     body: JSON.stringify({
       identifier: email,
@@ -61,7 +63,7 @@ export async function loginUser(
 }
 
 export async function getMyRaceDays(jwt: string, userID: number): Promise<any> {
-  const myRaceDays = await fetch("http://localhost:1337/graphql", {
+  const myRaceDays = await fetch(`${host}graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -127,7 +129,7 @@ export async function fetchMyMessages(
   jwt: string,
   userID: number
 ): Promise<any> {
-  const myMessages: any = await fetch("http://localhost:1337/graphql", {
+  const myMessages: any = await fetch(`${host}graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

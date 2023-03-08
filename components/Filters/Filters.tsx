@@ -286,12 +286,11 @@ function FiltersToSort({ props }: { props: Props }) {
       <Text
         flex={1}
         m={"0.2rem 2rem"}
-        fontWeight={"bold"}
         fontSize={[14, 16, 18, 20]}
         position={"relative"}
       >
-        You are currently looking at {listOfTrackDays.length} track days{" "}
-        {filterText}
+        You are currently looking at <b>{listOfTrackDays.length}</b> track days{" "}
+        <b>{filterText}</b>
       </Text>
       {filterNotification && (
         <Alert status="success" color={"green.500"}>
