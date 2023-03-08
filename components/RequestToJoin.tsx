@@ -14,7 +14,7 @@ import {
   List,
   Flex,
 } from "@chakra-ui/react";
-import { getMyUser } from "../lib/helperFunctions";
+import { getMyUser, host } from "../lib/helperFunctions";
 
 export default function RequestToJoin(raceday: any) {
   const sizeConfig = ["sm", "sm", "md", "md"];
@@ -36,21 +36,18 @@ export default function RequestToJoin(raceday: any) {
       console.log(id);
       const raceDayId: number = raceday.raceDay.id;
 
-      const response = await fetch(
-        `http://localhost:1337/api/raca-days/${raceDayId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
+      const response = await fetch(`${host}api/raca-days/${raceDayId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          data: {
+            users: id,
           },
-          body: JSON.stringify({
-            data: {
-              users: id,
-            },
-          }),
-        }
-      ).then((res) => res.json());
+        }),
+      }).then((res) => res.json());
       return response;
     };
     sendRequest();

@@ -1,14 +1,13 @@
 /** @format */
 
-import { ChakraProvider, extendBaseTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import "../styles/globals.css";
-
+import { host } from "../lib/helperFunctions";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
-    uri: "http://localhost:1337/graphql",
+    uri: `${host}graphql`,
     cache: new InMemoryCache(),
     defaultOptions: {
       query: {

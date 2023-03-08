@@ -3,6 +3,7 @@ import {
   getMyUser,
   getMyRaceDays,
   GET_RACETRACKS,
+  host,
 } from "../lib/helperFunctions";
 
 import {
@@ -134,7 +135,7 @@ function CreateRaceDay(props: any) {
       const userAndJWT = await getMyUser(jwt);
       setMyUserID(userAndJWT.id);
 
-      const newRaceDay = await fetch("http://localhost:1337/graphql", {
+      const newRaceDay = await fetch(`${host}graphql`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${jwt}`,
