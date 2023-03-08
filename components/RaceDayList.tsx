@@ -190,30 +190,3 @@ function RaceDayList({ props }: { props: Props }) {
 }
 
 export default RaceDayList;
-const GET_RACEDAYS = gql`
-  {
-    racaDays(pagination: { start: 0, limit: 30 }) {
-      data {
-        id
-        attributes {
-          EventDescription
-          RaceDate
-          Price
-          StartTime
-          EndTime
-          Capacity
-          Price
-          race_track {
-            data {
-              attributes {
-                TrackDescription
-                TrackName
-                Location
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;

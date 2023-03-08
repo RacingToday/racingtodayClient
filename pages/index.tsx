@@ -15,7 +15,6 @@ export default function Home() {
   const fromAnTo = useRef<any[]>([]).current;
   const classFilters = useRef<any[]>([]).current;
   const trackFilters = useRef<string[]>([]).current;
-
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1> Error </h1>;
   const arrayOfRacedays = data.racaDays.data;
