@@ -183,7 +183,7 @@ function Messages() {
           overflow={"auto"}
           flex={1}
           w={"100%"}
-          flexDir={"column"}
+          flexDir={"column-reverse"}
           borderBottom="1px dotted black"
         >
           {arrayOfMessages.length > 0 ? (
