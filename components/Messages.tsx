@@ -62,6 +62,16 @@ function Messages() {
     ]);
     GetMyMessages();
     setCurrentMessage("");
+
+    // scroll to bottom of the chat without using scrollHeight
+    const chat = document.querySelector(".chatMessages");
+    if (chat !== null) {
+      setTimeout(() => {
+        chat.scrollTop = chat.scrollHeight;
+      }, 100);
+    }
+
+    return;
   };
 
   const GetMyMessages = async () => {
@@ -223,6 +233,7 @@ function Messages() {
             <h1>No messages</h1>
           )}
         </Flex>
+
         <react.Input
           mt={5}
           placeholder="Type your message here"
