@@ -206,7 +206,7 @@ function FiltersToSort({ props }: { props: Props }) {
       `;
     }
   } else {
-    filterText = "with no filters applied";
+    filterText = "with no filters applied.";
   }
 
   if (masterFilters.length > 0) {
@@ -267,7 +267,17 @@ function FiltersToSort({ props }: { props: Props }) {
         (filter) => filter.value.length === arrayOfRacedays.length
       )
     ) {
-      filterText = "with no filters applied";
+      filterText = "with no filters applied.";
+    }
+
+    if (filterText.includes(",")) {
+      // get the index of the last comma in the string
+      const lastCommaIndex = filterText.lastIndexOf(",");
+      // replace the last comma with an "and"
+      filterText =
+        filterText.substring(0, lastCommaIndex) +
+        "." +
+        filterText.substring(lastCommaIndex + 1);
     }
   }
   return (

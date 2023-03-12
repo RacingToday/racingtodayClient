@@ -31,6 +31,7 @@ import {
 } from "@chakra-ui/react";
 import MobileHeader from "./MobileMenu";
 import { MyRaceDay } from "../../lib/types";
+import AlertComponent from "../Alerts/Alert";
 import { createNewUser, getMyUser, loginUser } from "../../lib/helperFunctions";
 import React, { useState } from "react";
 import CreateRaceDay from "../CreateRaceDay";
@@ -127,12 +128,18 @@ function Header(props: any) {
   }, [props]);
 
   const handleLogin = async () => {
-    const login = await loginUser(loginEmail, loginPassword);
+    const login: any = await loginUser(loginEmail, loginPassword);
+    if (login?.error) {
+      setValidEmailError(true);
+      setValidPasswordError(true);
+    }
+
     const { jwt }: any = login;
 
     if (typeof jwt === "string" && jwt.length > 0) {
       localStorage.setItem("jwt", jwt);
       const user = await getMyUser(jwt);
+
       setValidLogin(true);
       onClose();
       setLoginOrShowUserData(<AuthHeader props={props} />);
@@ -222,9 +229,24 @@ function Header(props: any) {
             <TabPanels>
               <TabPanel>
                 <ModalHeader>
+                  {validEmailError && (
+                    <AlertComponent
+                      type="warning"
+                      message="Please enter a valid login credentials"
+                      setState={setValidEmailError}
+                    />
+                  )}
+
                   <Text> Enter your login details to sign in</Text>
                 </ModalHeader>
-                <ModalBody>
+
+                <ModalBody
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
+                >
                   <FormControl>
                     <FormLabel>Email</FormLabel>
                     <Input
@@ -259,36 +281,30 @@ function Header(props: any) {
               <TabPanel>
                 <ModalHeader>
                   {validEmailError && (
-                    <Alert mb={2} status="info">
-                      <AlertIcon />
-                      <AlertDescription>
-                        Please enter a valid email address
-                      </AlertDescription>
-                      <CloseButton
-                        position="absolute"
-                        right="8px"
-                        top="8px"
-                        onClick={() => setValidEmailError(false)}
-                      />
-                    </Alert>
+                    <AlertComponent
+                      setState={setValidEmailError}
+                      message={"Please enter a valid email address"}
+                      type={"warning"}
+                    />
                   )}
                   {validPasswordError && (
-                    <Alert mb={2} status="info">
-                      <AlertIcon />
-                      <AlertDescription>
-                        Please enter a valid password longer than 8 characters
-                      </AlertDescription>
-                      <CloseButton
-                        position="absolute"
-                        right="8px"
-                        top="8px"
-                        onClick={() => setValidPasswordError(false)}
-                      />
-                    </Alert>
+                    <AlertComponent
+                      setState={setValidPasswordError}
+                      message={
+                        "Please enter a password with at least 8 characters"
+                      }
+                      type={"warning"}
+                    />
                   )}
                   <Text> Enter your login details to sign in</Text>
                 </ModalHeader>
-                <ModalBody>
+                <ModalBody
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleAccountCreation();
+                    }
+                  }}
+                >
                   <FormControl>
                     <FormLabel>Email</FormLabel>
                     <Input
