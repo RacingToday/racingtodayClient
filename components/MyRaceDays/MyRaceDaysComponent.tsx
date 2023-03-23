@@ -1,7 +1,8 @@
 /** @format */
 
 import React, { SetStateAction, useEffect, useState } from "react";
-import { MyRaceDay } from "../lib/types";
+import { MyRaceDay, RaceDay } from "../../lib/types";
+import MyPastRaceDays from "./MyPastRaceDays";
 import {
   Accordion,
   AccordionButton,
@@ -15,7 +16,7 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-import { getMyUser, getMyRaceDays } from "../lib/helperFunctions";
+import { getMyUser, getMyRaceDays } from "../../lib/helperFunctions";
 import Link from "next/link";
 
 interface Props {
@@ -53,13 +54,33 @@ function MyRaceDayComponent(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // get todays date yyyy-mm-dd
+  const myRaceDaysAfterToday = MyRaceDays.filter((raceDay: RaceDay) => {
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    const raceDate = parseInt(raceDay.attributes.RaceDate.split("-")[2]);
+    const raceMonth = parseInt(raceDay.attributes.RaceDate.split("-")[1]);
+    const raceYear = parseInt(raceDay.attributes.RaceDate.split("-")[0]);
+
+    if (raceYear >= yyyy && raceMonth >= mm) {
+      if (mm === raceMonth && raceYear === yyyy) {
+        if (raceDate < dd) {
+          return;
+        }
+      }
+
+      return raceDay;
+    }
+  });
   return (
     <Flex
       flex={1}
       p={"2em 2em 2em 0em"}
       wrap="wrap"
       minW="100vw"
-      maxH={"75vh"}
+      maxH={"80vh"}
       overflowY={"scroll"}
       fontSize={["md", "lg", "xl"]}
     >
@@ -74,52 +95,22 @@ function MyRaceDayComponent(props: Props) {
       >
         My Track Days
       </h1>
+
       <Accordion
         allowMultiple
         style={{
           width: "100%",
         }}
       >
-        <Flex mb={3} display={["none", "flex", "flex"]}>
-          <h3
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              width: "22%",
-            }}
-          >
-            Track
-          </h3>
-          <h3
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              width: "22%",
-            }}
-          >
-            Date
-          </h3>
-          <h3
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              width: "22%",
-            }}
-          >
-            Start Time
-          </h3>
-          <h3
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              width: "22%",
-            }}
-          >
-            End Time
-          </h3>
-        </Flex>
-        {MyRaceDays.length > 0 ? (
-          MyRaceDays.map((raceDay: MyRaceDay) => (
+        {myRaceDaysAfterToday && (
+          <p>
+            <b>
+              Please click on the specific track day to see details of the event
+            </b>
+          </p>
+        )}
+        {myRaceDaysAfterToday.length > 0 ? (
+          myRaceDaysAfterToday.map((raceDay: MyRaceDay) => (
             <AccordionItem
               border={"1px dotted black"}
               borderRadius="2xl"
@@ -337,6 +328,10 @@ function MyRaceDayComponent(props: Props) {
           </Flex>
         )}
       </Accordion>
+      <MyPastRaceDays
+        myRaceDays={MyRaceDays}
+        myRaceDaysAfterToday={myRaceDaysAfterToday}
+      />
     </Flex>
   );
 }

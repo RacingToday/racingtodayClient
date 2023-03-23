@@ -11,8 +11,8 @@ import {
 import React, { useState } from "react";
 import Header from "../components/Headers/Header";
 import { getMyUser } from "../lib/helperFunctions";
-import MyRaceDayComponent from "../components/MyRaceDaysComponent";
-import Messages from "../components/Messages";
+import MyRaceDayComponent from "../components/MyRaceDays/MyRaceDaysComponent";
+import Messages from "../components/MyRaceDays/Messages";
 
 function MyRaceDays() {
   const [MyRaceDays, setMyRaceDays] = useState([]);
