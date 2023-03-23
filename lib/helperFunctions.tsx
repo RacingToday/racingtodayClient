@@ -1,6 +1,7 @@
 /** @format */
 
 import { gql } from "@apollo/client";
+
 export let host =
   process.env.NODE_ENV === "development"
     ? "http://localhost:1337/"
@@ -23,7 +24,6 @@ export async function createNewUser(
     .then((data) => data);
   return newUser;
 }
-
 interface User {
   error: any;
   id: number;

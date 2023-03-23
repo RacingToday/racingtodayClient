@@ -214,7 +214,11 @@ function Header(props: any) {
           marginLeft: "1rem",
         }}
       >
-        <Text left="30px" position={"absolute"} fontSize={["lg", "2xl", "3xl"]}>
+        <Text
+          left="30px"
+          position={"absolute"}
+          fontSize={["lg", "1xl", "1.2em", "2em"]}
+        >
           RacingToday
         </Text>
       </Link>

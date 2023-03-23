@@ -399,19 +399,31 @@ function FiltersToSort({ props }: { props: Props }) {
               onChange={(e) => handleNoiseChange(e)}
             />
           </label>
-          <Select
-            variant={"filled"}
-            w={"auto"}
-            value={laneType}
-            onChange={(e) => {
-              setLaneType(e.target.value);
-              handleLaneTypeChange(e);
+          <label
+            style={{
+              fontSize: "1rem",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <option value="all">All</option>
-            <option value="Open">Open Pit Lane</option>
-            <option value="Split">Split Pit Lane</option>
-          </Select>
+            Lane Type
+            <Select
+              variant={"filled"}
+              h={"2.5rem"}
+              w={"10rem"}
+              ml={"1em"}
+              value={laneType}
+              onChange={(e) => {
+                setLaneType(e.target.value);
+                handleLaneTypeChange(e);
+              }}
+            >
+              <option value="all">All</option>
+              <option value="Open">Open Pit Lane</option>
+              <option value="Split">Split Pit Lane</option>
+            </Select>
+          </label>
+
           <Flex w="80%" justifyContent="left">
             {checkForActiveFilters && filters && (
               <Button

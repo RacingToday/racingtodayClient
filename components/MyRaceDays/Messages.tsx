@@ -2,7 +2,7 @@
 
 import * as react from "@chakra-ui/react";
 import React from "react";
-import { getMyUser, fetchMyMessages, host } from "../lib/helperFunctions";
+import { getMyUser, fetchMyMessages, host } from "../../lib/helperFunctions";
 import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 
