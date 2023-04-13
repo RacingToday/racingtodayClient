@@ -2,10 +2,9 @@
 
 import * as react from "@chakra-ui/react";
 import React from "react";
-
-import { getMyUser, fetchMyMessages, host } from "../../lib/dataFetchHelpers";
 import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
+import { host, getMyUser, fetchMyMessages } from "../../lib/dataFetchHelpers";
 
 function Messages() {
   const [ListOfRaceDays, setListOfRaceDays] = useState<any[]>([]);

@@ -2,7 +2,7 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { host } from "../lib/helperFunctions";
+import { host } from "../lib/dataFetchHelpers";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

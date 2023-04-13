@@ -1,5 +1,3 @@
-/** @format */
-
 import {
   Button,
   Drawer,
@@ -10,12 +8,15 @@ import {
   DrawerOverlay,
   Flex,
   Link,
+  useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import CreateRaceDay from "../CreateRaceDay";
-import { useDisclosure, Text } from "@chakra-ui/react";
+import { SetStateAction } from "react";
+import { RaceDay } from "../../lib/types";
 
-/** @format */
-export default function AuthHeader(props: any) {
+export default function MobileHeaderWithAuth(props: any)
+ {
   const handleClick = () => {
     localStorage.removeItem("jwt");
     window.location.href = "/";
@@ -24,7 +25,7 @@ export default function AuthHeader(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex display={["flex", "none"]}>
+    <Flex>
       <Button
         onClick={onOpen}
         colorScheme="blue"

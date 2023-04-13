@@ -4,7 +4,7 @@ import {
   getMyRaceDays,
   GET_RACETRACKS,
   host,
-} from "../lib/helperFunctions";
+} from "../lib/dataFetchHelpers";
 
 import {
   Button,
