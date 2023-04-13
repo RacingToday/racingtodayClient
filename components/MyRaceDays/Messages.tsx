@@ -2,11 +2,8 @@
 
 import * as react from "@chakra-ui/react";
 import React from "react";
-<<<<<<<< HEAD:components/MyRaceDays/Messages.tsx
-import { getMyUser, fetchMyMessages, host } from "../../lib/helperFunctions";
-========
+
 import { getMyUser, fetchMyMessages, host } from "../../lib/dataFetchHelpers";
->>>>>>>> 257b09d (major refactor, to simplify the code management):components/Message/Messages.tsx
 import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 
