@@ -1,7 +1,18 @@
-// Header.tsx
-import { Box, Button, Flex, Link, Text, useDisclosure } from "@chakra-ui/react";
-import MobileHeaderWithAuth from "./MobileHeader";
-import CreateRaceDay from "../CreateRaceDay";
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Text,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+} from "@chakra-ui/react";
+import CreateRaceDay from "../Trackdays/CreateRaceDay";
 import React, { useEffect, useState } from "react";
 import { getMyUser } from "../../lib/dataFetchHelpers";
 import LoginModal from "../Modals/Loginmodal";
@@ -9,7 +20,7 @@ import AlertComponent from "../Alerts/Alert";
 
 function Header(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const mobileDrawer = useDisclosure();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [alert, setAlert] = useState(false);
 
@@ -49,16 +60,23 @@ function Header(props: any) {
     onClick?: () => void;
   };
 
-  const navLinks: NavLink[] = [
-    { label: "About Us", href: "/about" },
-    { label: "Terms", href: "/terms" },
-  ];
+  const createNavLinks = (): NavLink[] => {
+    const navLinks: NavLink[] = [
+      { label: "About Us", href: "/about" },
+      { label: "Terms", href: "/terms" },
+    ];
 
-  if (isAuthenticated) {
-    navLinks.splice(1, 0, { label: "My Racedays", href: "/myracedays" });
-  } else {
-    navLinks.push({ label: "Login or Register", onClick: onOpen });
-  }
+    if (isAuthenticated) {
+      navLinks.splice(1, 0, { label: "My Racedays", href: "/myracedays" });
+      navLinks.push({ label: "Logout", onClick: handleClick });
+    } else {
+      navLinks.push({ label: "Login or Register", onClick: onOpen });
+    }
+
+    return navLinks;
+  };
+
+  const navLinks = createNavLinks();
 
   return (
     <Flex
@@ -68,7 +86,7 @@ function Header(props: any) {
       color={"#fff"}
       minW={"100%"}
       maxW={"100%"}
-      bg={"#000"}
+      bg={"#1a202c"}
     >
       {alert && isAuthenticated && (
         <AlertComponent
@@ -85,26 +103,63 @@ function Header(props: any) {
         display={["none", "flex", "flex"]}
       >
         {isAuthenticated && <CreateRaceDay props={props} />}
-        {navLinks.map((link: any) => (
+        {navLinks.map((link: NavLink) => (
           <Link key={link.label} href={link.href} onClick={link.onClick}>
             <Button colorScheme="blue" size="sm">
               {link.label}
             </Button>
           </Link>
         ))}
-
-        {isAuthenticated && (
-          <Button onClick={handleClick} colorScheme="blue" size="sm">
-            Logout
-          </Button>
-        )}
       </Flex>
       <Flex
         justifyContent="center"
         align="center"
         mr={3}
         display={["flex", "none"]}
-      ></Flex>
+      >
+        <Button
+          onClick={mobileDrawer.onOpen}
+          colorScheme="blue"
+          ml={"0.4em"}
+          size="md"
+          mr={"1em"}
+          alignContent={"center"}
+          alignSelf={"center"}
+          justifyContent={"center"}
+        >
+          Menu
+        </Button>
+        <Drawer
+          isOpen={mobileDrawer.isOpen}
+          placement="right"
+          onClose={mobileDrawer.onClose}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader mt={"3em"}>Select your next destination</DrawerHeader>
+            <DrawerBody
+              display={"flex"}
+              flexDir={"column"}
+              gap={"1em"}
+              fontSize="2xl"
+              m="0 auto"
+              borderBottom="1px"
+              border={1}
+              w="max-content"
+            >
+              {isAuthenticated && <CreateRaceDay props={props} />}
+              {navLinks.map((link: NavLink) => (
+                <Link key={link.label} href={link.href} onClick={link.onClick}>
+                  <Button w="100%" colorScheme="blue" fontSize={"1.5rem"}>
+                    {link.label}
+                  </Button>
+                </Link>
+              ))}
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </Flex>
       <Link
         href="/"
         style={{

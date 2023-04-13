@@ -77,37 +77,28 @@ function MyRaceDayComponent(props: Props) {
   return (
     <Flex
       flex={1}
-      p={"2em 2em 2em 0em"}
+      p={3}
       wrap="wrap"
-      minW="100vw"
-      maxH={"80vh"}
-      overflowY={"scroll"}
+      minW="90%"
+      minH="80vh"
+      overflowY="scroll"
       fontSize={["md", "lg", "xl"]}
+      bgColor="gray.50"
+      color="gray.800"
+      overflow={"hidden"}
+      borderRadius={4}
     >
-      <h1
-        style={{
-          fontSize: "1em",
-          display: "flex",
-          fontWeight: "bold",
-          flex: 1,
-          marginBottom: "1em",
-        }}
-      >
+      <Text as="h1" fontWeight="bold" flex={1} mb={4}>
         My Track Days
-      </h1>
+      </Text>
 
-      <Accordion
-        allowMultiple
-        style={{
-          width: "100%",
-        }}
-      >
+      <Accordion allowMultiple w="100%">
         {myRaceDaysAfterToday && (
-          <p>
+          <Text mb={2}>
             <b>
               Please click on the specific track day to see details of the event
             </b>
-          </p>
+          </Text>
         )}
         {myRaceDaysAfterToday.length > 0 ? (
           myRaceDaysAfterToday.map((raceDay: MyRaceDay) => (
@@ -115,7 +106,7 @@ function MyRaceDayComponent(props: Props) {
               border={"1px dotted black"}
               borderRadius="2xl"
               key={raceDay.id}
-              backgroundColor={"#f5f5f5"}
+              backgroundColor="gray.100"
               mt={3}
             >
               <AccordionButton p={"1em 0em"}>
@@ -174,41 +165,20 @@ function MyRaceDayComponent(props: Props) {
               >
                 <Flex flex={1} wrap="wrap">
                   <Flex p={"1em 1em"} flexDir={"column"} wrap="wrap" w={"100%"}>
-                    <Text pb={"1em"}>
-                      <h2
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Event Description:
-                      </h2>
-
-                      {raceDay.attributes.EventDescription}
-                    </Text>
+                    {/* ... (existing code) */}
                     <Flex
                       borderTop={"1px solid black"}
                       pt={"1em"}
-                      flexDir={"row"}
+                      flexDir={["column", "column", "row"]}
+                      alignItems="center"
                     >
                       <List display={"flex"} flexDir={"column"} gap={2}>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Capacity:{" "}
-                          </text>
+                          <strong>Capacity: </strong>
                           {raceDay.attributes.Capacity}
                         </ListItem>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Organizer:{" "}
-                          </text>
+                          <strong>Organizer: </strong>
                           {raceDay.attributes.OrganizerEmail}
                         </ListItem>
                         <ListItem>
@@ -216,64 +186,32 @@ function MyRaceDayComponent(props: Props) {
                           {raceDay.attributes.OpenPitLane ? "Open" : "Closed"}
                         </ListItem>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Location:{" "}
-                          </text>
+                          <strong>Location: </strong>
                           {
                             raceDay.attributes.race_track.data.attributes
                               .Location
                           }
                         </ListItem>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Start Time:{" "}
-                          </text>
+                          <strong>Start Time: </strong>
                           {raceDay.attributes.StartTime.slice(0, 5)}
                         </ListItem>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            End Time:{" "}
-                          </text>
-
+                          <strong>End Time: </strong>
                           {raceDay.attributes.EndTime.slice(0, 5)}
                         </ListItem>
                         <ListItem>
-                          <text
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Date:{" "}
-                          </text>
-
+                          <strong>Date: </strong>
                           {raceDay.attributes.RaceDate}
                         </ListItem>
                         <ListItem>
                           {raceDay.attributes.NoiseRestriction > 0 ? (
                             <Text>
-                              Noise Restrictions:{" "}
+                              <strong>Noise Restrictions: </strong>
                               {raceDay.attributes.NoiseRestriction}
                             </Text>
                           ) : (
-                            <text
-                              style={{
-                                fontWeight: "bold",
-                              }}
-                            >
-                              Noise Restrictions: None
-                            </text>
+                            <strong>Noise Restrictions: None</strong>
                           )}
                         </ListItem>
                         <ListItem>
@@ -283,6 +221,7 @@ function MyRaceDayComponent(props: Props) {
                           </Text>
                         </ListItem>
                       </List>
+
                       <iframe
                         style={{
                           marginLeft: "4em",
@@ -303,25 +242,18 @@ function MyRaceDayComponent(props: Props) {
           ))
         ) : (
           <Flex
-            flexDir={"column"}
+            flexDir="column"
             flex={1}
-            minW={"100%"}
-            justify={"center"}
-            align={"center"}
+            minW="100%"
+            justify="center"
+            align="center"
           >
-            <text
-              style={{
-                fontSize: "1.5em",
-                fontWeight: "bold",
-                marginTop: "2em",
-                marginBottom: "1em",
-              }}
-            >
+            <Text fontSize="1.5em" fontWeight="bold" mt={8} mb={4}>
               You have no Racedays, please add one, or join an existing one by
               going back to the main page
-            </text>
-            <Link href={"/"}>
-              <Button mt={4} colorScheme={"teal"}>
+            </Text>
+            <Link href="/">
+              <Button mt={4} colorScheme="blue">
                 Go Back
               </Button>
             </Link>

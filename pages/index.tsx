@@ -1,8 +1,8 @@
-import RaceDayList from "../components/RaceDayList";
+import RaceDayList from "../components/Trackdays/RaceDayList";
 import FiltersToSort from "../components/Filters/Filters";
 import Head from "next/head";
 import { gql, useQuery } from "@apollo/client";
-import ResponsiveHeader from "../components/Headers/ResponsiveHeader";
+import Header from "../components/Headers/Header";
 import { useRef, useState } from "react";
 
 export default function Home() {
@@ -40,7 +40,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ResponsiveHeader props={props} />
+      <Header props={props} />
       <FiltersToSort props={props} />
       <RaceDayList props={props} />
     </>

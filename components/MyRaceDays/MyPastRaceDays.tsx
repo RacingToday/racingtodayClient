@@ -1,14 +1,14 @@
-/** @format */
-
 import {
   Accordion,
   AccordionButton,
+  AccordionIcon,
   AccordionItem,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { RaceDay } from "../../lib/types";
-// accordion example component that uses chakra ui
+
 interface props {
   myRaceDays: Array<any>;
   myRaceDaysAfterToday: Array<any>;
@@ -24,62 +24,46 @@ function MyPastRaceDays({ myRaceDays, myRaceDaysAfterToday }: props) {
       mt={10}
       flexDir="column"
       wrap="wrap"
-      p={"2em 2em 2em 0em"}
-      minW="100vw"
-      maxH={"75vh"}
-      overflowY={"scroll"}
-      overflowX="hidden"
+      p={4}
+      minW="100%"
+      maxH="75vh"
+      overflowY="scroll"
       fontSize={["md", "lg", "xl"]}
     >
-      {myRaceDays.length > 0}
-      <h2>Past Track Days</h2>
+      <Text as="h2" fontWeight="bold" mb={4}>
+        Past Track Days
+      </Text>
 
-      <Accordion w={"100%"} allowMultiple>
+      <Accordion w="100%" allowMultiple>
         {MyPastRaceDays.length > 0 ? (
           MyPastRaceDays.map((raceDay: RaceDay) => {
             return (
               <AccordionItem key={raceDay.id}>
                 <AccordionButton>
                   <Flex
-                    overflow={"hidden"}
-                    key={raceDay.id}
-                    justifyContent={"space-between"}
+                    overflow="hidden"
+                    justifyContent="space-between"
                     flex={1}
-                    pl={"2%"}
+                    pl={2}
                     wrap="wrap"
-                    minW={"100%"}
-                    flexBasis={"auto"}
-                    textAlign={"left"}
-                    justifySelf={"flex-start"}
+                    minW="100%"
                     fontSize={["xs", "md", "lg"]}
                   >
-                    <h3
-                      style={{
-                        fontWeight: "bold",
-                        marginBottom: "0.5em",
-                      }}
-                    >
+                    <Text as="h3" fontWeight="bold" mb={2}>
                       Track:{" "}
                       {raceDay.attributes.race_track.data.attributes.TrackName}
-                    </h3>
-                    <h3
-                      style={{
-                        fontWeight: "bold",
-                        marginBottom: "0.5em",
-                        textAlign: "left",
-                      }}
-                    >
+                    </Text>
+                    <Text as="h3" fontWeight="bold" mb={2} textAlign="left">
                       Date: {raceDay.attributes.RaceDate}
-                    </h3>
-
-                    <AccordionItem />
+                    </Text>
+                    <AccordionIcon />
                   </Flex>
                 </AccordionButton>
               </AccordionItem>
             );
           })
         ) : (
-          <h3></h3>
+          <Text as="h3"></Text>
         )}
       </Accordion>
     </Flex>

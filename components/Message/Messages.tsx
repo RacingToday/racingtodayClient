@@ -3,9 +3,8 @@
 import * as react from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Input, Text } from "@chakra-ui/react";
 import { host, getMyUser, fetchMyMessages } from "../../lib/dataFetchHelpers";
-
 function Messages() {
   const [ListOfRaceDays, setListOfRaceDays] = useState<any[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
@@ -18,6 +17,7 @@ function Messages() {
     currentMessage: string,
     myEmail: string
   ) => {
+    console.log(currentMessage);
     interface newMessage {
       data: {
         createMessage: {
@@ -84,8 +84,9 @@ function Messages() {
         }
 
         const user = await getMyUser(jwt);
-        setMyEmail(user.username);
+        setMyEmail(user.email);
 
+        console.log(user);
         const MyMessages = await fetchMyMessages(jwt, user.id);
 
         setListOfRaceDays(
@@ -102,147 +103,101 @@ function Messages() {
 
   return (
     <Flex
-      overflow={"hidden"}
-      flexDir="row"
-      wordBreak={"break-word"}
-      flex={1}
-      minH={"85vh"}
-      maxH={"85vh"}
+      direction={{ base: "column", md: "row" }}
+      height="85vh"
+      maxH="85vh"
+      width="100%"
+      overflow="hidden"
     >
-      <Flex
-        className="chatSelection"
-        flex={1}
-        flexDirection={["row", "column"]}
-        flexWrap={"wrap"}
-        maxH={["60vh", "85vh"]}
-        fontSize={[12, 14, 16, 18]}
-        overflow={"scroll"}
-        w={"100%"}
-        mr={1}
+      <react.VStack
+        spacing={2}
+        p={4}
+        w={{ base: "100%", md: "30%" }}
+        h="100%"
+        overflowY="auto"
+        bg="blue.50"
       >
-        <h1
-          style={{
-            fontSize: "1.5em",
-            fontWeight: "bold",
-            paddingBottom: "0.5em",
-            borderBottom: "1px dotted black",
-            marginBottom: "0.5em",
-          }}
-        >
+        <Text fontSize="xl" fontWeight="bold">
           Messages
-        </h1>
-
+        </Text>
         {ListOfRaceDays.length > 0 ? (
-          ListOfRaceDays.map((message: any) => {
-            return (
-              <react.Button
-                mt={1}
-                flex={1}
-                w={"90%"}
-                border={"none"}
-                onClick={() => {
-                  setArrayOfMessages(message.attributes.messages.data);
-                  setMessageIndex(message.id);
-                }}
-                colorScheme={"blue"}
-                mr={1}
-                fontSize={[10, 14, 16]}
-                flexDir={"column"}
-                maxH={"7vh"}
-                m={"0.5em"}
-                key={message.id}
-              >
-                Date: {message.attributes.RaceDate}
-                <br />
-                Track: {message.attributes.race_track.data.attributes.TrackName}
-              </react.Button>
-            );
-          })
+          ListOfRaceDays.map((message: any) => (
+            <react.Button
+              key={message.id}
+              onClick={() => {
+                setArrayOfMessages(message.attributes.messages?.data || []);
+                setMessageIndex(message.id);
+              }}
+              colorScheme="blue"
+              w="100%"
+              textAlign="left"
+            >
+              Date: {message.attributes.RaceDate}
+              <br />
+              Track:{" "}
+              {message.attributes.race_track?.data?.attributes?.TrackName ||
+                "Unknown"}
+            </react.Button>
+          ))
         ) : (
-          <p>No messages</p>
+          <Text>No messages</Text>
         )}
-      </Flex>
+      </react.VStack>
       <Flex
-        padding={2}
-        minH={"70vh"}
-        minW={["60vw", "70vw"]}
-        maxH={"70vh"}
-        flex={1}
-        maxW={"75vw"}
-        className="chat"
-        border="none"
-        borderRadius={"15px"}
-        bgColor={"white"}
-        wrap={"wrap"}
-        flexDir={"column"}
-        alignItems="flex-start"
-        justifyContent={"space-between"}
+        direction="column"
+        p={4}
+        flex="1"
+        h="100%"
+        bg="white"
+        justifyContent="space-between"
       >
-        <Flex
-          className="chatMessages"
-          overflow={"auto"}
-          flex={1}
-          w={"100%"}
-          flexDir={"column-reverse"}
-          borderBottom="1px dotted black"
+        <react.VStack
+          spacing={4}
+          alignItems="flex-start"
+          w="100%"
+          h="100%"
+          overflowY="auto"
+          flex="1"
+          direction="column-reverse"
         >
           {arrayOfMessages.length > 0 ? (
-            arrayOfMessages.map((message: any, index) => {
-              return (
+            arrayOfMessages.map((message: any, index) => (
+              <react.HStack
+                key={index}
+                spacing={4}
+                alignItems="flex-start"
+                justifyContent={
+                  message.attributes.Sender === myEmail
+                    ? "flex-end"
+                    : "flex-start"
+                }
+              >
                 <react.Box
-                  key={index}
-                  m={2}
-                  bgColor={"blue.400"}
-                  borderRadius={"15px"}
-                  p={2}
-                  fontSize={[12, 14, 16, 18]}
-                  wordBreak={"break-word"}
-                  backgroundColor={
+                  p={4}
+                  borderRadius="lg"
+                  bg={
                     message.attributes.Sender === myEmail
                       ? "green.400"
                       : "blue.400"
                   }
-                  alignContent={"flex-start"}
-                  alignSelf={
-                    message.attributes.Sender === myEmail
-                      ? "flex-end"
-                      : "flex-start"
-                  }
+                  color="white"
                 >
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    {message.attributes.Sender}
-                  </p>
-
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    {message.attributes.Text}
-                  </p>
+                  <Text fontWeight="bold">{message.attributes.Sender}</Text>
+                  <Text fontWeight="bold">{message.attributes.Text}</Text>
                 </react.Box>
-              );
-            })
+              </react.HStack>
+            ))
           ) : (
-            <h1>No messages</h1>
+            <Text fontSize="xl">No messages</Text>
           )}
-        </Flex>
-
-        <react.Input
-          mt={5}
+        </react.VStack>
+        <Input
+          mt={4}
           placeholder="Type your message here"
-          type={"text"}
-          id={"message"}
-          fontSize={[12, 14, 16, 18]}
-          size={"lg"}
-          position={"relative"}
-          w={"90%"}
+          type="text"
+          id="message"
+          size="lg"
+          w="100%"
           value={currentMessage}
           onChange={(e) => setCurrentMessage(e.target.value)}
           onKeyDown={(e) => {

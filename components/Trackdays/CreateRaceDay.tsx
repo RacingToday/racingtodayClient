@@ -4,7 +4,7 @@ import {
   getMyRaceDays,
   GET_RACETRACKS,
   host,
-} from "../lib/dataFetchHelpers";
+} from "../../lib/dataFetchHelpers";
 
 import {
   Button,
@@ -40,6 +40,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import React, { SetStateAction, useState } from "react";
+import { newRaceDay } from "../../lib/dataFetchHelpers";
 import Link from "next/link";
 
 function CreateRaceDay(props: any) {
@@ -92,25 +93,16 @@ function CreateRaceDay(props: any) {
     }
 
     try {
-      let carClasses = "";
-      if (e.currentTarget.GT.checked) {
-        carClasses += "GT, ";
-      }
-      if (e.currentTarget.Touring.checked) {
-        carClasses += "Touring, ";
-      }
-      if (e.currentTarget.Formel.checked) {
-        carClasses += "Formel, ";
-      }
-      if (e.currentTarget.Motorbikes.checked) {
-        carClasses += "Motorbikes, ";
-      }
-      if (e.currentTarget.Prototype.checked) {
-        carClasses += "Prototype, ";
-      }
-      if (e.currentTarget.Others.checked) {
-        carClasses += "Others, ";
-      }
+      const carClasses = [
+        "GT",
+        "Touring",
+        "Formel",
+        "Motorbikes",
+        "Prototype",
+        "Others",
+      ].reduce((acc, curr) => {
+        return e.currentTarget[curr].checked ? acc + curr + ", " : acc;
+      }, "");
 
       const isError =
         Track === "Please Select a Track" ||
@@ -184,7 +176,6 @@ function CreateRaceDay(props: any) {
         }`,
         }),
       }).then((res) => res.json());
-      console.log(newRaceDay);
       setEventDescription("");
       setPrice("");
       setTrack("please select a track");
