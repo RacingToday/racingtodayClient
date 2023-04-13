@@ -13,7 +13,6 @@ import Header from "../components/Headers/Header";
 import { getMyUser } from "../lib/dataFetchHelpers";
 import MyRaceDayComponent from "../components/MyRaceDays/MyRaceDaysComponent";
 import Messages from "../components/Message/Messages";
-import MyPastRaceDays from "../components/MyRaceDays/MyPastRaceDays";
 
 function MyRaceDays() {
   const [MyRaceDays, setMyRaceDays] = useState([]);
@@ -35,24 +34,49 @@ function MyRaceDays() {
     MyRaceDays: MyRaceDays,
     setMyRaceDays: setMyRaceDays,
   };
-
   return (
     <>
       <Header props={props} />
-      <Tabs>
-        <TabList>
-          <Tab>My RaceDays</Tab>
-          <Tab>Messages</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel overflow={"hidden"}>
-            <MyRaceDayComponent props={props} />
-          </TabPanel>
-          <TabPanel flexWrap="wrap" bgColor={"gray.100"}>
-            <Messages />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <Flex overflow="hidden">
+        <Tabs
+          flex={1}
+          display="flex"
+          overflow={"hidden"}
+          flexDirection="column"
+          alignItems="stretch"
+          bg="gray.50"
+          color="gray.800"
+        >
+          <TabList borderBottom="1px solid" borderColor="gray.200">
+            <Tab
+              _selected={{
+                color: "blue.600",
+                borderBottom: "2px solid",
+                borderColor: "blue.600",
+              }}
+            >
+              My RaceDays
+            </Tab>
+            <Tab
+              _selected={{
+                color: "blue.600",
+                borderBottom: "2px solid",
+                borderColor: "blue.600",
+              }}
+            >
+              Messages
+            </Tab>
+          </TabList>
+          <TabPanels flexGrow={1} overflowY="hidden">
+            <TabPanel overflow={"hidden"} p={0}>
+              <MyRaceDayComponent props={props} />
+            </TabPanel>
+            <TabPanel flexWrap="wrap" bgColor={"gray.100"} p={0}>
+              <Messages />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Flex>
     </>
   );
 }

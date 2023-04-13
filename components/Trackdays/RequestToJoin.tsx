@@ -1,5 +1,5 @@
 /** @format */
-import { RaceDay } from "../lib/types";
+import { RaceDay } from "../../lib/types";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -13,7 +13,7 @@ import {
   List,
   Flex,
 } from "@chakra-ui/react";
-import { getMyUser, host } from "../lib/dataFetchHelpers";
+import { getMyUser, host } from "../../lib/dataFetchHelpers";
 
 export default function RequestToJoin(raceday: any) {
   const sizeConfig = ["sm", "sm", "md", "md"];
