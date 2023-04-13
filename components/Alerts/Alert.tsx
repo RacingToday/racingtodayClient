@@ -16,7 +16,14 @@ export default function AlertComponent(props: AlertProps) {
   const { type, message, setState } = props;
 
   return (
-    <Alert mb={3} status={type}>
+    <Alert
+      mb={3}
+      status={type}
+      pos={"absolute"}
+      top={"20"}
+      zIndex={1}
+      variant={"solid"}
+    >
       <AlertIcon />
       <AlertDescription>{message}</AlertDescription>
       <CloseButton

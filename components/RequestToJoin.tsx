@@ -9,7 +9,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Image,
   useDisclosure,
   List,
   Flex,

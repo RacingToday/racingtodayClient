@@ -17,19 +17,53 @@ import {
   TabPanel,
   Tab,
 } from "@chakra-ui/react";
+import { handleAuth } from "../../lib/account";
+import AlertComponent from "../Alerts/Alert";
 
-const LoginModal = (props: any
-) => {
-  const { isOpen, onClose, onSuccess, handleLogin, handleAccountCreation } = props;
+const LoginModal = (props: any) => {
+  const {
+    isOpen,
+    onClose,
+    setIsAuthenticated,
+    setAlert,
+    isAuthenticated,
+    alert,
+  } = props;
+
   const [loginEmail, setLoginEmail] = React.useState("");
   const [loginPassword, setLoginPassword] = React.useState("");
   const [registerEmail, setRegisterEmail] = React.useState("");
   const [registerPassword, setRegisterPassword] = React.useState("");
 
+  async function initiateAuth(isLogin: boolean) {
+    await handleAuth(
+      isLogin ? loginEmail : registerEmail,
+      isLogin ? loginPassword : registerPassword,
+      isLogin,
+      setIsAuthenticated,
+      onClose,
+      setAlert
+    );
+
+    if (isAuthenticated) {
+      setLoginEmail("");
+      setLoginPassword("");
+      setRegisterEmail("");
+      setRegisterPassword("");
+    }
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
+        {alert && !isAuthenticated && (
+          <AlertComponent
+            type="error"
+            message="Incorrect email or password"
+            setState={setAlert}
+          />
+        )}
         <Tabs>
           <TabList>
             <Tab>Login</Tab>
@@ -41,7 +75,7 @@ const LoginModal = (props: any
               <ModalBody
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    handleLogin(loginEmail, loginPassword, onSuccess);
+                    initiateAuth(true);
                   }
                 }}
               >
@@ -66,9 +100,7 @@ const LoginModal = (props: any
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() =>
-                    handleLogin(loginEmail, loginPassword, onSuccess)
-                  }
+                  onClick={() => initiateAuth(true)}
                   type="submit"
                   colorScheme="blue"
                   mr={3}
@@ -83,11 +115,7 @@ const LoginModal = (props: any
               <ModalBody
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    handleAccountCreation(
-                      registerEmail,
-                      registerPassword,
-                      onSuccess
-                    );
+                    initiateAuth(false);
                   }
                 }}
               >
@@ -113,13 +141,7 @@ const LoginModal = (props: any
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() =>
-                    handleAccountCreation(
-                      registerEmail,
-                      registerPassword,
-                      onSuccess
-                    )
-                  }
+                  onClick={() => initiateAuth(false)}
                   colorScheme="blue"
                   mr={3}
                 >
