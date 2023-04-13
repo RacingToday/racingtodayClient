@@ -16,7 +16,7 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-import { getMyUser, getMyRaceDays } from "../../lib/helperFunctions";
+import { getMyUser, getMyRaceDays } from "../lib/dataFetchHelpers";
 import Link from "next/link";
 
 interface Props {

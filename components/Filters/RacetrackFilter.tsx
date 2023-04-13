@@ -9,9 +9,9 @@ import {
   MenuItemOption,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
-import { GET_RACETRACKS } from "../lib/helperFunctions";
+import { GET_RACETRACKS } from "../../lib/dataFetchHelpers";
 import { useQuery } from "@apollo/client";
-import { filterByTrack, manageCombinedFilters } from "../lib/filterFunctions";
+import { filterByTrack, manageCombinedFilters } from "../../lib/filterFunctions";
 interface Props {
   setListOfTrackDays: any;
   arrayOfRacedays: any;

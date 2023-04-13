@@ -27,7 +27,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import RacetrackFilter from "../RacetrackFilter";
+import RacetrackFilter from "./RacetrackFilter";
 interface Props {
   listOfTrackDays: any;
   setListOfTrackDays: SetStateAction<any>;

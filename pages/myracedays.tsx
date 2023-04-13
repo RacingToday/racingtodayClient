@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Header from "../components/Headers/Header";
-import { getMyUser } from "../lib/helperFunctions";
-import MyRaceDayComponent from "../components/MyRaceDays/MyRaceDaysComponent";
-import Messages from "../components/MyRaceDays/Messages";
+import { getMyUser } from "../lib/dataFetchHelpers";
+import MyRaceDayComponent from "../components/MyRaceDaysComponent";
+import Messages from "../components/Message/Messages";
 
 function MyRaceDays() {
   const [MyRaceDays, setMyRaceDays] = useState([]);

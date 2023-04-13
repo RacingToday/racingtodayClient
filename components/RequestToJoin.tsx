@@ -14,7 +14,7 @@ import {
   List,
   Flex,
 } from "@chakra-ui/react";
-import { getMyUser, host } from "../lib/helperFunctions";
+import { getMyUser, host } from "../lib/dataFetchHelpers";
 
 export default function RequestToJoin(raceday: any) {
   const sizeConfig = ["sm", "sm", "md", "md"];
