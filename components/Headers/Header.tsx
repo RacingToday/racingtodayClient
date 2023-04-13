@@ -1,23 +1,17 @@
 // Header.tsx
-import {
-  Box,
-  Button,
-  Flex,
-  Link,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text, useDisclosure } from "@chakra-ui/react";
 import MobileHeaderWithAuth from "./MobileHeader";
 import CreateRaceDay from "../CreateRaceDay";
 import React, { useEffect, useState } from "react";
 import { getMyUser } from "../../lib/dataFetchHelpers";
 import LoginModal from "../Modals/Loginmodal";
-import { handleLogin, handleAccountCreation } from "../../lib/account";
+import AlertComponent from "../Alerts/Alert";
 
 function Header(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     const checkForUser = async () => {
@@ -49,16 +43,13 @@ function Header(props: any) {
     return;
   };
 
-
   type NavLink = {
     label: string;
     href?: string;
     onClick?: () => void;
+  };
 
-  }
-  
   const navLinks: NavLink[] = [
-    { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
     { label: "Terms", href: "/terms" },
   ];
@@ -68,8 +59,6 @@ function Header(props: any) {
   } else {
     navLinks.push({ label: "Login or Register", onClick: onOpen });
   }
-  
-
 
   return (
     <Flex
@@ -81,6 +70,13 @@ function Header(props: any) {
       maxW={"100%"}
       bg={"#000"}
     >
+      {alert && isAuthenticated && (
+        <AlertComponent
+          type={"success"}
+          message="You are now logged in!"
+          setState={setAlert}
+        />
+      )}
       <Flex
         gap="5"
         alignItems={"center"}
@@ -88,6 +84,7 @@ function Header(props: any) {
         justifyContent={"flex-end"}
         display={["none", "flex", "flex"]}
       >
+        {isAuthenticated && <CreateRaceDay props={props} />}
         {navLinks.map((link: any) => (
           <Link key={link.label} href={link.href} onClick={link.onClick}>
             <Button colorScheme="blue" size="sm">
@@ -95,21 +92,19 @@ function Header(props: any) {
             </Button>
           </Link>
         ))}
+
         {isAuthenticated && (
           <Button onClick={handleClick} colorScheme="blue" size="sm">
             Logout
           </Button>
         )}
-        {isAuthenticated && <CreateRaceDay props={props} />}
       </Flex>
       <Flex
         justifyContent="center"
         align="center"
         mr={3}
         display={["flex", "none"]}
-      >
-        <MobileHeaderWithAuth props={props} />
-      </Flex>
+      ></Flex>
       <Link
         href="/"
         style={{
@@ -132,16 +127,13 @@ function Header(props: any) {
       <LoginModal
         isOpen={isOpen}
         onClose={onClose}
-        onSuccess={() => {
-          setIsAuthenticated(true);
-          onClose();
-        }}
-        handleLogin={handleLogin}
-        handleAccountCreation={handleAccountCreation}
+        setIsAuthenticated={setIsAuthenticated}
+        setAlert={setAlert}
+        isAuthenticated={isAuthenticated}
+        alert={alert}
       />
     </Flex>
   );
 }
 
 export default Header;
-         

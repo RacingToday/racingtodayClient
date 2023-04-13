@@ -10,8 +10,10 @@ export default function App({ Component, pageProps }: AppProps) {
     uri: `${host}graphql`,
     cache: new InMemoryCache(),
     defaultOptions: {
+
+
       query: {
-        fetchPolicy: "network-only",
+        fetchPolicy: "cache-first",
         variables: {
           limit: 200,
         },

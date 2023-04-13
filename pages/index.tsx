@@ -1,13 +1,9 @@
-/** @format */
-
-import Header from "../components/Headers/Header";
 import RaceDayList from "../components/RaceDayList";
 import FiltersToSort from "../components/Filters/Filters";
 import Head from "next/head";
 import { gql, useQuery } from "@apollo/client";
 import ResponsiveHeader from "../components/Headers/ResponsiveHeader";
 import { useRef, useState } from "react";
-import { Flex } from "@chakra-ui/react";
 
 export default function Home() {
   const [laneType, setLaneType] = useState("");
@@ -44,7 +40,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    
       <ResponsiveHeader props={props} />
       <FiltersToSort props={props} />
       <RaceDayList props={props} />
