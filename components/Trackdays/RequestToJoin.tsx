@@ -69,7 +69,7 @@ export default function RequestToJoin(raceday: any) {
     useState("Request to Join");
   return (
     <>
-      <Button onClick={onOpen} colorScheme={"blue"} size={sizeConfig}>
+      <Button onClick={onOpen} colorScheme={"green"} size={sizeConfig}>
         Request to Join
       </Button>
       <Modal
@@ -134,7 +134,7 @@ export default function RequestToJoin(raceday: any) {
               </li>
             </List>
             <Flex>
-              <Button onClick={handleClick} mt={4} colorScheme={"blue"}>
+              <Button onClick={handleClick} mt={4} colorScheme={"green"}>
                 {requestToJoinButton}
               </Button>
               <Button mt={4} ml={4} onClick={onClose} colorScheme={"red"}>

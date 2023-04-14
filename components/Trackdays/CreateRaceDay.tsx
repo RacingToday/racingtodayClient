@@ -37,10 +37,10 @@ import {
   RadioGroupProps,
   Select,
   Switch,
+  VStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import React, { SetStateAction, useState } from "react";
-import { newRaceDay } from "../../lib/dataFetchHelpers";
 import Link from "next/link";
 
 function CreateRaceDay(props: any) {
@@ -229,8 +229,15 @@ function CreateRaceDay(props: any) {
 
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Raceday</ModalHeader>
+        <ModalContent borderRadius="md" boxShadow="xl" bg="gray.50" p={6}>
+          <ModalHeader
+            color="blue.600"
+            borderBottom="1px"
+            borderColor="blue.200"
+            pb={4}
+          >
+            Create Raceday
+          </ModalHeader>
           <ModalCloseButton
             onClick={() => {
               setSuccessfullyCreated(false);
@@ -266,185 +273,189 @@ function CreateRaceDay(props: any) {
               </AlertDialogBody>
             </Alert>
           )}
-          <ModalBody flexWrap={"wrap"}>
+          <ModalBody>
             <form onSubmit={handleSubmit}>
-              <FormControl>
-                <FormLabel>Event Description</FormLabel>
-                <Textarea
-                  variant={"filled"}
-                  placeholder="Please add a description of the event"
-                  onChange={(e) => setEventDescription(e.target.value)}
-                  value={EventDescription}
-                  h={"3rem"}
-                  mb={"1rem"}
-                />
-                <Flex w="100%" mb={"1rem"}>
-                  <FormLabel w={"auto%"}>
-                    Price
-                    <Input
-                      variant={"filled"}
-                      onChange={(e) => setPrice(e.target.value)}
-                      type={"number"}
-                      value={Price}
-                    />
-                  </FormLabel>
-                  <FormLabel w={"auto%"}>
-                    Track
-                    <br />
-                    <Menu>
-                      <MenuButton as={Button}>{Track}</MenuButton>
-                      <MenuList>
-                        {arrayOfRaceTracks.map(
-                          (raceTrack: RaceTrack, index: number) => (
-                            <MenuItem
-                              key={index}
-                              onClick={() => {
-                                setTrack(raceTrack.attributes.TrackName);
-                                setTrackID(raceTrack.id);
-                              }}
-                            >
-                              {raceTrack.attributes.TrackName}
-                            </MenuItem>
-                          )
-                        )}
-                      </MenuList>
-                    </Menu>
-                  </FormLabel>
-                </Flex>
-                Please check the boxes for all the classes you will allow on
-                track allowed on track
-                <Flex
-                  justifyContent={"space-around"}
-                  flexWrap={"wrap"}
-                  mb={"1rem"}
-                  gap={"1em"}
-                >
-                  <p>
-                    <Switch id="GT" name="GT" value="GT" /> GT
-                  </p>
-                  <p>
-                    <Switch id="Touring" name="Touring" /> Touring
-                  </p>
-                  <p>
-                    <Switch id="Formel" name="Formel" /> Formel
-                  </p>
-                  <p>
-                    <Switch id="Motorbikes" name="Motorbikes" /> Motorbikes
-                  </p>
-                  <p>
-                    <Switch
-                      id="Prototype"
-                      name="Prototypes"
-                      value="Prototypes"
-                    />{" "}
-                    Prototype
-                  </p>
-                  <p>
-                    <Switch id="Others" name="Others" value="Others" /> Others
-                  </p>
-                </Flex>
-                <Flex gap={4} mt={"1rem"}>
-                  <FormLabel w={"auto%"}>
-                    Event Date
-                    <Input
-                      value={Date}
-                      variant={"filled"}
-                      type={"date"}
-                      onChange={(e) => setDate(e.target.value)}
-                    />
-                  </FormLabel>
-                  <FormLabel w="auto%">
-                    Start Time
-                    <Input
-                      onChange={(e) => setStartTime(e.target.value)}
-                      value={StartTime}
-                      variant={"filled"}
-                      type={"time"}
-                    />
-                  </FormLabel>
-                  <FormLabel w={"auto%"}>
-                    End Time
-                    <Input
-                      value={EndTime}
-                      onChange={(e) => setEndTime(e.target.value)}
-                      variant={"filled"}
-                      type={"time"}
-                    />
-                  </FormLabel>
-                </Flex>
-                <Flex mt={"1rem"}>
-                  <FormLabel w={"20%"}>
-                    Raceday capacity
-                    <Input
-                      variant={"filled"}
-                      value={Capacity}
-                      onChange={(e) => setCapacity(e.target.value)}
-                      placeholder="example: 20"
-                      type={"number"}
-                    />
-                  </FormLabel>
-                  <FormLabel w={"30%"}>
-                    Split or Open Lane
-                    <Select
-                      className="laneType"
-                      id="laneType"
-                      variant={"filled"}
-                      onChange={(e) => setLaneType(e.target.value)}
-                      value={LaneType}
-                      placeholder="Select option"
-                    >
-                      <option value="1">Open Pitlane</option>
-                      <option value="0">Split Pitlane</option>
-                    </Select>
-                  </FormLabel>
-                </Flex>
-                <FormLabel>
-                  Does the track have any noise restrictions on that day?
-                </FormLabel>
-                <RadioGroup
-                  defaultValue="0"
-                  onChange={(e) => handleRadioChange(e)}
-                >
-                  <Stack direction="row">
-                    <Radio value="1">Yes</Radio>
-                    <Radio value="0">No</Radio>
-                    {hrz && (
+              <VStack spacing={4}>
+                <FormControl>
+                  <FormLabel>Event Description</FormLabel>
+                  <Textarea
+                    variant={"filled"}
+                    placeholder="Please add a description of the event"
+                    onChange={(e) => setEventDescription(e.target.value)}
+                    value={EventDescription}
+                    borderColor="blue.200"
+                    _focus={{ borderColor: "blue.500" }}
+                    h={"3rem"}
+                    mb={"1rem"}
+                  />
+                  <Flex w="100%" mb={"1rem"}>
+                    <FormLabel w={"auto%"}>
+                      Price
                       <Input
                         variant={"filled"}
-                        style={{
-                          marginLeft: "1em",
-                        }}
+                        onChange={(e) => setPrice(e.target.value)}
                         type={"number"}
-                        placeholder="what is the limit in db? example: 80"
-                        value={hrzLevel}
-                        onChange={(e) => setHrzLevel(e.target.value)}
+                        value={Price}
                       />
-                    )}
-                  </Stack>
-                </RadioGroup>
-                <br />
-                <Button
-                  type="submit"
-                  onSubmit={(e) => handleSubmit}
-                  colorScheme={"blue"}
-                >
-                  Craete
-                </Button>
-                <Button
-                  m={"0.4em 1em"}
-                  colorScheme={"red"}
-                  onClick={() => {
-                    setSuccessfullyCreated(false);
-                    setIsError(false);
-                    onClose();
-                  }}
-                >
-                  Close
-                </Button>
-              </FormControl>
+                    </FormLabel>
+                    <FormLabel w={"auto%"}>
+                      Track
+                      <br />
+                      <Menu>
+                        <MenuButton as={Button}>{Track}</MenuButton>
+                        <MenuList>
+                          {arrayOfRaceTracks.map(
+                            (raceTrack: RaceTrack, index: number) => (
+                              <MenuItem
+                                key={index}
+                                onClick={() => {
+                                  setTrack(raceTrack.attributes.TrackName);
+                                  setTrackID(raceTrack.id);
+                                }}
+                              >
+                                {raceTrack.attributes.TrackName}
+                              </MenuItem>
+                            )
+                          )}
+                        </MenuList>
+                      </Menu>
+                    </FormLabel>
+                  </Flex>
+                  Please check the boxes for all the classes you will allow on
+                  track allowed on track
+                  <Flex
+                    justifyContent={"space-around"}
+                    flexWrap={"wrap"}
+                    mb={"1rem"}
+                    gap={"1em"}
+                  >
+                    <p>
+                      <Switch id="GT" name="GT" value="GT" /> GT
+                    </p>
+                    <p>
+                      <Switch id="Touring" name="Touring" /> Touring
+                    </p>
+                    <p>
+                      <Switch id="Formel" name="Formel" /> Formel
+                    </p>
+                    <p>
+                      <Switch id="Motorbikes" name="Motorbikes" /> Motorbikes
+                    </p>
+                    <p>
+                      <Switch
+                        id="Prototype"
+                        name="Prototypes"
+                        value="Prototypes"
+                      />{" "}
+                      Prototype
+                    </p>
+                    <p>
+                      <Switch id="Others" name="Others" value="Others" /> Others
+                    </p>
+                  </Flex>
+                  <Flex gap={4} mt={"1rem"}>
+                    <FormLabel w={"auto%"}>
+                      Event Date
+                      <Input
+                        value={Date}
+                        variant={"filled"}
+                        type={"date"}
+                        onChange={(e) => setDate(e.target.value)}
+                      />
+                    </FormLabel>
+                    <FormLabel w="auto%">
+                      Start Time
+                      <Input
+                        onChange={(e) => setStartTime(e.target.value)}
+                        value={StartTime}
+                        variant={"filled"}
+                        type={"time"}
+                      />
+                    </FormLabel>
+                    <FormLabel w={"auto%"}>
+                      End Time
+                      <Input
+                        value={EndTime}
+                        onChange={(e) => setEndTime(e.target.value)}
+                        variant={"filled"}
+                        type={"time"}
+                      />
+                    </FormLabel>
+                  </Flex>
+                  <Flex mt={"1rem"}>
+                    <FormLabel w={"20%"}>
+                      Raceday capacity
+                      <Input
+                        variant={"filled"}
+                        value={Capacity}
+                        onChange={(e) => setCapacity(e.target.value)}
+                        placeholder="example: 20"
+                        type={"number"}
+                      />
+                    </FormLabel>
+                    <FormLabel w={"30%"}>
+                      Split or Open Lane
+                      <Select
+                        className="laneType"
+                        id="laneType"
+                        variant={"filled"}
+                        onChange={(e) => setLaneType(e.target.value)}
+                        value={LaneType}
+                        placeholder="Select option"
+                      >
+                        <option value="1">Open Pitlane</option>
+                        <option value="0">Split Pitlane</option>
+                      </Select>
+                    </FormLabel>
+                  </Flex>
+                  <FormLabel>
+                    Does the track have any noise restrictions on that day?
+                  </FormLabel>
+                  <RadioGroup
+                    defaultValue="0"
+                    onChange={(e) => handleRadioChange(e)}
+                  >
+                    <Stack direction="row">
+                      <Radio value="1">Yes</Radio>
+                      <Radio value="0">No</Radio>
+                      {hrz && (
+                        <Input
+                          variant={"filled"}
+                          style={{
+                            marginLeft: "1em",
+                          }}
+                          type={"number"}
+                          placeholder="what is the limit in db? example: 80"
+                          value={hrzLevel}
+                          onChange={(e) => setHrzLevel(e.target.value)}
+                        />
+                      )}
+                    </Stack>
+                  </RadioGroup>
+                  <br />
+                  <Button
+                    type="submit"
+                    onSubmit={(e) => handleSubmit}
+                    colorScheme={"blue"}
+                  >
+                    Craete
+                  </Button>
+                  <Button
+                    m={"0.4em 1em"}
+                    colorScheme={"red"}
+                    onClick={() => {
+                      setSuccessfullyCreated(false);
+                      setIsError(false);
+                      onClose();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </FormControl>
+              </VStack>
             </form>
           </ModalBody>
-          <ModalFooter></ModalFooter>
+          <ModalFooter justifyContent="flex-start"></ModalFooter>
         </ModalContent>
       </Modal>
     </>

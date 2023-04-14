@@ -1,9 +1,7 @@
-/** @format */
-
 import * as react from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
-import { Flex, Input, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Input, Text } from "@chakra-ui/react";
 import { host, getMyUser, fetchMyMessages } from "../../lib/dataFetchHelpers";
 function Messages() {
   const [ListOfRaceDays, setListOfRaceDays] = useState<any[]>([]);
@@ -102,69 +100,91 @@ function Messages() {
   }, []);
 
   return (
-    <Flex
-      direction={{ base: "column", md: "row" }}
-      height="85vh"
-      maxH="85vh"
-      width="100%"
-      overflow="hidden"
-    >
+    <Flex w="100%" h="100%" p={0} overflow="hidden">
       <react.VStack
         spacing={2}
         p={4}
-        w={{ base: "100%", md: "30%" }}
-        h="100%"
-        overflowY="auto"
+        w={{ base: "30%", md: "30%" }}
+        maxW={"30%"}
+        h="83vh"
+        overflow="hidden"
         bg="blue.50"
       >
         <Text fontSize="xl" fontWeight="bold">
           Messages
         </Text>
-        {ListOfRaceDays.length > 0 ? (
-          ListOfRaceDays.map((message: any) => (
-            <react.Button
-              key={message.id}
-              onClick={() => {
-                setArrayOfMessages(message.attributes.messages?.data || []);
-                setMessageIndex(message.id);
-              }}
-              colorScheme="blue"
-              w="100%"
-              textAlign="left"
-            >
-              Date: {message.attributes.RaceDate}
-              <br />
-              Track:{" "}
-              {message.attributes.race_track?.data?.attributes?.TrackName ||
-                "Unknown"}
-            </react.Button>
-          ))
-        ) : (
-          <Text>No messages</Text>
-        )}
+        <Box
+          maxH="calc(83vh - 50px)"
+          overflowY="auto"
+          bg="blue.100"
+          borderRadius="md"
+          p={2}
+        >
+          {" "}
+          {ListOfRaceDays.length > 0 ? (
+            ListOfRaceDays.map((message: any) => (
+              <react.Button
+                mt={5}
+                key={message.id}
+                onClick={() => {
+                  setArrayOfMessages(message.attributes.messages?.data || []);
+                  setMessageIndex(message.id);
+                }}
+                colorScheme="blue"
+                textAlign="left"
+                h={"3rem"}
+                borderRadius="md"
+                p={4}
+                my={1}
+                w="100%"
+              >
+                <Box fontSize={{ base: "xs", sm: "sm", md: "md", lg: "lg" }}>
+                  <Badge colorScheme="blue" mr={1}>
+                    Date:
+                  </Badge>
+                  {message.attributes.RaceDate}
+                  <br />
+                  <Badge colorScheme="blue" mr={2}>
+                    Track
+                  </Badge>{" "}
+                  {message.attributes.race_track?.data?.attributes?.TrackName ||
+                    "Unknown"}
+                </Box>
+              </react.Button>
+            ))
+          ) : (
+            <Text>No messages</Text>
+          )}
+        </Box>
       </react.VStack>
       <Flex
         direction="column"
-        p={4}
+        p={0}
         flex="1"
-        h="100%"
+        h="90%"
+        minH={"82vh"}
         bg="white"
         justifyContent="space-between"
       >
-        <react.VStack
-          spacing={4}
-          alignItems="flex-start"
+        <Box
           w="100%"
-          h="100%"
+          h="calc(83vh - 100px)"
           overflowY="auto"
-          flex="1"
-          direction="column-reverse"
+          mb={4}
+          bg="gray.50"
+          borderRadius="md"
+          p={2}
         >
+          {" "}
           {arrayOfMessages.length > 0 ? (
             arrayOfMessages.map((message: any, index) => (
               <react.HStack
                 key={index}
                 spacing={4}
+                mt={4}
+                w="100%"
+                pr={4}
+                h="auto"
                 alignItems="flex-start"
                 justifyContent={
                   message.attributes.Sender === myEmail
@@ -190,7 +210,8 @@ function Messages() {
           ) : (
             <Text fontSize="xl">No messages</Text>
           )}
-        </react.VStack>
+        </Box>
+
         <Input
           mt={4}
           placeholder="Type your message here"

@@ -102,12 +102,17 @@ function Header(props: any) {
         justifyContent={"flex-end"}
         display={["none", "flex", "flex"]}
       >
-        {isAuthenticated && <CreateRaceDay props={props} />}
+        {isAuthenticated && (
+          <>
+            <CreateRaceDay props={props} />
+            <Link href="/myracedays">
+              <Text>My Racedays</Text>
+            </Link>
+          </>
+        )}
         {navLinks.map((link: NavLink) => (
           <Link key={link.label} href={link.href} onClick={link.onClick}>
-            <Button colorScheme="blue" size="sm">
-              {link.label}
-            </Button>
+            {link.label}
           </Link>
         ))}
       </Flex>
