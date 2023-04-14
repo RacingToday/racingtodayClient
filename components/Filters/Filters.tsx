@@ -282,26 +282,34 @@ function FiltersToSort({ props }: { props: Props }) {
   }
   return (
     <>
-      <Button
-        onClick={handleClick}
-        colorScheme="blue"
-        border={"none"}
-        h={["2rem", "2rem", "2.4rem"]}
-        fontSize={["sm", "sm", "md", "md"]}
-        w="fit-content"
-        m={5}
+      <Flex
+        flexDir={["column", "column", "row", "row"]}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        w={"100%"}
+        m={"0.5rem 0"}
       >
-        {ButtonText}
-      </Button>
-      <Text
-        flex={1}
-        m={"0.2rem 2rem"}
-        fontSize={[14, 16, 18, 20]}
-        position={"relative"}
-      >
-        You are currently looking at <b>{listOfTrackDays.length}</b> track days{" "}
-        <b>{filterText}</b>
-      </Text>
+        <Button
+          onClick={handleClick}
+          colorScheme="blue"
+          border={"none"}
+          h={["2rem", "2rem", "2.4rem"]}
+          fontSize={["sm", "sm", "md", "md"]}
+          w="fit-content"
+          m={5}
+        >
+          {ButtonText}
+        </Button>
+        <Text
+          flex={1}
+          m={"0.2rem 2rem"}
+          fontSize={[14, 16, 18, 20]}
+          position={"relative"}
+        >
+          You are currently looking at <b>{listOfTrackDays.length}</b> track
+          days <b>{filterText}</b>
+        </Text>
+      </Flex>
       {filterNotification && (
         <Alert status="success" color={"green.500"}>
           <AlertIcon />
@@ -320,6 +328,7 @@ function FiltersToSort({ props }: { props: Props }) {
           alignItems={"center"}
           alignContent={"center"}
           border={"1px solid #e2e8f0"}
+          bg={"gray.100"}
           borderRadius={"md"}
         >
           <CarClassDropdown
@@ -369,6 +378,7 @@ function FiltersToSort({ props }: { props: Props }) {
               type="date"
               name="toDate"
               size={sizeConfig}
+              border={"black" + " 1px solid"}
               className="toDate"
               variant={"filled"}
               style={{
@@ -387,6 +397,7 @@ function FiltersToSort({ props }: { props: Props }) {
             <Input
               variant={"filled"}
               w={"10rem"}
+              border={"black" + " 1px solid"}
               size={sizeConfig}
               h={"2.5rem"}
               style={{
@@ -410,6 +421,7 @@ function FiltersToSort({ props }: { props: Props }) {
             <Select
               variant={"filled"}
               h={"2.5rem"}
+              border={"black" + " 1px solid"}
               w={"10rem"}
               ml={"1em"}
               value={laneType}

@@ -24,17 +24,17 @@ function MyPastRaceDays({ myRaceDays, myRaceDaysAfterToday }: props) {
       mt={10}
       flexDir="column"
       wrap="wrap"
-      p={4}
       minW="100%"
       maxH="75vh"
-      overflowY="scroll"
+      p={0}
+      overflowY="auto"
       fontSize={["md", "lg", "xl"]}
     >
       <Text as="h2" fontWeight="bold" mb={4}>
         Past Track Days
       </Text>
 
-      <Accordion w="100%" allowMultiple>
+      <Accordion w="100%" allowMultiple p={0}>
         {MyPastRaceDays.length > 0 ? (
           MyPastRaceDays.map((raceDay: RaceDay) => {
             return (

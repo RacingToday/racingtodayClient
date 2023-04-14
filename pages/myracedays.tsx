@@ -71,7 +71,13 @@ function MyRaceDays() {
             <TabPanel overflow={"hidden"} p={0}>
               <MyRaceDayComponent props={props} />
             </TabPanel>
-            <TabPanel flexWrap="wrap" bgColor={"gray.100"} p={0}>
+            <TabPanel
+              overflow={"hidden"}
+              flexWrap="wrap"
+              bgColor={"gray.100"}
+              p={0}
+              m={0}
+            >
               <Messages />
             </TabPanel>
           </TabPanels>

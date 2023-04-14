@@ -140,25 +140,25 @@ function RaceDayList({ props }: { props: Props }) {
               borderRadius="10px"
               boxShadow="lg"
               p={4}
-              bgGradient="linear(to-t, blue.100, blue.50)"
+              bgGradient="linear(to-t, blue.500, blue.600)"
               overflow="hidden"
             >
               <VStack align="start" spacing={2}>
-                <Text fontWeight="bold" color="blue.900">
+                <Text fontWeight="bold" color="white">
                   Track:{" "}
                   {raceday.attributes.race_track.data.attributes.TrackName}
                 </Text>
-                <Text color="blue.800">
+                <Text color="white">
                   Date: {formatDate(raceday.attributes.RaceDate)}
                 </Text>
-                <Text color="blue.800">
+                <Text color="white">
                   Lane Style :{" "}
                   {raceday.attributes.OpenPitLane ? "Open" : "Split"}
                 </Text>
-                <Text color="blue.800">
+                <Text color="white">
                   Classes: {raceday.attributes.CarClass}
                 </Text>
-                <Text color="blue.800">From €{raceday.attributes.Price}</Text>
+                <Text color="white">From €{raceday.attributes.Price}</Text>
                 <HStack mt="auto" alignSelf="end">
                   <RequestToJoin raceDay={raceday} />
                 </HStack>

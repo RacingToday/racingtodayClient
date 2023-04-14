@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   List,
   ListItem,
   Text,
@@ -79,7 +80,7 @@ function MyRaceDayComponent(props: Props) {
       flex={1}
       p={3}
       wrap="wrap"
-      minW="90%"
+      minW="100%"
       minH="80vh"
       overflowY="scroll"
       fontSize={["md", "lg", "xl"]}
@@ -110,52 +111,30 @@ function MyRaceDayComponent(props: Props) {
               mt={3}
             >
               <AccordionButton p={"1em 0em"}>
-                <Flex
+                <Grid
+                  templateColumns="repeat(5, 1fr)"
+                  alignItems="center"
+                  gap={1}
                   flex={1}
-                  pl={"2%"}
-                  wrap="wrap"
+                  ml={5}
                   minW={"100%"}
-                  flexBasis={"auto"}
                   textAlign={"left"}
-                  justifySelf={"flex-start"}
                   fontSize={["xs", "md", "lg"]}
                 >
-                  <h3
-                    style={{
-                      width: "22%",
-                    }}
-                  >
+                  <Box fontWeight="semibold">
                     {raceDay.attributes.race_track.data.attributes.TrackName}
-                  </h3>
-                  <h3
-                    style={{
-                      textTransform: "uppercase",
-
-                      width: "22%",
-                    }}
-                  >
+                  </Box>
+                  <Box fontWeight="semibold" textTransform="uppercase">
                     {raceDay.attributes.RaceDate}
-                  </h3>
-                  <h3
-                    style={{
-                      textTransform: "uppercase",
-
-                      width: "22%",
-                    }}
-                  >
+                  </Box>
+                  <Box fontWeight="semibold" textTransform="uppercase">
                     {raceDay.attributes.StartTime.slice(0, 5)}
-                  </h3>
-                  <h3
-                    style={{
-                      textTransform: "uppercase",
-
-                      width: "22%",
-                    }}
-                  >
+                  </Box>
+                  <Box fontWeight="semibold" textTransform="uppercase">
                     {raceDay.attributes.EndTime.slice(0, 5)}
-                  </h3>
+                  </Box>
                   <AccordionIcon />
-                </Flex>
+                </Grid>
               </AccordionButton>
               <AccordionPanel
                 style={{
