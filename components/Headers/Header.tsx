@@ -1,9 +1,4 @@
 import {
-  Box,
-  Button,
-  Flex,
-  Link,
-  Text,
   useDisclosure,
   Drawer,
   DrawerBody,
@@ -17,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { getMyUser } from "../../lib/dataFetchHelpers";
 import LoginModal from "../Modals/Loginmodal";
 import AlertComponent from "../Alerts/Alert";
-
+import Link from "next/link";
 function Header(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mobileDrawer = useDisclosure();
@@ -56,38 +51,34 @@ function Header(props: any) {
 
   type NavLink = {
     label: string;
-    href?: string;
+    href: string;
     onClick?: () => void;
   };
 
-  const createNavLinks = (): NavLink[] => {
+  const createNavLinks = (authenticated: boolean): NavLink[] => {
     const navLinks: NavLink[] = [
       { label: "About Us", href: "/about" },
       { label: "Terms", href: "/terms" },
     ];
 
-    if (isAuthenticated) {
+    if (authenticated) {
       navLinks.splice(1, 0, { label: "My Racedays", href: "/myracedays" });
-      navLinks.push({ label: "Logout", onClick: handleClick });
+      navLinks.push({ label: "Logout", href: "/logout", onClick: handleClick });
     } else {
-      navLinks.push({ label: "Login or Register", onClick: onOpen });
+      navLinks.push({
+        label: "Login or Register",
+        href: "/login",
+        onClick: onOpen,
+      });
     }
 
     return navLinks;
   };
 
-  const navLinks = createNavLinks();
+  const navLinks = createNavLinks(isAuthenticated);
 
   return (
-    <Flex
-      h={"5rem"}
-      justifyContent={"space-between"}
-      flexDir="row-reverse"
-      color={"#fff"}
-      minW={"100%"}
-      maxW={"100%"}
-      bg={"#1a202c"}
-    >
+    <div className="flex justify-between items-center w-full h-20 bg-gray-800 text-white">
       {alert && isAuthenticated && (
         <AlertComponent
           type={"success"}
@@ -95,45 +86,33 @@ function Header(props: any) {
           setState={setAlert}
         />
       )}
-      <Flex
-        gap="5"
-        alignItems={"center"}
-        mr={"1rem"}
-        justifyContent={"flex-end"}
-        display={["none", "flex", "flex"]}
-      >
+      <div className="flex items-center w-full justify-end  gap-6 mr-7 hidden sm:flex">
         {isAuthenticated && (
           <>
             <CreateRaceDay props={props} />
-            <Link href="/myracedays">
-              <Text>My Racedays</Text>
+            <Link href="/myracedays" className="hover:text-blue-600">
+              <p className="cursor-pointer">My Racedays</p>
             </Link>
           </>
         )}
         {navLinks.map((link: NavLink) => (
-          <Link key={link.label} href={link.href} onClick={link.onClick}>
+          <Link
+            className="hover:text-blue-600"
+            key={link.label}
+            href={link.href}
+            onClick={link.onClick}
+          >
             {link.label}
           </Link>
         ))}
-      </Flex>
-      <Flex
-        justifyContent="center"
-        align="center"
-        mr={3}
-        display={["flex", "none"]}
-      >
-        <Button
+      </div>
+      <div className="flex justify-center items-center ml-auto mr-3 sm:hidden">
+        <button
           onClick={mobileDrawer.onOpen}
-          colorScheme="blue"
-          ml={"0.4em"}
-          size="md"
-          mr={"1em"}
-          alignContent={"center"}
-          alignSelf={"center"}
-          justifyContent={"center"}
+          className="bg-sky-600 ml-1 text-white py-2 px-4 rounded mr-4"
         >
           Menu
-        </Button>
+        </button>
         <Drawer
           isOpen={mobileDrawer.isOpen}
           placement="right"
@@ -143,46 +122,26 @@ function Header(props: any) {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader mt={"3em"}>Select your next destination</DrawerHeader>
-            <DrawerBody
-              display={"flex"}
-              flexDir={"column"}
-              gap={"1em"}
-              fontSize="2xl"
-              m="0 auto"
-              borderBottom="1px"
-              border={1}
-              w="max-content"
-            >
+            <DrawerBody className="flex flex-col gap-4 text-2xl m-auto border-b w-max">
               {isAuthenticated && <CreateRaceDay props={props} />}
               {navLinks.map((link: NavLink) => (
                 <Link key={link.label} href={link.href} onClick={link.onClick}>
-                  <Button w="100%" colorScheme="blue" fontSize={"1.5rem"}>
+                  <button className="w-full bg-sky-00 text-white text-3xl py-2 px-4 rounded">
                     {link.label}
-                  </Button>
+                  </button>
                 </Link>
               ))}
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-      </Flex>
+      </div>
       <Link
         href="/"
-        style={{
-          textDecoration: "none",
-          color: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: "1rem",
-        }}
+        className="flex items-center justify-center ml-4 text-white no-underline"
       >
-        <Text
-          left="30px"
-          position={"absolute"}
-          fontSize={["lg", "1xl", "1.2em", "2em"]}
-        >
+        <p className="absolute left-7 text-lg sm:text-xl md:text-2xl lg:text-4xl">
           RacingToday
-        </Text>
+        </p>
       </Link>
       <LoginModal
         isOpen={isOpen}
@@ -192,7 +151,7 @@ function Header(props: any) {
         isAuthenticated={isAuthenticated}
         alert={alert}
       />
-    </Flex>
+    </div>
   );
 }
 
