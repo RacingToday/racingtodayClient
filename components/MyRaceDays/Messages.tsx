@@ -1,11 +1,9 @@
 /** @format */
 
-import * as react from "@chakra-ui/react";
 import React from "react";
 
 import { getMyUser, fetchMyMessages, host } from "../../lib/dataFetchHelpers";
 import { useState } from "react";
-import { Flex } from "@chakra-ui/react";
 
 function Messages() {
   const [ListOfRaceDays, setListOfRaceDays] = useState<any[]>([]);
@@ -102,148 +100,62 @@ function Messages() {
   }, []);
 
   return (
-    <Flex
-      overflow={"hidden"}
-      flexDir="row"
-      wordBreak={"break-word"}
-      flex={1}
-      minH={"85vh"}
-      maxH={"85vh"}
-    >
-      <Flex
-        className="chatSelection"
-        flex={1}
-        flexDirection={["row", "column"]}
-        flexWrap={"wrap"}
-        maxH={["60vh", "85vh"]}
-        fontSize={[12, 14, 16, 18]}
-        overflow={"scroll"}
-        w={"100%"}
-        mr={1}
-      >
-        <h1
-          style={{
-            fontSize: "1.5em",
-            fontWeight: "bold",
-            paddingBottom: "0.5em",
-            borderBottom: "1px dotted black",
-            marginBottom: "0.5em",
-          }}
-        >
+    <div className="flex flex-row flex-1 min-h-screen max-h-screen break-words overflow-hidden">
+      <div className="flex flex-col flex-wrap overflow-scroll w-full max-h-screen font-medium chatSelection">
+        <h1 className="text-2xl font-bold pb-2 mb-2 border-b border-dotted border-black">
           Messages
         </h1>
 
         {ListOfRaceDays.length > 0 ? (
           ListOfRaceDays.map((message: any) => {
             return (
-              <react.Button
-                mt={1}
-                flex={1}
-                w={"90%"}
-                border={"none"}
+              <button
+                className="mt-1 flex-1 w-11/12 focus:outline-none text-sm md:text-base lg:text-lg xl:text-xl my-2"
                 onClick={() => {
                   setArrayOfMessages(message.attributes.messages.data);
                   setMessageIndex(message.id);
                 }}
-                colorScheme={"blue"}
-                mr={1}
-                fontSize={[10, 14, 16]}
-                flexDir={"column"}
-                maxH={"7vh"}
-                m={"0.5em"}
                 key={message.id}
               >
                 Date: {message.attributes.RaceDate}
                 <br />
                 Track: {message.attributes.race_track.data.attributes.TrackName}
-              </react.Button>
+              </button>
             );
           })
         ) : (
           <p>No messages</p>
         )}
-      </Flex>
-      <Flex
-        padding={2}
-        minH={"70vh"}
-        minW={["60vw", "70vw"]}
-        maxH={"70vh"}
-        flex={1}
-        maxW={"75vw"}
-        className="chat"
-        border="none"
-        borderRadius={"15px"}
-        bgColor={"white"}
-        wrap={"wrap"}
-        flexDir={"column"}
-        alignItems="flex-start"
-        justifyContent={"space-between"}
-      >
-        <Flex
-          className="chatMessages"
-          overflow={"auto"}
-          flex={1}
-          w={"100%"}
-          flexDir={"column-reverse"}
-          borderBottom="1px dotted black"
-        >
+      </div>
+      <div className="flex flex-col justify-between items-start p-2 min-h-[70vh] min-w-[60vw] md:min-w-[70vw] max-h-[70vh] max-w-[75vw] chat rounded-lg bg-white">
+        <div className="flex flex-col-reverse w-full overflow-auto break-words chatMessages">
           {arrayOfMessages.length > 0 ? (
             arrayOfMessages.map((message: any, index) => {
               return (
-                <react.Box
+                <div
+                  className={`m-2 p-2 rounded-lg text-white break-words ${
+                    message.attributes.Sender === myEmail
+                      ? "bg-green-400 self-end"
+                      : "bg-blue-400 self-start"
+                  }`}
                   key={index}
-                  m={2}
-                  bgColor={"blue.400"}
-                  borderRadius={"15px"}
-                  p={2}
-                  fontSize={[12, 14, 16, 18]}
-                  wordBreak={"break-word"}
-                  backgroundColor={
-                    message.attributes.Sender === myEmail
-                      ? "green.400"
-                      : "blue.400"
-                  }
-                  alignContent={"flex-start"}
-                  alignSelf={
-                    message.attributes.Sender === myEmail
-                      ? "flex-end"
-                      : "flex-start"
-                  }
                 >
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    {message.attributes.Sender}
-                  </p>
+                  <p className="font-bold">{message.attributes.Sender}</p>
 
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    {message.attributes.Text}
-                  </p>
-                </react.Box>
+                  <p className="font-bold">{message.attributes.Text}</p>
+                </div>
               );
             })
           ) : (
             <h1>No messages</h1>
           )}
-        </Flex>
+        </div>
 
-        <react.Input
-          mt={5}
+        <input
+          className="mt-5 border border-gray-300 w-11/12 focus:outline-none focus:border-blue-400 text-sm md:text-base lg:text-lg xl:text-xl"
           placeholder="Type your message here"
-          type={"text"}
-          id={"message"}
-          fontSize={[12, 14, 16, 18]}
-          size={"lg"}
-          position={"relative"}
-          w={"90%"}
+          type="text"
+          id="message"
           value={currentMessage}
           onChange={(e) => setCurrentMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -252,8 +164,8 @@ function Messages() {
             }
           }}
         />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 }
 

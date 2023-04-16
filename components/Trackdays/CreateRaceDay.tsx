@@ -215,17 +215,11 @@ function CreateRaceDay(props: any) {
         fontSize={["sm", "sm", "md"]}
         w="fit-content"
       >
-        Create Raceday
+        Add Track Day
       </Button>
-      <Button
-        colorScheme="blue"
-        w={"100%"}
-        display={["block", "none", "none"]}
-        onClick={onOpen}
-        fontSize={"1.5rem"}
-      >
-        Create Raceday
-      </Button>
+      <text onClick={onOpen} className="sm:hidden" fontSize={"1.5rem"}>
+        Add Track Day
+      </text>
 
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

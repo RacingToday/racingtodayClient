@@ -1,26 +1,3 @@
-/** @format */
-
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Button,
-  Flex,
-  FormLabel,
-  Input,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-  Radio,
-  RadioGroup,
-  Select,
-  Stack,
-  Switch,
-  Text,
-} from "@chakra-ui/react";
 import React, {
   HTMLInputTypeAttribute,
   SetStateAction,
@@ -49,7 +26,6 @@ import {
 import CarClassDropdown from "./CarClassDropdown";
 
 function FiltersToSort({ props }: { props: Props }) {
-  const sizeConfig = ["xs", "sm", "md", "lg"];
   const {
     setListOfTrackDays,
     listOfTrackDays,
@@ -280,57 +256,32 @@ function FiltersToSort({ props }: { props: Props }) {
         filterText.substring(lastCommaIndex + 1);
     }
   }
+  //#296ad2, #2e4bee
   return (
-    <>
-      <Flex
-        flexDir={["column", "column", "row", "row"]}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-        w={"100%"}
-        m={"0.5rem 0"}
-      >
-        <Button
+    <div className="w-full">
+      <div className="flex flex-col md:flex-row justify-left gap-10 items-center w-full my-4">
+        <button
+          className="responsive-button blue-button ml-10 "
           onClick={handleClick}
-          colorScheme="blue"
-          border={"none"}
-          h={["2rem", "2rem", "2.4rem"]}
-          fontSize={["sm", "sm", "md", "md"]}
-          w="fit-content"
-          m={5}
         >
           {ButtonText}
-        </Button>
-        <Text
-          flex={1}
-          m={"0.2rem 2rem"}
-          fontSize={[14, 16, 18, 20]}
-          position={"relative"}
-        >
+        </button>
+
+        <p className="text-md md:text-lg relative ml-7">
           You are currently looking at <b>{listOfTrackDays.length}</b> track
           days <b>{filterText}</b>
-        </Text>
-      </Flex>
+        </p>
+      </div>
       {filterNotification && (
-        <Alert status="success" color={"green.500"}>
-          <AlertIcon />
-          <AlertTitle>
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">
             The filter has been saved and will automatically be applied when you
             load the page
-          </AlertTitle>
-        </Alert>
+          </strong>
+        </div>
       )}
       {filters && (
-        <Flex
-          flexWrap={"wrap"}
-          gap={6}
-          p={4}
-          justifyContent={"space-around"}
-          alignItems={"center"}
-          alignContent={"center"}
-          border={"1px solid #e2e8f0"}
-          bg={"gray.100"}
-          borderRadius={"md"}
-        >
+        <div className="flex flex-wrap gap-6 p-4 m-4 justify-around items-start align-center border border-black bg-gray-100 rounded-md">
           <CarClassDropdown
             setListOfTrackDays={setListOfTrackDays}
             allTrackDays={arrayOfRacedays}
@@ -343,87 +294,39 @@ function FiltersToSort({ props }: { props: Props }) {
             masterFilters={masterFilters}
             trackFilters={trackFilters}
           />
-          <label
-            style={{
-              fontSize: "1rem",
-            }}
-          >
+          <label className="text-lg">
             From
-            <Input
-              w={"10rem"}
-              variant={"filled"}
-              name="fromDate"
-              borderRadius={"md"}
-              ml={"1em"}
+            <input
+              className="w-40 bg-white text-center border py-1 border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
               type="date"
-              size={sizeConfig}
-              className="fromDate"
-              border={"black" + " 1px solid"}
-              fontSize={"1rem"}
-              style={{
-                fontSize: "1rem",
-              }}
+              name="fromDate"
               onChange={(e) => handleChange(e)}
             />
           </label>
-          <label
-            style={{
-              fontSize: "1rem",
-            }}
-          >
+          <label className="text-lg">
             To
-            <Input
-              w={"10rem"}
-              onChange={(e) => handleChange(e)}
+            <input
+              className="w-40 bg-white border text-center py-1 border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
               type="date"
               name="toDate"
-              size={sizeConfig}
-              border={"black" + " 1px solid"}
-              className="toDate"
-              variant={"filled"}
-              style={{
-                fontSize: "1rem",
-              }}
-              ml={"1em"}
+              onChange={(e) => handleChange(e)}
             />
           </label>
-
-          <label
-            style={{
-              fontSize: "1rem",
-            }}
-          >
+          <label className="text-lg">
             DB Limit
-            <Input
-              variant={"filled"}
-              w={"10rem"}
-              border={"black" + " 1px solid"}
-              size={sizeConfig}
-              h={"2.5rem"}
-              style={{
-                marginLeft: "1em",
-                fontSize: "1rem",
-              }}
-              type={"number"}
+            <input
+              className="w-40 bg-white text-center border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              type="number"
               placeholder="enter a number"
               value={allowedNoise}
               onChange={(e) => handleNoiseChange(e)}
             />
           </label>
-          <label
-            style={{
-              fontSize: "1rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+
+          <label className="text-lg flex items-center">
             Lane Type
-            <Select
-              variant={"filled"}
-              h={"2.5rem"}
-              border={"black" + " 1px solid"}
-              w={"10rem"}
-              ml={"1em"}
+            <select
+              className="w-40 bg-white text-center border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
               value={laneType}
               onChange={(e) => {
                 setLaneType(e.target.value);
@@ -433,12 +336,12 @@ function FiltersToSort({ props }: { props: Props }) {
               <option value="all">All</option>
               <option value="Open">Open Pit Lane</option>
               <option value="Split">Split Pit Lane</option>
-            </Select>
+            </select>
           </label>
 
-          <Flex w="80%" justifyContent="left">
+          <div className="flex w-80 justify-start">
             {checkForActiveFilters && filters && (
-              <Button
+              <button
                 onClick={() => {
                   setAllowedNoise("");
 
@@ -449,8 +352,12 @@ function FiltersToSort({ props }: { props: Props }) {
                   localStorage.removeItem("filters");
                   // update the date values to default
 
-                  const fromDate: any = document.querySelector(".fromDate");
-                  const toDate: any = document.querySelector(".toDate");
+                  const fromDate = document.querySelector(
+                    ".fromDate"
+                  ) as HTMLInputElement;
+                  const toDate = document.querySelector(
+                    ".toDate"
+                  ) as HTMLInputElement;
                   if (fromDate && toDate) {
                     fromDate.value = "";
                     toDate.value = "";
@@ -458,27 +365,23 @@ function FiltersToSort({ props }: { props: Props }) {
 
                   setListOfTrackDays(arrayOfRacedays);
                 }}
-                colorScheme="red"
-                size="sm"
-                m={2}
+                className="bg-gradient-to-r  from-red-500 to-red-700 hover:bg-red-500 shadow-lg text-white px-6 py-2 font-semibold rounded focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 m-2"
               >
                 Clear Filters
-              </Button>
+              </button>
             )}
             {checkForActiveFilters && filters && (
-              <Button
+              <button
                 onClick={handleSaveFilters}
-                colorScheme="green"
-                size="sm"
-                m={2}
+                className=" shadow-lg bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 font-bold rounded focus:outline-none focus:ring-2 focus:ring-green-300 m-2"
               >
                 Save Filters
-              </Button>
+              </button>
             )}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 
