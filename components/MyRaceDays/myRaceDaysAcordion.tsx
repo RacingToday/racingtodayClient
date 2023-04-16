@@ -14,29 +14,29 @@ const RaceDaysAccordion = ({ MyRaceDays }: any) => {
         MyRaceDays.map((raceDay: MyRaceDay) => (
           <details
             key={raceDay.id}
-            className="border border-blue-600 rounded-2xl  mt-3 shadow-md"
+            className="border border-black rounded-2xl bg-blue-50 mt-3 shadow-md"
           >
-            <summary className="w-full ml-4 md:ml-10 p-4 focus:outline-none cursor-pointer">
-              <div className="grid grid-cols-5 gap-2 ml-3 md:ml-5 text-xs md:text-md lg:text-lg">
-                <div className="col-span-2 md:col-span-1 font-semibold">
+            <summary className="w-full flex justify-center items-center ml-4 md:ml-10 p-4 focus:outline-none cursor-pointer">
+              <div className="flex justify-between items-center w-full text-xs md:text-md lg:text-lg">
+                <div className="w-1/5 md:w-1/5 font-semibold">
                   {raceDay.attributes.race_track.data.attributes.TrackName}
                 </div>
-                <div className="col-span-2 md:col-span-1 font-semibold uppercase">
+                <div className="w-1/5 md:w-1/5 font-semibold uppercase text-center">
                   {raceDay.attributes.RaceDate}
                 </div>
-                <div className="col-span-1 font-semibold uppercase">
+                <div className="w-1/5 md:w-1/5 font-semibold uppercase text-center">
                   {raceDay.attributes.StartTime.slice(0, 5)}
                 </div>
-                <div className="col-span-1 font-semibold uppercase">
+                <div className="w-1/5 md:w-1/5 font-semibold uppercase text-center">
                   {raceDay.attributes.EndTime.slice(0, 5)}
                 </div>
-                <div className="col-span-1 ">
+                <div className="w-1/5 md:w-1/5 flex justify-end items-center">
                   <i className="fas fa-chevron-down"></i>
                 </div>
               </div>
             </summary>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-blue-600 p-5 pl-4 md:pl-10 pr-4 md:pr-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-black p-5 pl-4 md:pl-10 pr-4 md:pr-10">
               <div className="col-span-1">
                 <ul className="flex flex-col gap-2">
                   <li>

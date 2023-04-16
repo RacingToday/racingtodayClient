@@ -1,3 +1,50 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+/* Import Tailwind base and utility classes */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* custom-styles.css */
+.responsive-button {
+  padding: 0.25rem 0.7rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  font-size: clamp(1rem, 1.1vw, 1.2rem) !important;
+}
+
+.blue-button {
+  background-image: linear-gradient(to right, #228ce2, #3182ce);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.green-button {
+  background-image: linear-gradient(to right, #48bb78, #38a169);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: background-image 0.2s ease-in-out;
+}
+.blue-button:hover {
+  background-image: linear-gradient(to right, #3182ce, #4299e1);
+}
+
+.green-button:hover {
+  background-image: linear-gradient(to right, #38a169, #48bb78);
+}
+
+.red-button {
+  background-image: linear-gradient(to right, #e53e3e, #c53030);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.red-button:hover {
+  background-image: linear-gradient(to right, #c53030, #e53e3e);
+}

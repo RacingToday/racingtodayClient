@@ -7,6 +7,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/react";
+import PopoverMenu from "./PopoverHeader";
 import CreateRaceDay from "../Trackdays/CreateRaceDay";
 import React, { useEffect, useState } from "react";
 import { getMyUser } from "../../lib/dataFetchHelpers";
@@ -42,40 +43,20 @@ function Header(props: any) {
     checkForUser();
   }, [props]);
 
-  const handleClick = () => {
+  const handleLogout = () => {
     localStorage.removeItem("jwt");
-    window.location.href = "/";
     setIsAuthenticated(false);
+
     return;
   };
 
-  type NavLink = {
-    label: string;
-    href: string;
-    onClick?: () => void;
-  };
-
-  const createNavLinks = (authenticated: boolean): NavLink[] => {
-    const navLinks: NavLink[] = [
-      { label: "About Us", href: "/about" },
-      { label: "Terms", href: "/terms" },
-    ];
-
-    if (authenticated) {
-      navLinks.splice(1, 0, { label: "My Racedays", href: "/myracedays" });
-      navLinks.push({ label: "Logout", href: "/logout", onClick: handleClick });
-    } else {
-      navLinks.push({
-        label: "Login or Register",
-        href: "/login",
-        onClick: onOpen,
-      });
-    }
-
-    return navLinks;
-  };
-
-  const navLinks = createNavLinks(isAuthenticated);
+  const loginButton = isAuthenticated ? (
+    <button onClick={handleLogout}>Logout</button>
+  ) : (
+    <button className="blue-button responsive-button" onClick={onOpen}>
+      Login or register
+    </button>
+  );
 
   return (
     <div className="flex justify-between items-center w-full h-20 bg-gray-800 text-white">
@@ -87,26 +68,47 @@ function Header(props: any) {
         />
       )}
       <div className="flex items-center w-full justify-end  gap-6 mr-7 hidden sm:flex">
-        {isAuthenticated && (
-          <>
-            <CreateRaceDay props={props} />
-            <Link href="/myracedays" className="hover:text-blue-600">
-              <p className="cursor-pointer">My Racedays</p>
-            </Link>
-          </>
-        )}
-        {navLinks.map((link: NavLink) => (
-          <Link
-            className="hover:text-blue-600"
-            key={link.label}
-            href={link.href}
-            onClick={link.onClick}
-          >
-            {link.label}
+        <PopoverMenu title="Race Section">
+          <Link href="/racedays" className="mt-1">
+            <p className="mt-1 hover:text-blue-600 cursor-pointer">
+              Marketplace
+            </p>
           </Link>
-        ))}
+          <Link href="/trackdays " className="mt-1">
+            <p className="mt-1 hover:text-blue-600 cursor-pointer ">
+              Trackdays
+            </p>
+          </Link>
+          {isAuthenticated && (
+            <>
+              <Link href="/myracedays" className="mt-1 hover:text-blue-600">
+                <p className="mt-1 hover:text-blue-600 cursor-pointer">
+                  My Racedays
+                </p>
+              </Link>
+            </>
+          )}
+        </PopoverMenu>
+        {isAuthenticated && <CreateRaceDay props={props} />}
+
+        {isAuthenticated && (
+          <button className="responsive-button blue-button">
+            List on Marketplace
+          </button>
+        )}
+
+        <Link href="/about" className="hover:text-blue-600">
+          <p className="cursor-pointer">About Us</p>
+        </Link>
+        <Link href="/contact">
+          <p className="hover:text-blue-600 cursor-pointer">Contact</p>
+        </Link>
+        <Link href="/terms" className="hover:text-blue-600">
+          <p className="cursor-pointer">Terms</p>
+        </Link>
+        {loginButton}
       </div>
-      <div className="flex justify-center items-center ml-auto mr-3 sm:hidden">
+      <div className="flex justify-center  items-center ml-auto mr-3 sm:hidden">
         <button
           onClick={mobileDrawer.onOpen}
           className="bg-sky-600 ml-1 text-white py-2 px-4 rounded mr-4"
@@ -122,16 +124,7 @@ function Header(props: any) {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader mt={"3em"}>Select your next destination</DrawerHeader>
-            <DrawerBody className="flex flex-col gap-4 text-2xl m-auto border-b w-max">
-              {isAuthenticated && <CreateRaceDay props={props} />}
-              {navLinks.map((link: NavLink) => (
-                <Link key={link.label} href={link.href} onClick={link.onClick}>
-                  <button className="w-full bg-sky-00 text-white text-3xl py-2 px-4 rounded">
-                    {link.label}
-                  </button>
-                </Link>
-              ))}
-            </DrawerBody>
+            <DrawerBody className="flex flex-col gap-4 text-2xl m-auto border-b w-max"></DrawerBody>
           </DrawerContent>
         </Drawer>
       </div>

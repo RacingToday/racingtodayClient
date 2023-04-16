@@ -2,7 +2,6 @@
 
 import React, { SetStateAction, useEffect, useState } from "react";
 import { MyRaceDay, RaceDay } from "../../lib/types";
-import MyPastRaceDays from "./MyPastRaceDays";
 import {
   Accordion,
   AccordionButton,
@@ -57,8 +56,8 @@ function MyRaceDayComponent(props: Props) {
   }, []);
 
   return (
-    <div className="flex flex-wrap  p-3 min-w-full min-h-[80vh] overflow-hidden overflow-y-scroll text-gray-800 bg-gray-50 rounded-lg">
-      <h1 className="font-bold text-2xl mb-2 w-screen mb-0">My Track Days</h1>
+    <div className="flex flex-wrap  p-4 min-w-full  overflow-hidden overflow-y-scroll text-gray-800 bg-gray-50 rounded-lg">
+      <h1 className="font-bold text-2xl mb-2 ">My Track Days</h1>
       <RaceDaysAccordion MyRaceDays={MyRaceDays} />
     </div>
   );

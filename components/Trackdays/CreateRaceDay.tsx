@@ -215,7 +215,7 @@ function CreateRaceDay(props: any) {
         fontSize={["sm", "sm", "md"]}
         w="fit-content"
       >
-        Create Raceday
+        Add Track Day
       </Button>
       <Button
         colorScheme="blue"

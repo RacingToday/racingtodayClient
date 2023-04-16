@@ -24,7 +24,6 @@ import {
   manageCombinedFilters,
 } from "../../lib/filterFunctions";
 import CarClassDropdown from "./CarClassDropdown";
-import { Button } from "@chakra-ui/react";
 
 function FiltersToSort({ props }: { props: Props }) {
   const {
@@ -257,125 +256,128 @@ function FiltersToSort({ props }: { props: Props }) {
         filterText.substring(lastCommaIndex + 1);
     }
   }
+  //#296ad2, #2e4bee
   return (
-    <>
-      <div className="w-full">
-        <div className="flex flex-col md:flex-row justify-left gap-10 items-center w-full my-2">
-          <Button colorScheme="blue" ml={5} onClick={handleClick}>
-            {ButtonText}
-          </Button>
-          <p className="text-md md:text-lg relative ml-7">
-            You are currently looking at <b>{listOfTrackDays.length}</b> track
-            days <b>{filterText}</b>
-          </p>
-        </div>
-        {filterNotification && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-            <strong className="font-bold">
-              The filter has been saved and will automatically be applied when
-              you load the page
-            </strong>
-          </div>
-        )}
-        {filters && (
-          <div className="flex flex-wrap gap-6 p-4 justify-around items-center align-center border border-gray-300 bg-gray-100 rounded-md">
-            <CarClassDropdown
-              setListOfTrackDays={setListOfTrackDays}
-              allTrackDays={arrayOfRacedays}
-              classFilters={classFilters}
-              masterFilters={masterFilters}
-            />
-            <RacetrackFilter
-              setListOfTrackDays={setListOfTrackDays}
-              arrayOfRacedays={arrayOfRacedays}
-              masterFilters={masterFilters}
-              trackFilters={trackFilters}
-            />
-            <label className="text-lg">
-              From
-              <input
-                className="w-40 bg-white border border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
-                type="date"
-                name="fromDate"
-                onChange={(e) => handleChange(e)}
-              />
-            </label>
-            <label className="text-lg">
-              To
-              <input
-                className="w-40 bg-white border border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
-                type="date"
-                name="toDate"
-                onChange={(e) => handleChange(e)}
-              />
-            </label>
-            <label className="text-lg">
-              DB Limit
-              <input
-                className="w-40 bg-white border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
-                type="number"
-                placeholder="enter a number"
-                value={allowedNoise}
-                onChange={(e) => handleNoiseChange(e)}
-              />
-            </label>
+    <div className="w-full">
+      <div className="flex flex-col md:flex-row justify-left gap-10 items-center w-full my-4">
+        <button
+          className="responsive-button blue-button ml-10 "
+          onClick={handleClick}
+        >
+          {ButtonText}
+        </button>
 
-            <label className="text-lg flex items-center">
-              Lane Type
-              <select
-                className="w-40 bg-white border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
-                value={laneType}
-                onChange={(e) => {
-                  setLaneType(e.target.value);
-                  handleLaneTypeChange(e);
-                }}
-              >
-                <option value="all">All</option>
-                <option value="Open">Open Pit Lane</option>
-                <option value="Split">Split Pit Lane</option>
-              </select>
-            </label>
-
-            <div className="flex w-80 justify-start">
-              {checkForActiveFilters && filters && (
-                <button
-                  onClick={() => {
-                    setAllowedNoise("");
-
-                    masterFilters.splice(0, masterFilters.length);
-                    fromAnTo.splice(0, fromAnTo.length);
-                    classFilters.splice(0, classFilters.length);
-                    trackFilters.splice(0, trackFilters.length);
-                    localStorage.removeItem("filters");
-                    // update the date values to default
-
-                    const fromDate = document.querySelector(".fromDate");
-                    const toDate = document.querySelector(".toDate");
-                    if (fromDate && toDate) {
-                      fromDate.value = "";
-                      toDate.value = "";
-                    }
-
-                    setListOfTrackDays(arrayOfRacedays);
-                  }}
-                  className="bg-red-600 hover:bg-red-500 text-white px-6 py-2 font-semibold rounded focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 m-2"
-                >
-                  Clear Filters
-                </button>
-              )}
-              {checkForActiveFilters && filters && (
-                <button
-                  onClick={handleSaveFilters}
-                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 font-bold rounded focus:outline-none focus:ring-2 focus:ring-red-300 m-2"
-                >
-                  Save Filters
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+        <p className="text-md md:text-lg relative ml-7">
+          You are currently looking at <b>{listOfTrackDays.length}</b> track
+          days <b>{filterText}</b>
+        </p>
       </div>
-    </>
+      {filterNotification && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">
+            The filter has been saved and will automatically be applied when you
+            load the page
+          </strong>
+        </div>
+      )}
+      {filters && (
+        <div className="flex flex-wrap gap-6 p-4 m-4 justify-around items-start align-center border border-black bg-gray-100 rounded-md">
+          <CarClassDropdown
+            setListOfTrackDays={setListOfTrackDays}
+            allTrackDays={arrayOfRacedays}
+            classFilters={classFilters}
+            masterFilters={masterFilters}
+          />
+          <RacetrackFilter
+            setListOfTrackDays={setListOfTrackDays}
+            arrayOfRacedays={arrayOfRacedays}
+            masterFilters={masterFilters}
+            trackFilters={trackFilters}
+          />
+          <label className="text-lg">
+            From
+            <input
+              className="w-40 bg-white text-center border py-1 border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              type="date"
+              name="fromDate"
+              onChange={(e) => handleChange(e)}
+            />
+          </label>
+          <label className="text-lg">
+            To
+            <input
+              className="w-40 bg-white border text-center py-1 border-black rounded-md ml-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              type="date"
+              name="toDate"
+              onChange={(e) => handleChange(e)}
+            />
+          </label>
+          <label className="text-lg">
+            DB Limit
+            <input
+              className="w-40 bg-white text-center border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              type="number"
+              placeholder="enter a number"
+              value={allowedNoise}
+              onChange={(e) => handleNoiseChange(e)}
+            />
+          </label>
+
+          <label className="text-lg flex items-center">
+            Lane Type
+            <select
+              className="w-40 bg-white text-center border border-black rounded-md ml-2 h-10 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              value={laneType}
+              onChange={(e) => {
+                setLaneType(e.target.value);
+                handleLaneTypeChange(e);
+              }}
+            >
+              <option value="all">All</option>
+              <option value="Open">Open Pit Lane</option>
+              <option value="Split">Split Pit Lane</option>
+            </select>
+          </label>
+
+          <div className="flex w-80 justify-start">
+            {checkForActiveFilters && filters && (
+              <button
+                onClick={() => {
+                  setAllowedNoise("");
+
+                  masterFilters.splice(0, masterFilters.length);
+                  fromAnTo.splice(0, fromAnTo.length);
+                  classFilters.splice(0, classFilters.length);
+                  trackFilters.splice(0, trackFilters.length);
+                  localStorage.removeItem("filters");
+                  // update the date values to default
+
+                  const fromDate = document.querySelector(".fromDate");
+                  const toDate = document.querySelector(".toDate");
+                  if (fromDate && toDate) {
+                    fromDate.value = "";
+                    toDate.value = "";
+                  }
+
+                  setListOfTrackDays(arrayOfRacedays);
+                }}
+                className="bg-gradient-to-r  from-red-500 to-red-700 hover:bg-red-500 shadow-lg text-white px-6 py-2 font-semibold rounded focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50 m-2"
+              >
+                Clear Filters
+              </button>
+            )}
+            {checkForActiveFilters && filters && (
+              <button
+                onClick={handleSaveFilters}
+                className=" shadow-lg bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 font-bold rounded focus:outline-none focus:ring-2 focus:ring-green-300 m-2"
+              >
+                Save Filters
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
