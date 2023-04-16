@@ -352,8 +352,12 @@ function FiltersToSort({ props }: { props: Props }) {
                   localStorage.removeItem("filters");
                   // update the date values to default
 
-                  const fromDate = document.querySelector(".fromDate");
-                  const toDate = document.querySelector(".toDate");
+                  const fromDate = document.querySelector(
+                    ".fromDate"
+                  ) as HTMLInputElement;
+                  const toDate = document.querySelector(
+                    ".toDate"
+                  ) as HTMLInputElement;
                   if (fromDate && toDate) {
                     fromDate.value = "";
                     toDate.value = "";
