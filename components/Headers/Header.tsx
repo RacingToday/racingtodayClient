@@ -108,7 +108,7 @@ function Header(props: any) {
         </Link>
         {loginButton}
       </div>
-      <div className="flex justify-center  items-center ml-auto mr-3 sm:hidden">
+      <div className="flex justify-center items-center ml-auto mr-3 sm:hidden">
         <button
           onClick={mobileDrawer.onOpen}
           className="bg-sky-600 ml-1 text-white py-2 px-4 rounded mr-4"
@@ -124,7 +124,35 @@ function Header(props: any) {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader mt={"3em"}>Select your next destination</DrawerHeader>
-            <DrawerBody className="flex flex-col gap-4 text-2xl m-auto border-b w-max"></DrawerBody>
+            <DrawerBody className="flex flex-col gap-4 text-2xl m-auto border-b w-max">
+              <Link href="/racedays">
+                <p className="hover:text-blue-600 cursor-pointer">
+                  Marketplace
+                </p>
+              </Link>
+              <Link href="/trackdays">
+                <p className="hover:text-blue-600 cursor-pointer">Trackdays</p>
+              </Link>
+              {isAuthenticated && (
+                <Link href="/myracedays">
+                  <p className="hover:text-blue-600 cursor-pointer">
+                    My Racedays
+                  </p>
+                </Link>
+              )}
+              {isAuthenticated && <CreateRaceDay props={props} />}
+              {isAuthenticated && <text>List on Marketplace</text>}
+              <Link href="/about">
+                <p className="hover:text-blue-600 cursor-pointer">About Us</p>
+              </Link>
+              <Link href="/contact">
+                <p className="hover:text-blue-600 cursor-pointer">Contact</p>
+              </Link>
+              <Link href="/terms">
+                <p className="hover:text-blue-600 cursor-pointer">Terms</p>
+              </Link>
+              {loginButton}
+            </DrawerBody>
           </DrawerContent>
         </Drawer>
       </div>
