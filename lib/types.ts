@@ -1,5 +1,3 @@
-/** @format */
-
 export interface MyRaceDay {
   id: number;
   attributes: {
