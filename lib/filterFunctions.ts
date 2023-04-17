@@ -136,7 +136,7 @@ export function filterByDate(
 }
 
 export function filterByNoiseLevel(
-  arrayOfAllTrackDays: Array<RaceDay>,
+  arrayOfAllTrackDays: RaceDay[],
   noiseLevel: string
 ): Array<RaceDay> {
   let resultsArray = [];
@@ -146,7 +146,8 @@ export function filterByNoiseLevel(
   for (let i = 0; i < arrayOfAllTrackDays.length; i++) {
     if (
       arrayOfAllTrackDays[i].attributes.NoiseRestriction !== null &&
-      noiseLevel.length > 0
+      noiseLevel.length > 0 &&
+      typeof arrayOfAllTrackDays[i].attributes.NoiseRestriction === "number"
     ) {
       if (
         arrayOfAllTrackDays[i].attributes.NoiseRestriction < noiseLevel ||

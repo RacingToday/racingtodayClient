@@ -35,7 +35,7 @@ export interface RaceDay {
     StartTime: string;
     EndTime: string;
     Capacity: number;
-    NoiseRestriction: number | string;
+    NoiseRestriction: string;
     Price: number;
     race_track: {
       data: {
