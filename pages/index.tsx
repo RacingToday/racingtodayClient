@@ -14,7 +14,8 @@ export default function Home() {
   const classFilters = useRef<any[]>([]).current;
   const trackFilters = useRef<string[]>([]).current;
   if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1> Error </h1>;
+  if (error) return console.log(error);
+
   const arrayOfRacedays = data.racaDays.data;
   const props = {
     listOfTrackDays: listOfTrackDays,
