@@ -124,14 +124,14 @@ function RaceDayList({ props }: { props: Props }) {
         Track Days
       </Heading>
       <Grid
-        ml={4}
+        m={4}
         templateColumns={{
           base: "repeat(1, 1fr)",
           sm: "repeat(2, 1fr)",
           md: "repeat(3, 1fr)",
           lg: "repeat(4, 1fr)",
         }}
-        gap={6}
+        gap={4}
       >
         {listOfTrackDays.length > 0 &&
           listOfTrackDays.map((raceday: RaceDay) => (
