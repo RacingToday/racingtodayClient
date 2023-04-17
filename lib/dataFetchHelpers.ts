@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export let host =
   process.env.NODE_ENV === "development"
     ? "http://localhost:1337/"
-    : "https://lobster-app-ubheb.ondigitalocean.app/";
+    : "https://seahorse-app-2j58f.ondigitalocean.app/";
 
 export async function createNewUser(
   email: string,
