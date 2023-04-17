@@ -1,5 +1,3 @@
-/** @format */
-// empty export function to make it a module
 import { RaceDay } from "./types";
 export function filterByClass(
   arrayOfClassesToFilter: string[],
@@ -63,226 +61,82 @@ export function filterByTrack(
 }
 
 interface FromAndToDate {
-  value: string;
   name: string;
+  value: string;
 }
+interface FromAndToDate {
+  name: string;
+  value: string;
+}
+
+// Add new type for year, month, and date
+type DateComponents = {
+  year: number;
+  month: number;
+  day: number;
+};
 
 export function filterByDate(
   FromAndToDate: FromAndToDate[],
-  arrayOfAllTrackDays: any[]
-): any[] {
-  let resultsArray: RaceDay[] = [];
-
-  if (
-    FromAndToDate.length === 0 ||
-    (FromAndToDate.length === 1 && FromAndToDate[0].value === "") ||
-    (FromAndToDate[0].value === "" && FromAndToDate[1].value === "")
-  ) {
+  arrayOfAllTrackDays: RaceDay[]
+): RaceDay[] {
+  if (FromAndToDate.length === 0) {
     return arrayOfAllTrackDays;
   }
 
-  for (let i = 0; i < arrayOfAllTrackDays.length; i++) {
-    for (let k = 0; k < FromAndToDate.length; k++) {
-      if (
-        FromAndToDate.length === 1 ||
-        FromAndToDate[0].value === "" ||
-        FromAndToDate[1].value === ""
-      ) {
-        if (
-          FromAndToDate[k].value.length !== null &&
-          arrayOfAllTrackDays[i].attributes.RaceDate !== null &&
-          FromAndToDate[k].name === "fromDate"
-        ) {
-          const year = FromAndToDate[k].value.slice(0, 4);
-          const month = FromAndToDate[k].value.slice(5, 7);
-          const day = FromAndToDate[k].value.slice(8, 10);
+  const fromDate =
+    FromAndToDate.find((date: FromAndToDate) => date.name === "fromDate")
+      ?.value || "";
+  const toDate =
+    FromAndToDate.find((date: FromAndToDate) => date.name === "toDate")
+      ?.value || "";
 
-          const raceYear = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            0,
-            4
-          );
-          const raceMonth = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            5,
-            7
-          );
-          const raceDay = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            8,
-            10
-          );
-
-          // if there is a fromDate, check if the track day is after the fromDate
-          if (
-            FromAndToDate[k].name === "fromDate" &&
-            year.length > 0 &&
-            raceYear.length > 0
-          ) {
-            if (parseInt(raceYear) > parseInt(year)) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-            if (
-              parseInt(raceYear) === parseInt(year) &&
-              parseInt(raceMonth) > parseInt(month)
-            ) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-            if (
-              parseInt(raceYear) === parseInt(year) &&
-              parseInt(raceMonth) === parseInt(month) &&
-              parseInt(raceDay) >= parseInt(day)
-            ) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-          }
-        }
-        if (
-          FromAndToDate[k].value.length !== null &&
-          arrayOfAllTrackDays[i].attributes.RaceDate !== null &&
-          FromAndToDate[k].name === "toDate"
-        ) {
-          const year = FromAndToDate[k].value.slice(0, 4);
-          const month = FromAndToDate[k].value.slice(5, 7);
-          const day = FromAndToDate[k].value.slice(8, 10);
-
-          const raceYear = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            0,
-            4
-          );
-          const raceMonth = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            5,
-            7
-          );
-          const raceDay = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-            8,
-            10
-          );
-
-          // if there is a toDate, check if the track day is before the toDate
-          if (
-            FromAndToDate[k].name === "toDate" &&
-            year.length > 0 &&
-            raceYear.length > 0
-          ) {
-            if (parseInt(raceYear) < parseInt(year)) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-            if (
-              parseInt(raceYear) === parseInt(year) &&
-              parseInt(raceMonth) < parseInt(month)
-            ) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-            if (
-              parseInt(raceYear) === parseInt(year) &&
-              parseInt(raceMonth) === parseInt(month) &&
-              parseInt(raceDay) <= parseInt(day)
-            ) {
-              resultsArray.push(arrayOfAllTrackDays[i]);
-            }
-          }
-        }
-      }
-      // TODO if both fromDate and toDate?
-      if (
-        FromAndToDate.length > 1 &&
-        FromAndToDate[1].value !== "" &&
-        FromAndToDate[0].value !== "" &&
-        arrayOfAllTrackDays[i].attributes.RaceDate !== null
-      ) {
-        const raceYear = arrayOfAllTrackDays[i].attributes.RaceDate.slice(0, 4);
-        const raceMonth = arrayOfAllTrackDays[i].attributes.RaceDate.slice(
-          5,
-          7
-        );
-        const raceDay = arrayOfAllTrackDays[i].attributes.RaceDate.slice(8, 10);
-
-        let fromDateYear =
-          FromAndToDate[0].value <= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(0, 4)
-            : FromAndToDate[1].value.slice(0, 4);
-        let fromDateMonth =
-          FromAndToDate[0].value <= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(5, 7)
-            : FromAndToDate[1].value.slice(5, 7);
-        let fromDateDay =
-          FromAndToDate[0].value <= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(8, 10)
-            : FromAndToDate[1].value.slice(8, 10);
-        let toDateYear =
-          FromAndToDate[0].value >= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(0, 4)
-            : FromAndToDate[1].value.slice(0, 4);
-        let toDateMonth =
-          FromAndToDate[0].value >= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(5, 7)
-            : FromAndToDate[1].value.slice(5, 7);
-        let toDateDay =
-          FromAndToDate[0].value >= FromAndToDate[1].value
-            ? FromAndToDate[0].value.slice(8, 10)
-            : FromAndToDate[1].value.slice(8, 10);
-
-        if (
-          parseInt(raceYear) > parseInt(fromDateYear) &&
-          parseInt(raceYear) < parseInt(toDateYear)
-        ) {
-          resultsArray.push(arrayOfAllTrackDays[i]);
-        }
-        if (
-          parseInt(raceYear) === parseInt(fromDateYear) &&
-          parseInt(raceYear) < parseInt(toDateYear) &&
-          parseInt(raceMonth) > parseInt(fromDateMonth)
-        ) {
-          resultsArray.push(arrayOfAllTrackDays[i]);
-        }
-        if (
-          parseInt(raceYear) > parseInt(fromDateYear) &&
-          parseInt(raceYear) === parseInt(toDateYear) &&
-          parseInt(raceMonth) < parseInt(toDateMonth)
-        ) {
-          resultsArray.push(arrayOfAllTrackDays[i]);
-        }
-        if (
-          parseInt(raceYear) === parseInt(fromDateYear) &&
-          parseInt(raceYear) === parseInt(toDateYear) &&
-          parseInt(raceMonth) > parseInt(fromDateMonth) &&
-          parseInt(raceMonth) < parseInt(toDateMonth)
-        ) {
-          resultsArray.push(arrayOfAllTrackDays[i]);
-        }
-        if (
-          (parseInt(raceYear) === parseInt(fromDateYear) &&
-            parseInt(raceMonth) >= parseInt(fromDateMonth) &&
-            parseInt(raceDay) >= parseInt(fromDateDay) &&
-            parseInt(raceDay) <= parseInt(toDateDay) &&
-            parseInt(raceYear) === parseInt(toDateYear) &&
-            parseInt(raceMonth) <= parseInt(toDateMonth)) ||
-          (parseInt(raceYear) === parseInt(fromDateYear) &&
-            parseInt(raceMonth) === parseInt(fromDateMonth) &&
-            parseInt(raceDay) >= parseInt(fromDateDay) &&
-            parseInt(raceYear) === parseInt(toDateYear) &&
-            parseInt(raceMonth) < parseInt(toDateMonth)) ||
-          (parseInt(raceYear) === parseInt(toDateYear) &&
-            parseInt(raceMonth) === parseInt(toDateMonth) &&
-            parseInt(raceDay) <= parseInt(toDateDay) &&
-            parseInt(raceYear) === parseInt(fromDateYear) &&
-            parseInt(raceMonth) > parseInt(fromDateMonth))
-        ) {
-          resultsArray.push(arrayOfAllTrackDays[i]);
-        }
-      }
-    }
+  if (!fromDate && !toDate) {
+    return arrayOfAllTrackDays;
   }
-  // filter out duplicates
-  if (resultsArray.length > 0) {
-    resultsArray = resultsArray.filter(
-      (thing, index, self) => index === self.findIndex((t) => t.id === thing.id)
+
+  const parseDate = (date: string): DateComponents => {
+    const year = parseInt(date.slice(0, 4));
+    const month = parseInt(date.slice(5, 7));
+    const day = parseInt(date.slice(8, 10));
+    return { year, month, day };
+  };
+
+  const isWithinRange = (date: string, fromDate: string, toDate: string) => {
+    const { year, month, day } = parseDate(date);
+    const {
+      year: fromYear,
+      month: fromMonth,
+      day: fromDay,
+    }: FromAndToDate | any = fromDate ? parseDate(fromDate) : {};
+    const {
+      year: toYear,
+      month: toMonth,
+      day: toDay,
+    }: FromAndToDate | any = toDate ? parseDate(toDate) : {};
+
+    return (
+      (!fromDate ||
+        year > fromYear ||
+        (year === fromYear &&
+          (month > fromMonth || (month === fromMonth && day >= fromDay)))) &&
+      (!toDate ||
+        year < toYear ||
+        (year === toYear &&
+          (month < toMonth || (month === toMonth && day <= toDay))))
     );
-  }
+  };
+
+  const resultsArray = arrayOfAllTrackDays.filter((trackDay: RaceDay) => {
+    const raceDate = trackDay.attributes.RaceDate;
+    return raceDate && isWithinRange(raceDate, fromDate, toDate);
+  });
 
   return resultsArray;
 }
 
 export function filterByNoiseLevel(
-  arrayOfAllTrackDays: Array<RaceDay>,
+  arrayOfAllTrackDays: RaceDay[],
   noiseLevel: string
 ): Array<RaceDay> {
   let resultsArray = [];
@@ -292,11 +146,12 @@ export function filterByNoiseLevel(
   for (let i = 0; i < arrayOfAllTrackDays.length; i++) {
     if (
       arrayOfAllTrackDays[i].attributes.NoiseRestriction !== null &&
-      noiseLevel.length > 0
+      noiseLevel.length > 0 &&
+      typeof arrayOfAllTrackDays[i].attributes.NoiseRestriction === "number"
     ) {
       if (
         arrayOfAllTrackDays[i].attributes.NoiseRestriction < noiseLevel ||
-        arrayOfAllTrackDays[i].attributes.NoiseRestriction < 0 ||
+        parseInt(arrayOfAllTrackDays[i].attributes.NoiseRestriction) < 0 ||
         arrayOfAllTrackDays[i].attributes.NoiseRestriction === "None"
       ) {
         resultsArray.push(arrayOfAllTrackDays[i]);

@@ -256,7 +256,6 @@ function FiltersToSort({ props }: { props: Props }) {
         filterText.substring(lastCommaIndex + 1);
     }
   }
-  //#296ad2, #2e4bee
   return (
     <div className="w-full">
       <div className="flex flex-col md:flex-row justify-left gap-10 items-center w-full my-4">
