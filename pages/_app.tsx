@@ -3,20 +3,28 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { host } from "../lib/dataFetchHelpers";
 import type { AppProps } from "next/app";
 import "../styles/tailwind.css";
-import { createContext, useState } from "react";
-
-interface loginContextType {
-  loggedIn: boolean;
-  setLoggedIn: (value: boolean) => void;
-}
+import { createContext, useEffect, useState } from "react";
 
 export const loginContext = createContext({
   loggedIn: false,
   setLoggedIn: (value: boolean) => {},
 });
 
+export const userContext = createContext({
+  userDetails: null,
+  setUserDetails: (value: any) => {},
+});
+
 export default function App({ Component, pageProps }: AppProps) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   const client = new ApolloClient({
     uri: `${host}graphql`,
@@ -34,7 +42,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider>
       <ApolloProvider client={client}>
         <loginContext.Provider value={{ loggedIn, setLoggedIn }}>
-          <Component {...pageProps} />
+          <userContext.Provider value={{ userDetails, setUserDetails }}>
+            <Component {...pageProps} />
+          </userContext.Provider>
         </loginContext.Provider>
       </ApolloProvider>
     </ChakraProvider>
