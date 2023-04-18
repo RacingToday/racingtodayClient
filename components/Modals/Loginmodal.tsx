@@ -19,33 +19,30 @@ import {
 } from "@chakra-ui/react";
 import { handleAuth } from "../../lib/account";
 import AlertComponent from "../Alerts/Alert";
+import { useContext } from "react";
+import { loginContext } from "../../pages/_app";
 
 const LoginModal = (props: any) => {
-  const {
-    isOpen,
-    onClose,
-    setIsAuthenticated,
-    setAlert,
-    isAuthenticated,
-    alert,
-  } = props;
+  const { isOpen, onClose, setAlert, alert } = props;
 
   const [loginEmail, setLoginEmail] = React.useState("");
   const [loginPassword, setLoginPassword] = React.useState("");
   const [registerEmail, setRegisterEmail] = React.useState("");
   const [registerPassword, setRegisterPassword] = React.useState("");
 
+  const { loggedIn, setLoggedIn } = useContext(loginContext);
+
   async function initiateAuth(isLogin: boolean) {
     await handleAuth(
       isLogin ? loginEmail : registerEmail,
       isLogin ? loginPassword : registerPassword,
       isLogin,
-      setIsAuthenticated,
+      setLoggedIn,
       onClose,
       setAlert
     );
 
-    if (isAuthenticated) {
+    if (loggedIn) {
       setLoginEmail("");
       setLoginPassword("");
       setRegisterEmail("");
@@ -57,7 +54,7 @@ const LoginModal = (props: any) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        {alert && !isAuthenticated && (
+        {alert && !loggedIn && (
           <AlertComponent
             type="error"
             message="Incorrect email or password"
