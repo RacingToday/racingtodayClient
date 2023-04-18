@@ -1,17 +1,18 @@
 import { loginUser, createNewUser } from "./dataFetchHelpers";
+type SetStateBoolean = React.Dispatch<React.SetStateAction<boolean>>;
 
 export const handleAuth = async (
   email: string,
   password: string,
-  isLogin: boolean,
+  loggedIn: boolean,
   setIsAuthenticated: any,
-  onClose: any,
-  setAlert?: any
+  onClose: () => void,
+  setAlert: SetStateBoolean
 ) => {
   try {
     let userAuthResult: any;
 
-    if (isLogin) {
+    if (loggedIn) {
       userAuthResult = await loginUser(email, password);
     } else {
       userAuthResult = await createNewUser(email, password);
@@ -26,7 +27,7 @@ export const handleAuth = async (
         onClose();
       }
     } else {
-      if (isLogin) {
+      if (loggedIn) {
         setAlert(true);
       } else {
         alert("Invalid email or password");

@@ -14,11 +14,14 @@ import { getMyUser } from "../../lib/dataFetchHelpers";
 import LoginModal from "../Modals/Loginmodal";
 import AlertComponent from "../Alerts/Alert";
 import Link from "next/link";
+import { useContext } from "react";
+import { loginContext } from "../../pages/_app";
 function Header(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mobileDrawer = useDisclosure();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [alert, setAlert] = useState(false);
+
+  const { loggedIn, setLoggedIn } = useContext(loginContext);
 
   useEffect(() => {
     const checkForUser = async () => {
@@ -33,7 +36,7 @@ function Header(props: any) {
             }
             return;
           }
-          setIsAuthenticated(true);
+          setLoggedIn(true);
         } catch (error) {
           console.log(error);
         }
@@ -41,16 +44,17 @@ function Header(props: any) {
     };
 
     checkForUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    setIsAuthenticated(false);
+    setLoggedIn(false);
 
     return;
   };
 
-  const loginButton = isAuthenticated ? (
+  const loginButton = loggedIn ? (
     <button onClick={handleLogout}>Logout</button>
   ) : (
     <button className="blue-button responsive-button" onClick={onOpen}>
@@ -60,7 +64,7 @@ function Header(props: any) {
 
   return (
     <div className="flex justify-between items-center w-full h-20 bg-gray-800 text-white">
-      {alert && isAuthenticated && (
+      {alert && loggedIn && (
         <AlertComponent
           type={"success"}
           message="You are now logged in!"
@@ -79,7 +83,7 @@ function Header(props: any) {
               Trackdays
             </p>
           </Link>
-          {isAuthenticated && (
+          {loggedIn && (
             <>
               <Link href="/myracedays" className="mt-1 hover:text-blue-600">
                 <p className="mt-1 hover:text-blue-600 cursor-pointer">
@@ -89,9 +93,9 @@ function Header(props: any) {
             </>
           )}
         </PopoverMenu>
-        {isAuthenticated && <CreateRaceDay props={props} />}
+        {loggedIn && <CreateRaceDay props={props} />}
 
-        {isAuthenticated && (
+        {loggedIn && (
           <button className="responsive-button blue-button">
             List on Marketplace
           </button>
@@ -133,15 +137,15 @@ function Header(props: any) {
               <Link href="/trackdays">
                 <p className="hover:text-blue-600 cursor-pointer">Trackdays</p>
               </Link>
-              {isAuthenticated && (
+              {loggedIn && (
                 <Link href="/myracedays">
                   <p className="hover:text-blue-600 cursor-pointer">
                     My Racedays
                   </p>
                 </Link>
               )}
-              {isAuthenticated && <CreateRaceDay props={props} />}
-              {isAuthenticated && <text>List on Marketplace</text>}
+              {loggedIn && <CreateRaceDay props={props} />}
+              {loggedIn && <text>List on Marketplace</text>}
               <Link href="/about">
                 <p className="hover:text-blue-600 cursor-pointer">About Us</p>
               </Link>
@@ -167,9 +171,7 @@ function Header(props: any) {
       <LoginModal
         isOpen={isOpen}
         onClose={onClose}
-        setIsAuthenticated={setIsAuthenticated}
         setAlert={setAlert}
-        isAuthenticated={isAuthenticated}
         alert={alert}
       />
     </div>
