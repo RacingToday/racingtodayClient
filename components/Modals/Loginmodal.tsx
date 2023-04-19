@@ -19,8 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { handleAuth } from "../../lib/account";
 import AlertComponent from "../Alerts/Alert";
-import { useContext } from "react";
-import { loginContext } from "../../pages/_app";
+import { useLogin } from "../../contexts/LoginContext";
 
 const LoginModal = (props: any) => {
   const { isOpen, onClose, setAlert, alert } = props;
@@ -30,7 +29,7 @@ const LoginModal = (props: any) => {
   const [registerEmail, setRegisterEmail] = React.useState("");
   const [registerPassword, setRegisterPassword] = React.useState("");
 
-  const { loggedIn, setLoggedIn } = useContext(loginContext);
+  const { loggedIn, setLoggedIn } = useLogin();
 
   async function initiateAuth(isLogin: boolean) {
     await handleAuth(
