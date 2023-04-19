@@ -14,14 +14,14 @@ import { getMyUser } from "../../lib/dataFetchHelpers";
 import LoginModal from "../Modals/Loginmodal";
 import AlertComponent from "../Alerts/Alert";
 import Link from "next/link";
-import { useContext } from "react";
-import { loginContext } from "../../pages/_app";
+import { useLogin } from "../../contexts/LoginContext";
+
 function Header(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mobileDrawer = useDisclosure();
   const [alert, setAlert] = useState(false);
 
-  const { loggedIn, setLoggedIn } = useContext(loginContext);
+  const { loggedIn, setLoggedIn } = useLogin();
 
   useEffect(() => {
     const checkForUser = async () => {
